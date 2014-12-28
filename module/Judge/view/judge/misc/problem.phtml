@@ -1,0 +1,117 @@
+<div class="row">
+    <div class="col-md-12">
+        <h2><?php echo $problem->getTitle(); ?></h2>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-6">
+        <div class="panel panel-back noti-box">
+                <span class="icon-box bg-color-orange set-icon">
+                    <i class="fa fa-users"></i>
+                </span>
+            <div class="text-box">
+                <p class="main-text"><?php echo $problem->getAttempts(); ?></p>
+                <p class="text-muted">Attempts</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-6">
+        <div class="panel panel-back noti-box">
+                <span class="icon-box bg-color-green set-icon">
+                    <i class="fa fa-check"></i>
+                </span>
+            <div class="text-box">
+                <p class="main-text"><a href='#'><?php echo $problem->getSolved(); ?></a></p>
+                <p class="text-muted">Solved</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-6">
+        <div class="panel panel-back noti-box">
+                <span class="icon-box bg-color-blue set-icon">
+                    <i class="fa fa-bar-chart-o"></i>
+                </span>
+            <div class="text-box">
+                <p class="main-text"><?php echo (int)$problem->getDifficulty(); ?></p>
+                <p class="text-muted">Difficulty</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-6">
+        <div class="panel panel-back noti-box">
+                <span class="icon-box bg-color-green set-icon">
+                    <i class="fa fa-star-half-o"></i>
+                </span>
+            <div class="text-box">
+                <p class="main-text"><?php echo (float)$problem->getRating(); ?></p>
+                <p class="text-muted">
+                    Avg. Rating
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php if ($loggedIn): ?>
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-6">
+    <span>Rate problem:</span>
+    <span ng-controller="miscProblemRatingController">
+        <rating ng-model="rate" max="max" state-on="'fa fa-star fa-2x'" state-off="'fa fa-star-o fa-2x'" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+    </span>
+    </div>
+</div>
+<?php endif ?>
+
+<br />
+<div class="panel back-dash">
+    <p class="text-muted">
+        <?php echo $problem->getDescription(); ?>
+    </p>
+</div>
+<?php if (!$loggedIn): ?>
+    <div class="panel panel-primary text-center no-boder bg-color-orange">
+        <div class="panel-body">
+            You have to <a href="<?php echo $this->url('judge/default', array('action' => 'login')); ?>">sign in</a> to be able to rate or submit your answer.
+        </div>
+    </div>
+<?php elseif ($submission && $submission->getSolved()): ?>
+    <div class="panel panel-primary text-center no-boder bg-color-green">
+        <div class="panel-body">
+            You already solved this problem on <strong>{{<?php echo $submission->getDateSolved()->getTimestamp() * 1000; ?> | date:'medium'}}</strong> using <strong><?php echo $submission->getAttempts(); ?> attempt(s)</strong>.
+        </div>
+    </div>
+<?php else: ?>
+<div ng-controller="submitMiscSolutionController">
+    <div class="panel panel-primary text-center no-boder bg-color-green" ng-show="correctSolution === true">
+        <div class="panel-body">
+            Congratulations! This is a correct solution.
+        </div>
+    </div>
+
+    <div class="panel panel-primary text-center no-boder bg-color-red" ng-show="correctSolution === false">
+        <div class="panel-body">
+            Sorry, but this is not a correct solution.
+        </div>
+    </div>
+
+    <div class="row" ng-show="correctSolution !== true">
+        <div class="col-md-12">
+            <form role="form">
+                <input ng-model="id" type="hidden" ng-init="id='<?php echo (string)$problem->getId(); ?>'">
+                <div class="form-group">
+                    <label>Answer</label>
+                    <input ng-model="answer" class="form-control" placeholder="Answer" required>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-success square-btn-adjust" ng-click="submit()">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<?php endif ?>

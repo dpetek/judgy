@@ -1,0 +1,50 @@
+<nav class="navbar-default navbar-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav" id="main-menu">
+
+            <li>
+                <a class=""  href="#"><i class="fa fa-home fa-3x"></i>Home</a>
+            </li>
+            <li class="<?php echo ($routeName === 'algorithms/default') ? 'active' : ''; ?>">
+                <a  class="" href="#"><i class="fa fa-superscript fa-3x"></i> Algorithms <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="<?php echo $this->url('algorithms/default', array('action' => 'problems')); ?>"><i class="fa fa-list"></i> Problems</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->url('algorithms/default', array('action' => 'scoreboard')); ?>"><i class="fa fa-bar-chart-o"></i> Scoreboard</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->url('algorithms/default', array('action' => 'submit')); ?>"><i class="fa fa-envelope-o"></i> Submit</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="<?php echo ($routeName === 'arena/default') ? 'active' : ''; ?>">
+                <a  href="#"><i class="fa fa-crosshairs fa-3x"></i> Arena <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="<?php echo $this->url('arena/default', array('action' => 'active'));?>"><i class="fa fa-list"></i> Active problems</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->url('arena/default', array('action' => 'archive'));?>"><i class="fa fa-archive"></i> Archive</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="<?php echo (substr($routeName, 0, strlen('misc')) === 'misc') ? 'active' : ''; ?>">
+                <a  href="#"><i class="fa fa-meh-o fa-3x"></i> Misc QA <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="<?php echo $this->url('misc/default', array('action' => 'problems')); ?>"><i class="fa fa-list"></i> Questions</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->url('misc/default', array('action' => 'scoreboard')); ?>"><i class="fa fa-bar-chart-o"></i> Scoreboard</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->url('misc/default', array('action' => 'submit')); ?>"><i class="fa fa-envelope-o"></i> Submit</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- /. NAV SIDE  -->

@@ -1,0 +1,54 @@
+<div class="panel back-dash">
+    <p class="text-muted">
+        Everybody can submit a question for Judgy. Each question will be reviewed by administrators and posted onto the site.
+    </p>
+</div>
+
+<div ng-controller="submitMiscController">
+
+    <div class="panel panel-primary text-center no-boder bg-color-green" ng-show="successfulSubmission === true">
+        <div class="panel-body">
+            Thank you! Your problem has been submitted and it's ready for review.
+        </div>
+    </div>
+
+    <div class="panel panel-primary text-center no-boder bg-color-red" ng-show="submissionError && successfulSubmission !== true">
+        <div class="panel-body">
+           {{ submissionError }}
+        </div>
+    </div>
+
+    <div class="row" ng-show="successfulSubmission !== true">
+        <div class="col-md-12">
+            <form role="form">
+                <div class="form-group">
+                    <label>Problem Title</label>
+                    <input ng-model="problem.title" class="form-control" placeholder="Title" required>
+                </div>
+                <div class="form-group">
+                    <label>Question</label>
+                    <text-angular ng-model="problem.description"></text-angular>
+                </div>
+                <div class="form-group">
+                    <label>Answer</label>
+                    <input ng-model="problem.answer" class="form-control" placeholder="Answer" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Difficulty</label>
+                    <input ng-model="problem.difficulty" class="form-control" placeholder="Difficulty" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Tags</label>
+                    <tags-input ng-model="problem.tags">
+                        <auto-complete source="loadTags($query)"></auto-complete>
+                    </tags-input>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-success square-btn-adjust" ng-click="submit()">Submit Problem</button> </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
