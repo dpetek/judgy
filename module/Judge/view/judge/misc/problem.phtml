@@ -1,55 +1,36 @@
 <div class="row">
     <div class="col-md-12">
         <h2><?php echo $problem->getTitle(); ?></h2>
+        <?php foreach ($problem->getTags() as $tag): ?>
+            <a class="label label-warning" style="margin:4px;" href="<?php echo $this->url('misc/default', array('action' => 'problems'), array('query' => array('tag' => (string)$tag->getId()))); ?>">
+                            <span class="">
+                                <?php echo $tag->getRealText(); ?>
+                            </span>
+            </a>
+        <?php endforeach ?>
         <hr />
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-3 col-sm-6 col-xs-6">
-        <div class="panel panel-back noti-box">
-                <span class="icon-box bg-color-orange set-icon">
-                    <i class="fa fa-users"></i>
-                </span>
-            <div class="text-box">
-                <p class="main-text"><?php echo $problem->getAttempts(); ?></p>
-                <p class="text-muted">Attempts</p>
-            </div>
+        <div class="alert alert-warning">
+            <i class="fa fa-users"></i> &nbsp; Attempted by <?php echo $problem->getAttempts(); ?> user(s).
         </div>
     </div>
     <div class="col-md-3 col-sm-6 col-xs-6">
-        <div class="panel panel-back noti-box">
-                <span class="icon-box bg-color-green set-icon">
-                    <i class="fa fa-check"></i>
-                </span>
-            <div class="text-box">
-                <p class="main-text"><a href='#'><?php echo $problem->getSolved(); ?></a></p>
-                <p class="text-muted">Solved</p>
-            </div>
+        <div class="alert alert-success">
+            <i class="fa fa-check"></i> &nbsp; Solved by <?php echo $problem->getSolved(); ?> user(s).
         </div>
     </div>
     <div class="col-md-3 col-sm-6 col-xs-6">
-        <div class="panel panel-back noti-box">
-                <span class="icon-box bg-color-blue set-icon">
-                    <i class="fa fa-bar-chart-o"></i>
-                </span>
-            <div class="text-box">
-                <p class="main-text"><?php echo (int)$problem->getDifficulty(); ?></p>
-                <p class="text-muted">Difficulty</p>
-            </div>
+        <div class="alert alert-info">
+            <i class="fa fa-bar-chart-o"></i> &nbsp; Points: <?php echo $problem->getDifficulty(); ?>
         </div>
     </div>
     <div class="col-md-3 col-sm-6 col-xs-6">
-        <div class="panel panel-back noti-box">
-                <span class="icon-box bg-color-green set-icon">
-                    <i class="fa fa-star-half-o"></i>
-                </span>
-            <div class="text-box">
-                <p class="main-text"><?php echo (float)$problem->getRating(); ?></p>
-                <p class="text-muted">
-                    Avg. Rating
-                </p>
-            </div>
+        <div class="alert alert-warning">
+            <i class="fa fa-star-half-o"></i> &nbsp; Average rating: <?php echo $problem->getRating(); ?>
         </div>
     </div>
 </div>
@@ -65,7 +46,7 @@
 </div>
 <?php endif ?>
 
-<br />
+<hr />
 <div class="panel back-dash">
     <p class="text-muted">
         <?php echo $problem->getDescription(); ?>

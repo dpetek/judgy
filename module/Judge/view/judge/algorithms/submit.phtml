@@ -4,7 +4,7 @@
     </p>
 </div>
 
-<div ng-controller="submitMiscController">
+<div ng-controller="submitAlgorithmProblemController">
 
     <div class="panel panel-primary text-center no-boder bg-color-green" ng-show="successfulSubmission === true">
         <div class="panel-body">
@@ -30,17 +30,103 @@
                     <text-angular ng-model="problem.description"></text-angular>
                 </div>
                 <div class="form-group">
-                    <label>Input test cases (zip file)</label>
-                    <input ng-model="problem.answer" class="form-control" placeholder="Answer" required>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Input test cases (.in files)
+                        </div>
+                        <div class="panel-body">
+                            <input type="file" nv-file-select="" uploader="inputFilesUploader" multiple  />
+                            <br />
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th width="50%">Name</th>
+                                    <th ng-show="inputFilesUploader.isHTML5">Size</th>
+                                    <th ng-show="inputFilesUploader.isHTML5">Progress</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in inputFileUploader.queue">
+                                    <td><strong>{{ item.file.name }}</strong></td>
+                                    <td ng-show="inputFilesUploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                    <td ng-show="inputFilesUploader.isHTML5">
+                                        <div class="progress" style="margin-bottom: 0;">
+                                            <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                        <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                        <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                    </td>
+                                    <td nowrap>
+                                        <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                            <span class="glyphicon glyphicon-upload"></span> Upload
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                            <span class="glyphicon glyphicon-trash"></span> Remove
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label>Output for test cases (zip file)</label>
-                    <input type="file" file-model="myFile"/>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Output test cases (.out files)
+                        </div>
+                        <div class="panel-body">
+                            <input ng-model="problem.output_files"  accept="*.out" type="file" nv-file-select="" uploader="outputFilesUploader" multiple  />
+                            <br />
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th width="50%">Name</th>
+                                    <th ng-show="outputFilesUploader.isHTML5">Size</th>
+                                    <th ng-show="outputFilesUploader.isHTML5">Progress</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in outputFilesUploader.queue">
+                                    <td><strong>{{ item.file.name }}</strong></td>
+                                    <td ng-show="outputFilesUploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                    <td ng-show="outputFilesUploader.isHTML5">
+                                        <div class="progress" style="margin-bottom: 0;">
+                                            <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                        <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                        <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                    </td>
+                                    <td nowrap>
+                                        <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                            <span class="glyphicon glyphicon-upload"></span> Upload
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                            <span class="glyphicon glyphicon-trash"></span> Remove
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label>Difficulty</label>
-                    <input type="file" file-model="myFile"/>
+                    <input ng-model="problem.difficulty" class="form-control" placeholder="Difficulty" required>
                 </div>
 
                 <div class="form-group">
