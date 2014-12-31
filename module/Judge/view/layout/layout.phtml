@@ -15,41 +15,162 @@
         <link rel="stylesheet" href="../../../../vendor/font-awesome/css/font-awesome.css" />
         <link rel="stylesheet" href="../../../../vendor/metisMenu/dist/metisMenu.css" />
         <link rel="stylesheet" href="../../../../vendor/ng-tags-input/ng-tags-input.min.css" />
+        <link rel="stylesheet" href="../../../../vendor/jquery.gritter/css/jquery.gritter.css" />
         <!-- endbower -->
 
         <!-- CUSTOM STYLES-->
-        <link href="<?php echo $this->basePath(); ?>/css/custom.css" rel="stylesheet" />
+<!--        <link href="--><?php //echo $this->basePath(); ?><!--/css/custom.css" rel="stylesheet" />-->
+        <link href="<?php echo $this->basePath(); ?>/css/style.css" rel="stylesheet" />
+        <link href="<?php echo $this->basePath(); ?>/css/style-responsive.css" rel="stylesheet" />
+        <link href="<?php echo $this->basePath(); ?>/css/binary-admin.css" rel="stylesheet" />
         <link href="<?php echo $this->basePath(); ?>/css/register.css" rel="stylesheet" />
         <!-- GOOGLE FONTS-->
 
     </head>
     <body ng-app="myApp" ng-cloak>
-    <div id="wrapper">
-    <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <div class="navbar-brand" href="#">Judgy</div>
-        </div>
-        <?php echo $this->topNavigation; ?>
-    </nav>
+
+    <?php echo $this->topNavigation; ?>
     <!-- /. NAV TOP  -->
 
     <?php echo $this->sideNavigation; ?>
 
-    <div id="page-wrapper" >
-    <div id="page-inner">
-        <?php echo $this->content; ?>
-    </div>
-    <!-- /. PAGE INNER  -->
-    </div>
-    <!-- /. PAGE WRAPPER  -->
-    </div>
-    <!-- /. WRAPPER  -->
+    <!--main content start-->
+    <section id="main-content">
+        <section class="wrapper">
+
+            <div class="row">
+                <div class="col-lg-9 main-chart">
+
+                    <?php echo $this->content; ?>
+
+                </div><!-- /col-lg-9 END SECTION MIDDLE -->
+
+            <!-- **********************************************************************************************************************************************************
+            RIGHT SIDEBAR CONTENT
+            *********************************************************************************************************************************************************** -->
+
+            <div class="col-lg-3 ds">
+                <!--COMPLETED ACTIONS DONUTS CHART-->
+                <h3>ACTIVITY</h3>
+
+                <!-- First Action -->
+                <div class="desc">
+                    <div class="thumb">
+                        <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
+                    </div>
+                    <div class="details">
+                        <p><muted>2 Minutes Ago</muted><br/>
+                            <a href="#">James Brown</a> subscribed to your newsletter.<br/>
+                        </p>
+                    </div>
+                </div>
+                <!-- Second Action -->
+                <div class="desc">
+                    <div class="thumb">
+                        <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
+                    </div>
+                    <div class="details">
+                        <p><muted>3 Hours Ago</muted><br/>
+                            <a href="#">Diana Kennedy</a> purchased a year subscription.<br/>
+                        </p>
+                    </div>
+                </div>
+                <!-- Third Action -->
+                <div class="desc">
+                    <div class="thumb">
+                        <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
+                    </div>
+                    <div class="details">
+                        <p><muted>7 Hours Ago</muted><br/>
+                            <a href="#">Brandon Page</a> purchased a year subscription.<br/>
+                        </p>
+                    </div>
+                </div>
+                <!-- Fourth Action -->
+                <div class="desc">
+                    <div class="thumb">
+                        <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
+                    </div>
+                    <div class="details">
+                        <p><muted>11 Hours Ago</muted><br/>
+                            <a href="#">Mark Twain</a> commented your post.<br/>
+                        </p>
+                    </div>
+                </div>
+                <!-- Fifth Action -->
+                <div class="desc">
+                    <div class="thumb">
+                        <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
+                    </div>
+                    <div class="details">
+                        <p><muted>18 Hours Ago</muted><br/>
+                            <a href="#">Daniel Pratt</a> purchased a wallet in your store.<br/>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- USERS ONLINE SECTION -->
+                <h3>TEAM MEMBERS</h3>
+                <!-- First Member -->
+                <div class="desc">
+                    <div class="thumb">
+                        <img class="img-circle" src="assets/img/ui-divya.jpg" width="35px" height="35px" align="">
+                    </div>
+                    <div class="details">
+                        <p><a href="#">DIVYA MANIAN</a><br/>
+                            <muted>Available</muted>
+                        </p>
+                    </div>
+                </div>
+                <!-- Second Member -->
+                <div class="desc">
+                    <div class="thumb">
+                        <img class="img-circle" src="assets/img/ui-sherman.jpg" width="35px" height="35px" align="">
+                    </div>
+                    <div class="details">
+                        <p><a href="#">DJ SHERMAN</a><br/>
+                            <muted>I am Busy</muted>
+                        </p>
+                    </div>
+                </div>
+                <!-- Third Member -->
+                <div class="desc">
+                    <div class="thumb">
+                        <img class="img-circle" src="assets/img/ui-danro.jpg" width="35px" height="35px" align="">
+                    </div>
+                    <div class="details">
+                        <p><a href="#">DAN ROGERS</a><br/>
+                            <muted>Available</muted>
+                        </p>
+                    </div>
+                </div>
+                <!-- Fourth Member -->
+                <div class="desc">
+                    <div class="thumb">
+                        <img class="img-circle" src="assets/img/ui-zac.jpg" width="35px" height="35px" align="">
+                    </div>
+                    <div class="details">
+                        <p><a href="#">Zac Sniders</a><br/>
+                            <muted>Available</muted>
+                        </p>
+                    </div>
+                </div>
+                <!-- Fifth Member -->
+                <div class="desc">
+                    <div class="thumb">
+                        <img class="img-circle" src="assets/img/ui-sam.jpg" width="35px" height="35px" align="">
+                    </div>
+                    <div class="details">
+                        <p><a href="#">Marcel Newman</a><br/>
+                            <muted>Available</muted>
+                        </p>
+                    </div>
+                </div>
+
+            </div><!-- /col-lg-3 -->
+            </div><! --/row -->
+        </section>
+    </section>
 
     <!-- bower:js -->
     <script src="../../../../vendor/jquery/dist/jquery.js"></script>
@@ -60,6 +181,11 @@
     <script src="../../../../vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="../../../../vendor/ng-tags-input/ng-tags-input.min.js"></script>
     <script src="../../../../vendor/textAngular/dist/textAngular.min.js"></script>
+    <script src="../../../../vendor/jquery.gritter/js/jquery.gritter.js"></script>
+    <script src="../../../../vendor/jquery.scrollTo/jquery.scrollTo.js"></script>
+    <script src="../../../../vendor/jquery.nicescroll/jquery.nicescroll.js"></script>
+    <script src="../../../../vendor/jquery.cookie/jquery.cookie.js"></script>
+    <script src="../../../../vendor/dcjqaccordion/js/jquery.dcjqaccordion.2.7.min.js"></script>
     <!-- endbower -->
 <!--    todo - find out how to do this with grunt-->
     <script src="../../../../vendor/textAngular/dist/textAngular-sanitize.min.js"></script>
@@ -71,7 +197,8 @@
     <script src="<?php echo $this->basePath(); ?>/js/filters.js"></script>
 
     <!-- CUSTOM SCRIPTS -->
-    <script src="<?php echo $this->basePath(); ?>/js/binary_admin.js"></script>
+<!--    <script src="--><?php //echo $this->basePath(); ?><!--/js/binary_admin.js"></script>-->
+        <script src="<?php echo $this->basePath(); ?>/js/common-scripts.js"></script>
 
     </body>
 </html>

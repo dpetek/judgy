@@ -4,37 +4,37 @@
     </div>
 </div>
 
-<table class="table table-hover table-bordered">
-    <thead>
-    <tr>
-        <th>Title</th>
-        <th>Difficulty</th>
-        <th>Solved</th>
-        <th>Attempts</th>
-        <th>Rating</th>
-    </tr>
-    </thead>
+
     <?php /** @var \Judge\Document\MiscProblem $problem */ ?>
     <?php foreach ($problems as $problem): ?>
-        <tr class="<?php echo $problem->getUserSubmission() ? ($problem->getUserSubmission()->getSolved() ? 'success' : 'warning') : ''; ?>">
-            <td>
-                <a class="problem-title" style="" href="<?php echo $this->url('misc/problem', array('id' => (string)$problem->getId())); ?>">
-                    <?php echo $problem->getTitle(); ?>
-                </a>
-                <div>
-                    <?php foreach ($problem->getTags() as $tag): ?>
-                        <a class="label label-warning" style="margin:4px;" href="<?php echo $this->url('misc/default', array('action' => 'problems'), array('query' => array('tag' => (string)$tag->getText()))); ?>">
-                            <span class="">
-                                <?php echo $tag->getRealText(); ?>
-                            </span>
-                        </a>
-                    <?php endforeach ?>
+        <div class="col-lg-4 col-md-4 col-sm-4 mb">
+            <a href="<?php echo $this->url('misc/problem', array('id' => $problem->getId())); ?>">
+                <div class="content-panel pn">
+                    <div id="blog-bg">
+    <!--                    <div class="badge badge-popular">POPULAR</div>-->
+                        <div class="blog-title"><?php echo $problem->getTitle(); ?></div>
+                    </div>
+                    <div class="blog-text">
+                        <div>
+                            <?php foreach ($problem->getTags() as $tag): ?>
+                                <a class="label label-warning" style="margin:4px;" href="<?php echo $this->url('misc/default', array('action' => 'problems'), array('query' => array('tag' => (string)$tag->getText()))); ?>">
+                                <span class="">
+                                    <?php echo $tag->getRealText(); ?>
+                                </span>
+                                </a>
+                            <?php endforeach ?>
+                        </div>
+                        <?php if ($problem->getUserSubmission() && $problem->getUserSubmission()->getSolved()): ?>
+                            <div class="panel panel-primary text-center no-boder bg-color-green">
+                                <div class="panel-body">
+                                    You already solved this problem on <strong><?php echo $problem->getUserSubmission()->getDateSolved() * 1000; ?></strong> using <strong><?php echo $problem->getUserSubmission()->getAttempts(); ?> attempt(s)</strong>.
+                                </div>
+                            </div>
+                        <?php else: ?>
+
+                        <?php endif ?>
+                    </div>
                 </div>
-            </td>
-            <td><?php echo (int)$problem->getDifficulty(); ?></td>
-            <td><?php echo (int)$problem->getSolved(); ?></td>
-            <td><?php echo (int)$problem->getAttempts(); ?></td>
-            <td><?php echo (float)$problem->getRating(); ?></td>
-        </tr>
+            </a>
+        </div><!-- /col-md-4-->
     <?php endforeach ?>
-</table>

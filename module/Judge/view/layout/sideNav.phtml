@@ -1,38 +1,44 @@
-<nav class="navbar-default navbar-side" role="navigation">
-    <div class="sidebar-collapse">
-        <ul class="nav" id="main-menu">
+<!--sidebar start-->
+<aside>
+    <div id="sidebar"  class="nav-collapse ">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" id="nav-accordion">
 
-            <li>
-                <a class=""  href="#"><i class="fa fa-home fa-3x"></i>Home</a>
+            <li class="sub-menu">
+                <a class=""  href="<?php echo $this->url('home'); ?>"><i class="fa fa-home fa-3x"></i>Home</a>
             </li>
-            <li class="<?php echo ($routeName === 'algorithms/default') ? 'active' : ''; ?>">
-                <a  class="" href="#"><i class="fa fa-superscript fa-3x"></i> Algorithms <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
+
+            <li class="sub-menu <?php echo ($routeName === 'algorithms/default') ? 'active' : ''; ?>">
+                <a  class="" href="javascript:;"><i class="fa fa-superscript fa-3x"></i> Algorithms</a>
+                <ul class="sub">
+                    <li class="<?php echo ($routeName =='algorithms/default' && $action == 'problems') ? 'active' : ''; ?>">
                         <a href="<?php echo $this->url('algorithms/default', array('action' => 'problems')); ?>"><i class="fa fa-list"></i> Problems</a>
                     </li>
-                    <li>
+                    <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'scoreboard') ? 'active' : ''; ?>">
                         <a href="<?php echo $this->url('algorithms/default', array('action' => 'scoreboard')); ?>"><i class="fa fa-bar-chart-o"></i> Scoreboard</a>
                     </li>
-                    <li>
+                    <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'submit') ? 'active' : ''; ?>">
                         <a href="<?php echo $this->url('algorithms/default', array('action' => 'submit')); ?>"><i class="fa fa-envelope-o"></i> Submit</a>
                     </li>
                 </ul>
             </li>
-            <li class="<?php echo ($routeName === 'arena/default') ? 'active' : ''; ?>">
-                <a  href="#"><i class="fa fa-crosshairs fa-3x"></i> Arena <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="<?php echo $this->url('arena/default', array('action' => 'active'));?>"><i class="fa fa-list"></i> Active problems</a>
+            <li class="sub-menu <?php echo ($routeName === 'algorithms/default') ? 'active' : ''; ?>">
+                <a  class="" href="javascript:;"><i class="fa fa-superscript fa-3x"></i> Arena</a>
+                <ul class="sub">
+                    <li class="<?php echo ($routeName =='algorithms/default' && $action == 'problems') ? 'active' : ''; ?>">
+                        <a href="<?php echo $this->url('algorithms/default', array('action' => 'problems')); ?>"><i class="fa fa-list"></i> Problems</a>
                     </li>
-                    <li>
-                        <a href="<?php echo $this->url('arena/default', array('action' => 'archive'));?>"><i class="fa fa-archive"></i> Archive</a>
+                    <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'scoreboard') ? 'active' : ''; ?>">
+                        <a href="<?php echo $this->url('algorithms/default', array('action' => 'scoreboard')); ?>"><i class="fa fa-bar-chart-o"></i> Scoreboard</a>
+                    </li>
+                    <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'submit') ? 'active' : ''; ?>">
+                        <a href="<?php echo $this->url('algorithms/default', array('action' => 'submit')); ?>"><i class="fa fa-envelope-o"></i> Submit</a>
                     </li>
                 </ul>
             </li>
-            <li class="<?php echo (substr($routeName, 0, strlen('misc')) === 'misc') ? 'active' : ''; ?>">
+            <li class="sub-menu <?php echo (substr($routeName, 0, strlen('misc')) === 'misc') ? 'active' : ''; ?>">
                 <a  href="#"><i class="fa fa-meh-o fa-3x"></i> Misc QA <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
+                <ul class="sub">
                     <li>
                         <a href="<?php echo $this->url('misc/default', array('action' => 'problems')); ?>"><i class="fa fa-list"></i> Questions</a>
                     </li>
@@ -44,7 +50,11 @@
                     </li>
                 </ul>
             </li>
+
+
+
         </ul>
+        <!-- sidebar menu end-->
     </div>
-</nav>
-<!-- /. NAV SIDE  -->
+</aside>
+

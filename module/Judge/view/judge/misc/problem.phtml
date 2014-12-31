@@ -1,6 +1,6 @@
-<div class="row">
-    <div class="col-md-12">
-        <h2><?php echo $problem->getTitle(); ?></h2>
+<div class="white-panel pn">
+    <div class="white-header">
+        <h4><?php echo $problem->getTitle(); ?></h4>
         <?php foreach ($problem->getTags() as $tag): ?>
             <a class="label label-warning" style="margin:4px;" href="<?php echo $this->url('misc/default', array('action' => 'problems'), array('query' => array('tag' => (string)$tag->getText()))); ?>">
                             <span class="">
@@ -8,48 +8,12 @@
                             </span>
             </a>
         <?php endforeach ?>
-        <hr />
+    </div>
+    <div class="row">
+        <?php echo $problem->getDescription(); ?>
     </div>
 </div>
-
-<div class="row">
-    <div class="col-md-3 col-sm-6 col-xs-6">
-        <div class="alert alert-warning">
-            <i class="fa fa-users"></i> &nbsp; Attempted by <?php echo $problem->getAttempts(); ?> user(s).
-        </div>
-    </div>
-    <div class="col-md-3 col-sm-6 col-xs-6">
-        <div class="alert alert-success">
-            <i class="fa fa-check"></i> &nbsp; Solved by <?php echo $problem->getSolved(); ?> user(s).
-        </div>
-    </div>
-    <div class="col-md-3 col-sm-6 col-xs-6">
-        <div class="alert alert-info">
-            <i class="fa fa-bar-chart-o"></i> &nbsp; Points: <?php echo $problem->getDifficulty(); ?>
-        </div>
-    </div>
-    <div class="col-md-3 col-sm-6 col-xs-6">
-        <div class="alert alert-warning">
-            <i class="fa fa-star-half-o"></i> &nbsp; Average rating: <?php echo $problem->getRating(); ?>
-        </div>
-    </div>
-</div>
-
-<?php if ($loggedIn): ?>
-<div class="row">
-    <div class="col-md-3 col-sm-6 col-xs-6">
-    <span>Rate problem:</span>
-    <span ng-controller="miscProblemRatingController">
-        <rating ng-model="rate" max="max" state-on="'fa fa-star fa-2x'" state-off="'fa fa-star-o fa-2x'" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
-    </span>
-    </div>
-</div>
-<?php endif ?>
-
-<hr />
-
-<problem-statement ng-transclude><?php echo $problem->getDescription(); ?></problem-statement>
-
+<br />
 <?php if (!$loggedIn): ?>
     <div class="panel panel-primary text-center no-boder bg-color-orange">
         <div class="panel-body">
@@ -92,5 +56,48 @@
     </div>
 
 </div>
-
 <?php endif ?>
+<hr />
+
+<?php if ($loggedIn): ?>
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-6">
+            <span>Rate problem:</span>
+    <span ng-controller="miscProblemRatingController">
+        <rating ng-model="rate" max="max" state-on="'fa fa-star fa-2x'" state-off="'fa fa-star-o fa-2x'" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+    </span>
+        </div>
+    </div>
+<?php endif ?>
+<div class="row mtbox">
+    <div class="col-md-2 col-sm-2 col-md-offset-2 box0">
+        <div class="box1">
+            <i class="fa fa-users fa-3x"></i>
+            <h3><?php echo $problem->getAttempts(); ?></h3>
+        </div>
+        <p>Number of users attempted to answer this question.</p>
+    </div>
+    <div class="col-md-2 col-sm-2 box0">
+        <div class="box1">
+            <i class="fa fa-users fa-3x"></i>
+            <h3><?php echo $problem->getSolved(); ?></h3>
+        </div>
+        <p>Number of users successfully solved this question.</p>
+    </div>
+    <div class="col-md-2 col-sm-2 box0">
+        <div class="box1">
+            <i class="fa fa-users fa-3x"></i>
+            <h3><?php echo $problem->getDifficulty(); ?></h3>
+        </div>
+        <p>Question difficulty. More difficult problems you solve more points you get. Fair enough, isn't it?</p>
+    </div>
+    <div class="col-md-2 col-sm-2 box0">
+        <div class="box1">
+            <i class="fa fa-users fa-3x"></i>
+            <h3><?php echo $problem->getRating(); ?></h3>
+        </div>
+        <p>Average question rating.</p>
+    </div>
+</div>
+
+
