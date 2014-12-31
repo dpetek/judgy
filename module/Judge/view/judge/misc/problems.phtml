@@ -23,7 +23,7 @@
                 </a>
                 <div>
                     <?php foreach ($problem->getTags() as $tag): ?>
-                        <a class="label label-warning" style="margin:4px;" href="<?php echo $this->url('misc/default', array('action' => 'problems'), array('query' => array('tag' => (string)$tag->getId()))); ?>">
+                        <a class="label label-warning" style="margin:4px;" href="<?php echo $this->url('misc/default', array('action' => 'problems'), array('query' => array('tag' => (string)$tag->getText()))); ?>">
                             <span class="">
                                 <?php echo $tag->getRealText(); ?>
                             </span>

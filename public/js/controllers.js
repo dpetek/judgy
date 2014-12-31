@@ -108,11 +108,7 @@ angular.module(
     };
 })
 
-.controller('submitAlgorithmProblemController', function($scope, FileUploader) {
-    $scope.uploader = new FileUploader();
-    $scope.inputFilesUploader = new FileUploader();
-    $scope.outputFilesUploader = new FileUploader();
-
+.controller('submitAlgorithmProblemController', function($scope) {
     $scope.submit = function () {
         var data = $scope.problem;
     }

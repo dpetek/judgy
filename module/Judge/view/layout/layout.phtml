@@ -10,19 +10,21 @@
             ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
         ?>
 
-        <!-- BOOTSTRAP STYLES-->
-        <link href="<?php echo $this->basePath(); ?>/css/bootstrap.css" rel="stylesheet" />
-        <!-- FONTAWESOME STYLES-->
-        <link href="<?php echo $this->basePath(); ?>/css/font-awesome.css" rel="stylesheet" />
+        <!-- bower:css -->
+        <link rel="stylesheet" href="../../../../vendor/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="../../../../vendor/font-awesome/css/font-awesome.css" />
+        <link rel="stylesheet" href="../../../../vendor/metisMenu/dist/metisMenu.css" />
+        <link rel="stylesheet" href="../../../../vendor/ng-tags-input/ng-tags-input.min.css" />
+        <!-- endbower -->
+
         <!-- CUSTOM STYLES-->
         <link href="<?php echo $this->basePath(); ?>/css/custom.css" rel="stylesheet" />
         <link href="<?php echo $this->basePath(); ?>/css/register.css" rel="stylesheet" />
         <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/css/ng-tags-input.min.css">
         <!-- GOOGLE FONTS-->
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
     </head>
-    <body ng-app="myApp">
+    <body ng-app="myApp" ng-cloak>
     <div id="wrapper">
     <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
@@ -50,22 +52,27 @@
     </div>
     <!-- /. WRAPPER  -->
 
-    <script src="<?php echo $this->basePath(); ?>/js/jquery-1.10.2.js"></script>
-    <!-- BOOTSTRAP SCRIPTS -->
-    <script src="<?php echo $this->basePath(); ?>/js/bootstrap.min.js"></script>
-    <!-- METISMENU SCRIPTS -->
-    <script src="<?php echo $this->basePath(); ?>/js/jquery.metisMenu.js"></script>
+    <!-- bower:js -->
+    <script src="../../../../vendor/jquery/dist/jquery.js"></script>
+    <script src="../../../../vendor/underscore/underscore.js"></script>
+    <script src="../../../../vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="../../../../vendor/metisMenu/dist/metisMenu.js"></script>
+    <script src="../../../../vendor/angular/angular.js"></script>
+    <script src="../../../../vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="../../../../vendor/ng-tags-input/ng-tags-input.min.js"></script>
+    <script src="../../../../vendor/textAngular/dist/textAngular.min.js"></script>
+    <!-- endbower -->
+<!--    todo - find out how to do this with grunt-->
+    <script src="../../../../vendor/textAngular/dist/textAngular-sanitize.min.js"></script>
+
+    <!-- My angular scripts -->
+    <script src="<?php echo $this->basePath(); ?>/js/app.js"></script>
+    <script src="<?php echo $this->basePath(); ?>/js/controllers.js"></script>
+    <script src="<?php echo $this->basePath(); ?>/js/directives.js"></script>
+    <script src="<?php echo $this->basePath(); ?>/js/filters.js"></script>
+
     <!-- CUSTOM SCRIPTS -->
-    <script src="<?php echo $this->basePath(); ?>/js/custom.js"></script>
+    <script src="<?php echo $this->basePath(); ?>/js/binary_admin.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular.min.js"></script>
-    <script src="<?php echo $this->basePath(); ?>/js/angular/lib/ui-bootstrap-tpls-0.12.0.min.js"></script>
-    <script src="<?php echo $this->basePath(); ?>/js/angular/lib/ng-tags-input.min.js"></script>
-    <script src="<?php echo $this->basePath(); ?>/js/angular/lib/angular-file-upload.js"></script>
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.2.2/textAngular-sanitize.min.js'></script>
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.2.2/textAngular.min.js'></script>
-
-    <script src="<?php echo $this->basePath(); ?>/js/angular/controllers.js"></script>
-    <script src="<?php echo $this->basePath(); ?>/js/angular/app.js"></script>
     </body>
 </html>

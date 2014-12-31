@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <h2><?php echo $problem->getTitle(); ?></h2>
         <?php foreach ($problem->getTags() as $tag): ?>
-            <a class="label label-warning" style="margin:4px;" href="<?php echo $this->url('misc/default', array('action' => 'problems'), array('query' => array('tag' => (string)$tag->getId()))); ?>">
+            <a class="label label-warning" style="margin:4px;" href="<?php echo $this->url('misc/default', array('action' => 'problems'), array('query' => array('tag' => (string)$tag->getText()))); ?>">
                             <span class="">
                                 <?php echo $tag->getRealText(); ?>
                             </span>
@@ -47,11 +47,9 @@
 <?php endif ?>
 
 <hr />
-<div class="panel back-dash">
-    <p class="text-muted">
-        <?php echo $problem->getDescription(); ?>
-    </p>
-</div>
+
+<problem-statement ng-transclude><?php echo $problem->getDescription(); ?></problem-statement>
+
 <?php if (!$loggedIn): ?>
     <div class="panel panel-primary text-center no-boder bg-color-orange">
         <div class="panel-body">
@@ -66,7 +64,7 @@
     </div>
 <?php else: ?>
 <div ng-controller="submitMiscSolutionController">
-    <div class="panel panel-primary text-center no-boder bg-color-green" ng-show="correctSolution === true">
+    <div class="panel panel-primary text-center no-border bg-color-green" ng-show="correctSolution === true">
         <div class="panel-body">
             Congratulations! This is a correct solution.
         </div>

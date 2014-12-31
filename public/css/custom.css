@@ -388,3 +388,10 @@ MY ADDITIONAL
 table thead{
     background-color: #748a9e;
 }
+
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak],
+.ng-cloak, .x-ng-cloak,
+.ng-hide {
+    display: none !important;
+}
