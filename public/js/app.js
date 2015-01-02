@@ -3,5 +3,6 @@ angular.module('myApp', [
     'myApp.directives',
     'ui.bootstrap',
     'ngTagsInput',
-    'textAngular'
+    'textAngular',
+    'angularFileUpload'
 ]);

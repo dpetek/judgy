@@ -5,12 +5,17 @@ namespace Judge\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Api\ApiInterface\IResponse;
 use Core\Document\Base;
+use Judge\Document\User;
 
 /**
  * @ODM\MappedSuperclass
  */
-class BaseMiscProblem extends Base implements IResponse
+class BaseProblem extends Base implements IResponse
 {
+    const TYPE_MISC = 'misc';
+    const TYPE_ALGORITHM = 'algorithm';
+    const TYPE_ARENA = 'arena';
+
     /**
      * @ODM\String(name="title")
      */
@@ -22,7 +27,7 @@ class BaseMiscProblem extends Base implements IResponse
     protected $description;
 
     /**
-     * @ODM\Int(name="type")
+     * @ODM\String(name="type")
      */
     protected $type;
 
@@ -71,25 +76,39 @@ class BaseMiscProblem extends Base implements IResponse
      */
     protected $userSubmission;
 
-    public static function create($title, $description, $answer, $difficulty, User $postedBy, array $tags = array())
+    public function validate()
     {
+        return true;
+    }
+
+    public static function createMisc($title, $description, $answer, $difficulty, User $user, $tags)
+    {
+        /** @var BaseProblem $instance */
         $instance = new static();
+        $instance->setType(self::TYPE_MISC);
+        $instance->setPostedById(new \MongoId($user->getId()));
         $instance->setTitle($title);
         $instance->setDescription($description);
         $instance->setAnswer($answer);
         $instance->setTags($tags);
-        $instance->setSolved(0);
-        $instance->setAttempts(0);
+        $instance->setTimeAdded(new \DateTime());
         $instance->setDifficulty($difficulty);
         $instance->setRating(0.0);
-        $instance->setTimeAdded(new \DateTime());
-        $instance->setPostedById(new \MongoId($postedBy->getId()));
         return $instance;
     }
 
-    public function validate()
+    public static function createAlgorithm($title, $difficulty, User $user, $tags)
     {
-        return true;
+        /** @var BaseProblem $instance */
+        $instance = new static();
+        $instance->setType(self::TYPE_ALGORITHM);
+        $instance->setPostedById(new \MongoId($user->getId()));
+        $instance->setTitle($title);
+        $instance->setTags($tags);
+        $instance->setTimeAdded(new \DateTime());
+        $instance->setDifficulty($difficulty);
+        $instance->setRating(0.0);
+        return $instance;
     }
 
     public function toArray()

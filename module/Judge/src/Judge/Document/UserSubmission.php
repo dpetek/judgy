@@ -5,11 +5,12 @@ namespace Judge\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Api\ApiInterface\IResponse;
 use Core\Document\Base;
+use Judge\Document\ActiveProblem;
 
 /**
- * @ODM\Document(db="judge",collection="MiscSubmissions",slaveOkay=false, repositoryClass="Judge\Repository\MiscUserSubmission")
+ * @ODM\Document(db="judge",collection="UserSubmissions",slaveOkay=false, repositoryClass="Judge\Repository\UserSubmission")
  */
-class MiscUserSubmission extends Base implements IResponse
+class UserSubmission extends Base implements IResponse
 {
     /**
      * @ODM\Boolean(name="solved")
@@ -32,17 +33,23 @@ class MiscUserSubmission extends Base implements IResponse
     protected $problem;
 
     /**
+     * @ODM\String(name="type")
+     */
+    protected $type;
+
+    /**
      * @ODM\ObjectId(name="u")
      */
     protected $user;
 
-    public static function create(MiscProblem $problem, User $user)
+    public static function create(ActiveProblem $problem, User $user)
     {
         $instance = new self();
         $instance->setProblem($problem->getId());
         $instance->setUser($user->getId());
         $instance->setAttempts(0);
         $instance->setSolved(false);
+        $instance->setType($problem->getType());
         return $instance;
     }
 
@@ -138,5 +145,21 @@ class MiscUserSubmission extends Base implements IResponse
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

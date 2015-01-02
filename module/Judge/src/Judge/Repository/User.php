@@ -21,4 +21,11 @@ class User extends DocumentRepository
         $qb->limit($limit)->skip($offset);
         return array_values($qb->getQuery()->toArray());
     }
+
+    public function findTopByType($type, $offset = 0, $limit = 20)
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->sort($type . '_solved', -1)->limit($limit)->skip($offset);
+        return array_values($qb->getQuery()->toArray());
+    }
 }

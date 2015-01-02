@@ -38,7 +38,8 @@
     "jquery.gritter": "~1.7.4",
     "jquery.scrollTo": "~1.4.14",
     "jquery.nicescroll": "~3.5.6",
-    "dcjqaccordion": "~2.7.1"
+    "dcjqaccordion": "~2.7.1",
+    "ng-file-upload": "~2.0.5"
   },
   "resolutions": {
     "jquery": "~2.1.3"

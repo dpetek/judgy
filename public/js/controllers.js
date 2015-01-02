@@ -75,7 +75,7 @@ angular.module(
 
     $scope.submit = function() {
         $http({
-            url: '/api/misc.json',
+            url: '/api/problems/misc/submit.json',
             method: "POST",
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             data: $.param($scope.problem)
@@ -90,7 +90,7 @@ angular.module(
 .controller('submitMiscSolutionController', function($scope, $http) {
     $scope.submit = function() {
         $http({
-            url: '/api/misc/' + $scope.id + '/answer.json',
+            url: '/api/problems/misc/' + $scope.id + '/answer.json',
             method: "POST",
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             data: $.param(
@@ -108,9 +108,31 @@ angular.module(
     };
 })
 
-.controller('submitAlgorithmProblemController', function($scope) {
-    $scope.submit = function () {
-        var data = $scope.problem;
-    }
+.controller('submitAlgorithmProblemController', [
+        '$scope',
+        '$upload',
+        function ($scope, $upload) {
+            $scope.model = {};
+            $scope.selectedFile = [];
+            $scope.uploadProgress = 0;
 
-});
+            $scope.submitProblem = function () {
+                var file = $scope.selectedFile[0];
+                $scope.upload = $upload.upload({
+                    url: '/api/problems/algorithm/submit.json',
+                    method: 'POST',
+                    data: $scope.problem,
+                    file: file
+                }).progress(function (evt) {
+                        $scope.uploadProgress = parseInt(100.0 * evt.loaded / evt.total, 10);
+                    }).success(function (data) {
+                        //do something
+                    });
+            };
+
+            $scope.onFileSelect = function ($files) {
+                $scope.uploadProgress = 0;
+                $scope.selectedFile = $files;
+            };
+        }
+    ]);

@@ -1,21 +1,25 @@
 <?php
 namespace Api\Controller;
 
-use Judge\Document\MiscProblem;
-use Judge\Document\MiscProblemReview;
-use Judge\Document\MiscUserSubmission;
+use FileManager\Storage\LocalFileStorage;
+use Judge\Document\ActiveProblem;
+use Judge\Document\BaseProblem;
+use Judge\Document\UserSubmission;
+use Judge\Document\ReviewProblem;
 use Judge\Document\Tag;
 use Zend\View\Model\JsonModel;
 use Api\Exception\Core\NoPermissionException;
 use Api\Exception\Core\MissingResource;
 use Api\Exception\Core\CustomException;
 
-class MiscController extends BaseApiController
+class ProblemsController extends BaseApiController
 {
 
-    public function create($data)
+    public function postSubmitAction()
     {
         $request = $this->getRequest();
+        $routeMatch = $this->getEvent()->getRouteMatch();
+
         $post = $request->getPost();
         $title = $post['title'];
         $description = $post['description'];
@@ -33,6 +37,10 @@ class MiscController extends BaseApiController
         $tagRepo = $this->getDocumentManager()->getRepository(
             'Judge\Document\Tag'
         );
+
+        if (is_string($tags)) {
+            $tags = json_decode($tags, true);
+        }
 
         $tagObjects = array();
         foreach ($tags as $tag) {
@@ -52,21 +60,86 @@ class MiscController extends BaseApiController
                 $tagObjects[] = $newTagObject;
             }
         }
-        if ($this->getCurrentUser()->getIsAdmin()) {
-            $problem = MiscProblem::create($title, $description, $answer, $difficulty,$this->getCurrentUser(), $tagObjects);
-        } else {
-            $problem = MiscProblemReview::create($title, $description, $answer, $difficulty, $this->getCurrentUser(), $tagObjects);
+
+        switch ($routeMatch->getParam('type')) {
+            case 'misc':
+                if ($this->getCurrentUser()->getIsAdmin()) {
+                    $problem = ActiveProblem::createMisc(
+                        $title,
+                        $description,
+                        $answer,
+                        $difficulty,
+                        $this->getCurrentUser(),
+                        $tagObjects
+                    );
+                } else {
+                    $problem = ReviewProblem::createMisc(
+                        $title,
+                        $description,
+                        $answer,
+                        $difficulty,
+                        $this->getCurrentUser(),
+                        $tagObjects
+                    );
+                }
+                break;
+            case 'algorithm':
+                if ($this->getCurrentUser()->getIsAdmin()) {
+                    $problem = ActiveProblem::createAlgorithm(
+                        $title,
+                        $difficulty,
+                        $this->getCurrentUser(),
+                        $tagObjects
+                    );
+                } else {
+                    $problem = ReviewProblem::createAlgorithm(
+                        $title,
+                        $difficulty,
+                        $this->getCurrentUser(),
+                        $tagObjects
+                    );
+                }
+                break;
         }
-        // if admin add it to the site, if regular user add it to review queue
 
         if ($problem) {
+            // to generate id
             $this->getDocumentManager()->persist($problem);
         }
+
+        $this->handleDataFile($problem);
+
         $this->getDocumentManager()->flush();
 
         return new JsonModel(
             $problem->toArray()
         );
+    }
+
+    protected function handleDataFile(ActiveProblem $problem)
+    {
+        if ($problem->getType() != BaseProblem::TYPE_ALGORITHM) {
+            return ;
+        }
+
+        if (!isset($_FILES['file'])) {
+            throw new MissingResource(
+                array(
+                    'message' => 'File not defined.'
+                )
+            );
+        }
+
+        $tempName = tempnam(sys_get_temp_dir(), 'judgy');
+        $zip = new \ZipArchive();
+        if (!move_uploaded_file($_FILES['file']['tmp_name'], $tempName)) {
+            throw new CustomException('File upload failed.');
+        }
+
+        $resource = $zip->open($tempName);
+
+        $zip->extractTo('/var/www/judge_data/' . $problem->getId());
+        $zip->close();
     }
 
     public function postAnswerAction()
@@ -75,19 +148,27 @@ class MiscController extends BaseApiController
             throw new NoPermissionException();
         }
 
+        $type = strtolower($this->getEvent()->getRouteMatch()->getParam('type'));
+        $method = 'answer' . ucfirst($type);
+
+        return $this->$method();
+    }
+
+    protected function answerMisc()
+    {
         $response = $this->getRequest();
         $post = $response->getPost();
 
         $answer = $post['answer'];
         $problemId = $this->getEvent()->getRouteMatch()->getParam('id');
 
-        /** @var \Judge\Repository\MiscProblem $problemRepo */
+        /** @var \Judge\Repository\ActiveProblem $problemRepo */
         $problemRepo = $this->getDocumentManager()->getRepository(
-            'Judge\Document\MiscProblem'
+            'Judge\Document\ActiveProblem'
         );
-        /** @var \Judge\Repository\MiscUserSubmission $problemSubmissionRepo */
+        /** @var \Judge\Repository\UserSubmission $problemSubmissionRepo */
         $problemSubmissionRepo = $this->getDocumentManager()->getRepository(
-            'Judge\Document\MiscUserSubmission'
+            'Judge\Document\UserSubmission'
         );
 
         /** @var \Judge\Document\MiscProblem $problem */
@@ -105,16 +186,14 @@ class MiscController extends BaseApiController
         $submission = $problemSubmissionRepo->findForUserAndProblem($problem, $currentUser);
 
         if (!$submission) {
-            $submission = MiscUserSubmission::create($problem, $currentUser);
+            $submission = UserSubmission::create($problem, $currentUser);
             $problem->setAttempts($problem->getAttempts() + 1);
         }
         $correct = ($answer == $problem->getAnswer());
 
         if ($correct && !$submission->getSolved()) {
-            $currentUser->setMiscSolved($currentUser->getMiscSolved() + 1);
-
             $problem->setSolved($problem->getSolved() + 1);
-
+            $currentUser->setMiscSolved($currentUser->getMiscSolved() + 1);
             $submission->setAttempts($submission->getAttempts() + 1);
             $submission->setSolved(true);
             $submission->setDateSolved(new \DateTime());
@@ -134,5 +213,10 @@ class MiscController extends BaseApiController
         $this->getDocumentManager()->flush();
 
         return new JsonModel($submission->toArray());
+    }
+
+    protected function answerAlgorithm()
+    {
+
     }
 }

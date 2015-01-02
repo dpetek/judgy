@@ -456,7 +456,7 @@ a.logo span {
 .notify-row {
     float: left;
     margin-top: 15px;
-    margin-left: 92px;
+    margin-left: 127px;
 }
 
 .notify-row .notification span.label {
@@ -984,7 +984,7 @@ PANELS CONFIGURATIONS
 /*Panel Size*/
 
 .pn {
-	height: 250px;
+	/*height: 250px;*/
 	box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2);
 }
 
@@ -1082,14 +1082,13 @@ PANELS CONFIGURATIONS
 
 .white-panel p {
 	margin-top: 5px;
-	font-weight: 700;
 	margin-left: 15px;
 }
 .white-panel .white-header {
-	background: #f4f4f4;
+	background: #cdcdcd;
 	padding: 3px;
 	margin-bottom: 15px;
-	color: #525252;
+	color: #444444;
 }
 
 .white-panel .small {

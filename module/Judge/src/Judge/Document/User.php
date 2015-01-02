@@ -37,9 +37,24 @@ class User extends Base implements IResponse
     protected $score;
 
     /**
-     * @ODM\Increment(name="miscSolved")
+     * @ODM\Float(name="misc_score")
+     */
+    protected $miscScore;
+
+    /**
+     * @ODM\Float(name="algorithm_score")
+     */
+    protected $algorithmScore;
+
+    /**
+     * @ODM\Increment(name="misc_solved")
      */
     protected $miscSolved;
+
+    /**
+     * @ODM\Increment(name="algorithm_solved")
+     */
+    protected $algorithmSolved;
 
     /**
      * @ODM\Boolean(name="isadmin")
@@ -204,5 +219,53 @@ class User extends Base implements IResponse
     public function getIsAdmin()
     {
         return $this->isAdmin;
+    }
+
+    /**
+     * @param mixed $algorithmScore
+     */
+    public function setAlgorithmScore($algorithmScore)
+    {
+        $this->algorithmScore = $algorithmScore;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAlgorithmScore()
+    {
+        return $this->algorithmScore;
+    }
+
+    /**
+     * @param mixed $miscScore
+     */
+    public function setMiscScore($miscScore)
+    {
+        $this->miscScore = $miscScore;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMiscScore()
+    {
+        return $this->miscScore;
+    }
+
+    /**
+     * @param mixed $algorithmSolved
+     */
+    public function setAlgorithmSolved($algorithmSolved)
+    {
+        $this->algorithmSolved = $algorithmSolved;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAlgorithmSolved()
+    {
+        return $this->algorithmSolved;
     }
 }

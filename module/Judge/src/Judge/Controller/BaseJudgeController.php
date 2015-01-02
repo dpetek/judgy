@@ -39,7 +39,8 @@ class BaseJudgeController extends AbstractActionController
         $sideNav->setVariables(
             array(
                 'routeName' => $e->getRouteMatch()->getMatchedRouteName(),
-                'action' => $e->getRouteMatch()->getParam('action')
+                'action' => $e->getRouteMatch()->getParam('action'),
+                'type' => $e->getRouteMatch()->getParam('type', ''),
             )
         );
 

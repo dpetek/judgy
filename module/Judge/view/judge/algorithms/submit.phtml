@@ -18,9 +18,8 @@
         </div>
     </div>
 
-    <div class="row" ng-show="successfulSubmission !== true">
-        <div class="col-md-12">
-            <form role="form">
+    <div class="" ng-show="successfulSubmission !== true">
+            <form ng-submit="submitProblem()" role="form">
                 <div class="form-group">
                     <label>Problem Title</label>
                     <input ng-model="problem.title" class="form-control" placeholder="Title" required>
@@ -35,7 +34,7 @@
                             Problem files <a href="#">(.zip archive)</a>
                         </div>
                         <div class="panel-body">
-                            <input type="file" fileread="problem.files" />
+                            <input type="file" ng-file-select="onFileSelect($files)" ng-model="problem.file">
                         </div>
                     </div>
                 </div>
@@ -51,9 +50,8 @@
                     </tags-input>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-success square-btn-adjust" ng-click="submit()">Submit Problem</button> </div>
-        </div>
+                    <button button type="submit" class="btn btn-success square-btn-adjust">Submit Problem</button> </div>
+                </div>
         </form>
     </div>
-</div>
 </div>

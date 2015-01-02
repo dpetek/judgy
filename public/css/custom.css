@@ -55,9 +55,9 @@ border-radius: 0px;
 
 }
 p {
-    font-size:16px;
-    line-height:25px;
-    padding-top:20px;
+    /*font-size:16px;*/
+    /*line-height:25px;*/
+    /*padding-top:20px;*/
 }
 /*==============================================
    DASHBOARD STYLES    
@@ -386,7 +386,7 @@ MY ADDITIONAL
 }
 
 table thead{
-    background-color: #748a9e;
+    background-color: rgba(205, 205, 205, 0.100);
 }
 
 
@@ -394,4 +394,9 @@ table thead{
 .ng-cloak, .x-ng-cloak,
 .ng-hide {
     display: none !important;
+}
+
+.top-drop-button{
+    font-size: 14px !important;
+    text-align: center;
 }

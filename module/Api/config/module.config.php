@@ -102,12 +102,12 @@ return array(
                     )
                 )
             ),
-            'miscqa' => array(
+            'problems-api' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/misc',
+                    'route' => '/api/problems/:type',
                     'defaults' => array(
-                        'controller' => 'Api\Controller\Misc',
+                        'controller' => 'Api\Controller\Problems',
                     )
                 ),
                 'may_terminate' => false,
@@ -177,7 +177,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Api\Controller\User' => 'Api\Controller\UserController',
-            'Api\Controller\Misc' => 'Api\Controller\MiscController',
+            'Api\Controller\Problems' => 'Api\Controller\ProblemsController',
             'Api\Controller\Tag' => 'Api\Controller\TagController'
         ),
     ),

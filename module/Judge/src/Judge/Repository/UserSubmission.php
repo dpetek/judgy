@@ -3,12 +3,12 @@
 namespace Judge\Repository;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
-use Judge\Document\MiscProblem as MiscProblemDocument;
+use Judge\Document\ActiveProblem;
 use Judge\Document\User as UserDocument;
 
-class MiscUserSubmission extends DocumentRepository
+class UserSubmission extends DocumentRepository
 {
-    public function findForUserAndProblem(MiscProblemDocument $problem, UserDocument $user)
+    public function findForUserAndProblem(ActiveProblem $problem, UserDocument $user)
     {
         $qb = $this->createQueryBuilder();
         $qb->field('p')->equals(new \MongoId($problem->getId()))

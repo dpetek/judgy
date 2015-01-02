@@ -8,50 +8,48 @@
                 <a class=""  href="<?php echo $this->url('home'); ?>"><i class="fa fa-home fa-3x"></i>Home</a>
             </li>
 
-            <li class="sub-menu <?php echo ($routeName === 'algorithms/default') ? 'active' : ''; ?>">
+            <li class="sub-menu <?php echo ($type == 'algorithm') ? 'active' : ''; ?>">
                 <a  class="" href="javascript:;"><i class="fa fa-superscript fa-3x"></i> Algorithms</a>
                 <ul class="sub">
                     <li class="<?php echo ($routeName =='algorithms/default' && $action == 'problems') ? 'active' : ''; ?>">
-                        <a href="<?php echo $this->url('algorithms/default', array('action' => 'problems')); ?>"><i class="fa fa-list"></i> Problems</a>
+                        <a href="<?php echo $this->url('problems-view/default', array('action' => 'problems', 'type' => 'algorithm')); ?>"><i class="fa fa-list"></i> Problems</a>
                     </li>
                     <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'scoreboard') ? 'active' : ''; ?>">
-                        <a href="<?php echo $this->url('algorithms/default', array('action' => 'scoreboard')); ?>"><i class="fa fa-bar-chart-o"></i> Scoreboard</a>
+                        <a href="<?php echo $this->url('problems-view/default', array('action' => 'scoreboard', 'type' => 'algorithm')); ?>"><i class="fa fa-bar-chart-o"></i> Scoreboard</a>
                     </li>
                     <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'submit') ? 'active' : ''; ?>">
-                        <a href="<?php echo $this->url('algorithms/default', array('action' => 'submit')); ?>"><i class="fa fa-envelope-o"></i> Submit</a>
+                        <a href="<?php echo $this->url('problems-view/default', array('action' => 'submit', 'type' => 'algorithm')); ?>"><i class="fa fa-envelope-o"></i> Submit</a>
                     </li>
                 </ul>
             </li>
-            <li class="sub-menu <?php echo ($routeName === 'algorithms/default') ? 'active' : ''; ?>">
-                <a  class="" href="javascript:;"><i class="fa fa-superscript fa-3x"></i> Arena</a>
+            <li class="sub-menu <?php echo ($type === 'arena') ? 'active' : ''; ?>">
+                <a  class="" href="javascript:;"><i class="fa fa-crosshairs fa-3x"></i> Arena</a>
                 <ul class="sub">
                     <li class="<?php echo ($routeName =='algorithms/default' && $action == 'problems') ? 'active' : ''; ?>">
-                        <a href="<?php echo $this->url('algorithms/default', array('action' => 'problems')); ?>"><i class="fa fa-list"></i> Problems</a>
+                        <a href="#"><i class="fa fa-list"></i> Problems</a>
                     </li>
                     <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'scoreboard') ? 'active' : ''; ?>">
-                        <a href="<?php echo $this->url('algorithms/default', array('action' => 'scoreboard')); ?>"><i class="fa fa-bar-chart-o"></i> Scoreboard</a>
+                        <a href="#"><i class="fa fa-bar-chart-o"></i> Scoreboard</a>
                     </li>
                     <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'submit') ? 'active' : ''; ?>">
-                        <a href="<?php echo $this->url('algorithms/default', array('action' => 'submit')); ?>"><i class="fa fa-envelope-o"></i> Submit</a>
+                        <a href="#"><i class="fa fa-envelope-o"></i> Submit</a>
                     </li>
                 </ul>
             </li>
-            <li class="sub-menu <?php echo (substr($routeName, 0, strlen('misc')) === 'misc') ? 'active' : ''; ?>">
+            <li class="sub-menu <?php echo ($type === 'misc') ? 'active' : ''; ?>">
                 <a  href="#"><i class="fa fa-meh-o fa-3x"></i> Misc QA <span class="fa arrow"></span></a>
                 <ul class="sub">
                     <li>
-                        <a href="<?php echo $this->url('misc/default', array('action' => 'problems')); ?>"><i class="fa fa-list"></i> Questions</a>
+                        <a href="<?php echo $this->url('problems-view/default', array('action' => 'problems', 'type' => 'misc')); ?>"><i class="fa fa-list"></i> Questions</a>
                     </li>
                     <li>
-                        <a href="<?php echo $this->url('misc/default', array('action' => 'scoreboard')); ?>"><i class="fa fa-bar-chart-o"></i> Scoreboard</a>
+                        <a href="<?php echo $this->url('problems-view/default', array('action' => 'scoreboard', 'type' => 'misc')); ?>"><i class="fa fa-bar-chart-o"></i> Scoreboard</a>
                     </li>
                     <li>
-                        <a href="<?php echo $this->url('misc/default', array('action' => 'submit')); ?>"><i class="fa fa-envelope-o"></i> Submit</a>
+                        <a href="<?php echo $this->url('problems-view/default', array('action' => 'submit', 'type' => 'misc')); ?>"><i class="fa fa-envelope-o"></i> Submit</a>
                     </li>
                 </ul>
             </li>
-
-
 
         </ul>
         <!-- sidebar menu end-->

@@ -40,28 +40,6 @@ return array(
                     ),
                 ),
             ),
-
-            'algorithms' => array(
-                'type' => 'Literal',
-                'options' => array(
-                    'route' => '/algorithms',
-                    'defaults' => array(
-                        'controller' => 'Judge\Controller\Algorithms',
-                    )
-                ),
-                'may_terminate' => false,
-                'child_routes' => array(
-                    'default' => array(
-                        'type' => 'Segment',
-                        'options' => array(
-                            'route' => '/:action',
-                            'constraints' => array(
-                                'action' => '[a-zA-Z]+'
-                            )
-                        )
-                    )
-                )
-            ),
             'arena' => array(
                 'type' => 'Literal',
                 'options' => array(
@@ -83,12 +61,12 @@ return array(
                     )
                 )
             ),
-            'misc' => array(
-                'type' => 'Literal',
+            'problems-view' => array(
+                'type' => 'literal',
                 'options' => array(
-                    'route' => '/misc',
+                    'route' => '/problems',
                     'defaults' => array(
-                        'controller' => 'Judge\Controller\Misc',
+                        'controller' => 'Judge\Controller\Problems'
                     )
                 ),
                 'may_terminate' => false,
@@ -96,26 +74,14 @@ return array(
                     'default' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/:action',
+                            'route' => '/:type/:action[/:id]',
                             'constraints' => array(
-                                'action' => '[a-zA-Z]+'
+                                'type' => 'misc|algorithm|arena'
                             )
                         )
                     ),
-                    'problem' => array(
-                        'type' => 'Segment',
-                        'options' => array(
-                            'route' => '/problems/id/:id',
-                            'constraints' => array(
-                                'id' => '[a-zA-Z0-9]{24}'
-                            ),
-                            'defaults' => array(
-                                'action' => 'problem'
-                            )
-                        )
-                    )
                 )
-            ),
+            )
         ),
     ),
     'service_manager' => array(
@@ -140,9 +106,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Judge\Controller\Index' => 'Judge\Controller\IndexController',
-            'Judge\Controller\Algorithms' => 'Judge\Controller\AlgorithmsController',
-            'Judge\Controller\Arena' => 'Judge\Controller\ArenaController',
-            'Judge\Controller\Misc' => 'Judge\Controller\MiscController',
+            'Judge\Controller\Problems' => 'Judge\Controller\ProblemsController',
 
         ),
     ),

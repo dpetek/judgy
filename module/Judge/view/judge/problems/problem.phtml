@@ -23,39 +23,39 @@
 <?php elseif ($submission && $submission->getSolved()): ?>
     <div class="panel panel-primary text-center no-boder bg-color-green">
         <div class="panel-body">
-            You already solved this problem on <strong>{{<?php echo $submission->getDateSolved()->getTimestamp() * 1000; ?> | date:'medium'}}</strong> using <strong><?php echo $submission->getAttempts(); ?> attempt(s)</strong>.
+            You already solved this problem on <strong>{{<?php echo $submission->getDateSolved()->getTimestamp() * 1000; ?> | date:'medium'}}</strong> using <strong><?php echo $submission->getAttempts(); ?> attempt<?php echo $submission->getAttempts() === 1 ? "" : "s"; ?></strong>.
         </div>
     </div>
 <?php else: ?>
-<div ng-controller="submitMiscSolutionController">
-    <div class="panel panel-primary text-center no-border bg-color-green" ng-show="correctSolution === true">
-        <div class="panel-body">
-            Congratulations! This is a correct solution.
+    <div ng-controller="submitMiscSolutionController">
+        <div class="panel panel-primary text-center no-border bg-color-green" ng-show="correctSolution === true">
+            <div class="panel-body">
+                Congratulations! This is a correct solution.
+            </div>
         </div>
-    </div>
 
-    <div class="panel panel-primary text-center no-boder bg-color-red" ng-show="correctSolution === false">
-        <div class="panel-body">
-            Sorry, but this is not a correct solution.
+        <div class="panel panel-primary text-center no-boder bg-color-red" ng-show="correctSolution === false">
+            <div class="panel-body">
+                Sorry, but this is not a correct solution.
+            </div>
         </div>
-    </div>
 
-    <div class="row" ng-show="correctSolution !== true">
-        <div class="col-md-12">
-            <form role="form">
-                <input ng-model="id" type="hidden" ng-init="id='<?php echo (string)$problem->getId(); ?>'">
-                <div class="form-group">
-                    <label>Answer</label>
-                    <input ng-model="answer" class="form-control" placeholder="Answer" required>
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-success square-btn-adjust" ng-click="submit()">Submit</button>
-                </div>
-            </form>
+        <div class="row" ng-show="correctSolution !== true">
+            <div class="col-md-12">
+                <form role="form">
+                    <input ng-model="id" type="hidden" ng-init="id='<?php echo (string)$problem->getId(); ?>'">
+                    <div class="form-group">
+                        <label>Answer</label>
+                        <input ng-model="answer" class="form-control" placeholder="Answer" required>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-success square-btn-adjust" ng-click="submit()">Submit</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
 
-</div>
+    </div>
 <?php endif ?>
 <hr />
 
@@ -72,32 +72,30 @@
 <div class="row mtbox">
     <div class="col-md-2 col-sm-2 col-md-offset-2 box0">
         <div class="box1">
-            <i class="fa fa-users fa-3x"></i>
-            <h3><?php echo $problem->getAttempts(); ?></h3>
+            <i class="fa fa-edit fa-2x"></i>
+            <h3><?php echo (int)$problem->getAttempts(); ?></h3>
         </div>
         <p>Number of users attempted to answer this question.</p>
     </div>
     <div class="col-md-2 col-sm-2 box0">
         <div class="box1">
-            <i class="fa fa-users fa-3x"></i>
-            <h3><?php echo $problem->getSolved(); ?></h3>
+            <i class="fa fa-check fa-2x"></i>
+            <h3><?php echo (int)$problem->getSolved(); ?></h3>
         </div>
         <p>Number of users successfully solved this question.</p>
     </div>
     <div class="col-md-2 col-sm-2 box0">
         <div class="box1">
-            <i class="fa fa-users fa-3x"></i>
-            <h3><?php echo $problem->getDifficulty(); ?></h3>
+            <i class="fa fa-question-circle fa-2x"></i>
+            <h3><?php echo (int)$problem->getDifficulty(); ?></h3>
         </div>
         <p>Question difficulty. More difficult problems you solve more points you get. Fair enough, isn't it?</p>
     </div>
     <div class="col-md-2 col-sm-2 box0">
         <div class="box1">
-            <i class="fa fa-users fa-3x"></i>
-            <h3><?php echo $problem->getRating(); ?></h3>
+            <i class="fa fa-star-half-empty fa-2x"></i>
+            <h3><?php echo (float)$problem->getRating(); ?></h3>
         </div>
         <p>Average question rating.</p>
     </div>
 </div>
-
-
