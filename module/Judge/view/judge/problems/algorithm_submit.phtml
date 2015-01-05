@@ -1,0 +1,57 @@
+<div class="panel back-dash">
+    <p class="text-muted">
+        Everybody can submit a question for Judgy. Each question will be reviewed by administrators and posted onto the site.
+    </p>
+</div>
+
+<div ng-controller="submitAlgorithmProblemController">
+
+    <div class="panel panel-primary text-center no-boder bg-color-green" ng-show="successfulSubmission === true">
+        <div class="panel-body">
+            Thank you! Your problem has been submitted and it's ready for review.
+        </div>
+    </div>
+
+    <div class="panel panel-primary text-center no-boder bg-color-red" ng-show="submissionError && successfulSubmission !== true">
+        <div class="panel-body">
+            {{ submissionError }}
+        </div>
+    </div>
+
+    <div class="" ng-show="successfulSubmission !== true">
+        <form ng-submit="submitProblem()" role="form">
+            <div class="form-group">
+                <label>Problem Title</label>
+                <input ng-model="problem.title" class="form-control" placeholder="Title" required>
+            </div>
+            <div class="form-group">
+                <label>Problem statement</label>
+                <text-angular ng-model="problem.description"></text-angular>
+            </div>
+            <div class="form-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Problem files <a href="#">(.zip archive)</a>
+                    </div>
+                    <div class="panel-body">
+                        <input type="file" ng-file-select="onFileSelect($files)" ng-model="problem.file">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Difficulty</label>
+                <input ng-model="problem.difficulty" class="form-control" placeholder="Difficulty" required>
+            </div>
+
+            <div class="form-group">
+                <label>Tags</label>
+                <tags-input ng-model="problem.tags">
+                    <auto-complete source="loadTags($query)"></auto-complete>
+                </tags-input>
+            </div>
+            <div class="form-group">
+                <button button type="submit" class="btn btn-success square-btn-adjust">Submit Problem</button> </div>
+    </div>
+    </form>
+</div>
+</div>

@@ -72,14 +72,29 @@ class ProblemsController extends BaseJudgeController
             );
             $submission = $submissionRepo->findForUserAndProblem($problem, $this->getCurrentUser());
         }
-        $view->setVariables(
-            array(
-                'problem' => $problem,
-                'submission' => $submission,
-                'loggedIn' => ($this->getCurrentUser() != null),
-                'type' => strtlower($this->getEvent()->getParam('type'))
-            )
+        $type = strtolower($this->getEvent()->getRouteMatch()->getParam('type'));
+        $view->setTemplate('judge/problems/' . $type . '_problem');
+
+        $variables = array(
+            'problem' => $problem,
+            'submission' => $submission,
+            'loggedIn' => ($this->getCurrentUser() != null),
+            'type' => $type
         );
+
+        if ($type == 'algorithm') {
+            /** @var \Judge\Repository\AlgorithmUserSubmission $algSubmissionRepo */
+            $algSubmissionRepo = $this->getDocumentManager()->getRepository(
+                'Judge\Document\AlgorithmUserSubmission'
+            );
+            $algorithmSubmissions = null;
+            if ($this->getCurrentUser()) {
+                $algorithmSubmissions = $algSubmissionRepo->findForProblemAndUser($problem, $this->getCurrentUser());
+            }
+            $variables['algorithmSubmissions'] = $algorithmSubmissions;
+        }
+
+        $view->setVariables($variables);
 
         return $view;
     }
@@ -113,6 +128,9 @@ class ProblemsController extends BaseJudgeController
         if (!$this->getCurrentUser()) {
             return $this->createLoginView();
         }
-        return new ViewModel();
+        $viewModel = new ViewModel();
+        $type = strtolower($this->getEvent()->getRouteMatch()->getParam('type'));
+        $viewModel->setTemplate('judge/problems/' . $type . '_submit');
+        return $viewModel;
     }
 }

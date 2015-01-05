@@ -400,3 +400,22 @@ table thead{
     font-size: 14px !important;
     text-align: center;
 }
+
+.line-tle{
+    color: #ff6600;
+}
+
+.line-wa{
+    color: #ff6600;
+}
+.line-ok{
+    color: #005A04;
+}
+
+.line-rte{
+    color: #FF0000;
+}
+
+.line-unknown{
+    color: #FF0000;
+}

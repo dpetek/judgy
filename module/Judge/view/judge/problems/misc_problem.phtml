@@ -2,7 +2,7 @@
     <div class="white-header">
         <h4><?php echo $problem->getTitle(); ?></h4>
         <?php foreach ($problem->getTags() as $tag): ?>
-            <a class="label label-warning" style="margin:4px;" href="<?php echo $this->url('misc/default', array('action' => 'problems'), array('query' => array('tag' => (string)$tag->getText()))); ?>">
+            <a class="label label-warning" style="margin:4px;" href="<?php echo $this->url('problems-view/default', array('action' => 'problems', 'type' => 'misc'), array('query' => array('tag' => $tag->getText()))); ?>">
                             <span class="">
                                 <?php echo $tag->getRealText(); ?>
                             </span>
@@ -54,7 +54,13 @@
                 </form>
             </div>
         </div>
-
+        <?php if ($submission): ?>
+            <div class="panel panel-primary text-center no-boder bg-color-orange">
+                <div class="panel-body">
+                    You already tried  to solve this problem <?php echo (string)$submission->getAttempts() . ' ' . (($submission->getAttempts() > 1) ? 'times' : 'time'); ?>.
+                </div>
+            </div>
+        <?php endif ?>
     </div>
 <?php endif ?>
 <hr />

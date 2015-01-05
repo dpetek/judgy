@@ -1080,7 +1080,7 @@ PANELS CONFIGURATIONS
 	color: #767676;
 }
 
-.white-panel p {
+.white-panel p, .white-panel h2 {
 	margin-top: 5px;
 	margin-left: 15px;
 }

@@ -97,13 +97,14 @@ class BaseProblem extends Base implements IResponse
         return $instance;
     }
 
-    public static function createAlgorithm($title, $difficulty, User $user, $tags)
+    public static function createAlgorithm($title, $desciption, $difficulty, User $user, $tags)
     {
         /** @var BaseProblem $instance */
         $instance = new static();
         $instance->setType(self::TYPE_ALGORITHM);
         $instance->setPostedById(new \MongoId($user->getId()));
         $instance->setTitle($title);
+        $instance->setDescription($desciption);
         $instance->setTags($tags);
         $instance->setTimeAdded(new \DateTime());
         $instance->setDifficulty($difficulty);

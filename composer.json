@@ -11,6 +11,7 @@
     "require": {
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.3.*",
-        "doctrine/doctrine-mongo-odm-module": "0.9.*@dev"
+        "doctrine/doctrine-mongo-odm-module": "0.9.*@dev",
+        "backplane/leptir": "dev-master"
     }
 }

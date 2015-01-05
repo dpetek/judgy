@@ -112,7 +112,7 @@ angular.module(
         '$scope',
         '$upload',
         function ($scope, $upload) {
-            $scope.model = {};
+            $scope.problem = {};
             $scope.selectedFile = [];
             $scope.uploadProgress = 0;
 
@@ -135,4 +135,42 @@ angular.module(
                 $scope.selectedFile = $files;
             };
         }
-    ]);
+    ])
+    .controller('submitAlgorithmSolutionController', [
+        '$scope',
+        '$upload',
+        function($scope, $upload) {
+            $scope.problem = {};
+            $scope.selectedFile = [];
+            $scope.uploadProgress = 0;
+
+            $scope.languages = [
+                {langId: 'c', langName: 'C'},
+                {langId: 'cpp', langName: 'C++'},
+                {langId: 'py2', langName: 'Python2.7'},
+                {langId: 'py3', langName: 'Python3'},
+                {langId: 'go', langName: 'Go'},
+                {langId: 'java', langName: 'Java'}
+            ];
+
+            $scope.submitSolution = function () {
+                var file = $scope.selectedFile[0];
+                $scope.upload = $upload.upload({
+                    url: '/api/problems/algorithm/' + $scope.id + '/answer.json',
+                    method: 'POST',
+                    data: $scope.solution,
+                    file: file
+                }).progress(function (evt) {
+                        $scope.uploadProgress = parseInt(100.0 * evt.loaded / evt.total, 10);
+                    }).success(function (data) {
+                        //do something
+                    });
+            };
+
+            $scope.onFileSelect = function ($files) {
+                $scope.uploadProgress = 0;
+                $scope.selectedFile = $files;
+            };
+        }
+    ])
+;

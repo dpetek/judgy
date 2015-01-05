@@ -5,8 +5,10 @@ use FileManager\Storage\LocalFileStorage;
 use Judge\Document\ActiveProblem;
 use Judge\Document\BaseProblem;
 use Judge\Document\UserSubmission;
+use Judge\Document\AlgorithmUserSubmission;
 use Judge\Document\ReviewProblem;
 use Judge\Document\Tag;
+use Judge\Leptir\JudgeAlgorithm;
 use Zend\View\Model\JsonModel;
 use Api\Exception\Core\NoPermissionException;
 use Api\Exception\Core\MissingResource;
@@ -23,9 +25,9 @@ class ProblemsController extends BaseApiController
         $post = $request->getPost();
         $title = $post['title'];
         $description = $post['description'];
-        $answer = $post['answer'];
+        $answer = isset($post['answer']) ? $post['answer'] : '';
         $difficulty = intval($post['difficulty']);
-        $tags = $post['tags'];
+        $tags = isset($post['tags']) ? $post['tags'] : array();
 
         if ($difficulty < 0) {
             throw new CustomException(
@@ -87,6 +89,7 @@ class ProblemsController extends BaseApiController
                 if ($this->getCurrentUser()->getIsAdmin()) {
                     $problem = ActiveProblem::createAlgorithm(
                         $title,
+                        $description,
                         $difficulty,
                         $this->getCurrentUser(),
                         $tagObjects
@@ -94,6 +97,7 @@ class ProblemsController extends BaseApiController
                 } else {
                     $problem = ReviewProblem::createAlgorithm(
                         $title,
+                        $description,
                         $difficulty,
                         $this->getCurrentUser(),
                         $tagObjects
@@ -217,6 +221,77 @@ class ProblemsController extends BaseApiController
 
     protected function answerAlgorithm()
     {
+        $request = $this->getRequest();
+        $post = $request->getPost();
 
+        if (!isset($post['language'])) {
+            throw new CustomException(
+                'Language not selected'
+            );
+        }
+
+        $userSubmissionDir = '/var/www/judge_data/submissions/' . $this->getCurrentUser()->getId();
+        $userSubmissionProblemDir = $userSubmissionDir . '/' . $this->getEvent()->getRouteMatch()->getParam('id');
+
+        if (!file_exists($userSubmissionDir)) {
+            umask(0777);
+            mkdir($userSubmissionDir, 0777, true);
+        }
+        if (!file_exists($userSubmissionProblemDir)) {
+            umask(0777);
+            mkdir($userSubmissionProblemDir, 0777, true);
+        }
+        $problemId = $this->getEvent()->getRouteMatch()->getParam('id');
+
+        $directory = '/var/www/judge_data/submissions/' . $this->getCurrentUser()->getId() . '/' . $problemId . '/';
+        if (!file_exists($directory)) {
+            umask(0777);
+            mkdir($directory, 0777, true);
+        }
+
+        $tempName = $directory . 'solution.' . $post['language'];
+
+        if (!isset($_FILES['file'])) {
+            throw new CustomException(
+                'Solution file not included.'
+            );
+        }
+
+        if (!move_uploaded_file($_FILES['file']['tmp_name'], $tempName)) {
+            throw new CustomException('File upload failed.');
+        }
+
+        chmod($tempName, 0777);
+
+        /** @var \Judge\Repository\ActiveProblem $problemRepo */
+        $problemRepo = $this->getDocumentManager()->getRepository(
+            'Judge\Document\ActiveProblem'
+        );
+        $problem = $problemRepo->find(new \MongoId($problemId));
+        $submission = AlgorithmUserSubmission::create(
+            $this->getCurrentUser(),
+            $problem,
+            $post['language']
+        );
+
+        $this->getDocumentManager()->persist($submission);
+        $this->getDocumentManager()->flush();
+
+        $task = new JudgeAlgorithm(
+            array(
+                'asId' => (string)$submission->getId()
+            )
+        );
+
+        /** @var \Leptir\Broker\Broker  $broker */
+        $broker = $this->getServiceLocator()->get('leptir_broker');
+        $broker->pushTask($task, null, 1);
+
+        return new JsonModel(
+            array(
+                'error' => false,
+                'taskId' => $task->getTaskId()
+            )
+        );
     }
 }
