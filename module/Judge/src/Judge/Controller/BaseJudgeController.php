@@ -17,12 +17,7 @@ class BaseJudgeController extends AbstractActionController
         $auth = $e->getApplication()->getServiceManager()->get('authentication');
         $userId = $auth->getIdentity();
         $topNav = new ViewModel();
-        if (!$userId) {
-            $topNav->setTemplate('layout/topNavGuest');
-        } else {
-            $topNav->setTemplate('layout/topNavSigned');
-        }
-
+        $topNav->setTemplate('layout/topNav');
         $topNav->setVariables(
             array(
                 'user' => $this->getCurrentUser()
