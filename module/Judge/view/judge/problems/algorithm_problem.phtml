@@ -1,6 +1,6 @@
 <div class="white-panel pn">
     <div class="white-header">
-        <h4><?php echo $problem->getTitle(); ?></h4>
+        <h1><?php echo $problem->getTitle(); ?></h1>
         <?php foreach ($problem->getTags() as $tag): ?>
             <a class="label label-warning" style="margin:4px;" href="<?php echo $this->url('problems-view/default', array('action' => 'problems', 'type' => 'misc'), array('query' => array('tag' => $tag->getText()))); ?>">
                             <span class="">
