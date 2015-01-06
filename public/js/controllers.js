@@ -88,6 +88,8 @@ angular.module(
 })
 
 .controller('submitMiscSolutionController', function($scope, $http) {
+    $scope.submissionError = false;
+    $scope.errorMessage = '';
     $scope.submit = function() {
         $http({
             url: '/api/problems/misc/' + $scope.id + '/answer.json',
@@ -99,11 +101,15 @@ angular.module(
                 }
             )
         }).success(function(data) {
+                $scope.submissionError = false;
                 if (data.solved === true) {
                     $scope.correctSolution = true;
                 } else {
                     $scope.correctSolution = false;
                 }
+            }).error(function(data) {
+                $scope.errorMessage = data.message;
+                $scope.submissionError = true;
             });
     };
 })
@@ -126,7 +132,11 @@ angular.module(
                 }).progress(function (evt) {
                         $scope.uploadProgress = parseInt(100.0 * evt.loaded / evt.total, 10);
                     }).success(function (data) {
+                        $scope.successfulSubmission = true;
                         //do something
+                    }).error(function(data) {
+                        $scope.successfulSubmission = false;
+                        $scope.submissionError = data.message;
                     });
             };
 
@@ -143,6 +153,8 @@ angular.module(
             $scope.problem = {};
             $scope.selectedFile = [];
             $scope.uploadProgress = 0;
+            $scope.submitDone = false;
+            $scope.submissionError = false;
 
             $scope.languages = [
                 {langId: 'c', langName: 'C'},
@@ -163,8 +175,12 @@ angular.module(
                 }).progress(function (evt) {
                         $scope.uploadProgress = parseInt(100.0 * evt.loaded / evt.total, 10);
                     }).success(function (data) {
-                        //do something
-                    });
+                        $scope.submissionError = false;
+                        $scope.submitDone = true;
+                    }).error(function(data) {
+                        $scope.submitDone = true;
+                        $scope.submissionError = true;
+                });
             };
 
             $scope.onFileSelect = function ($files) {

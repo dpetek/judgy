@@ -20,9 +20,9 @@
                     </a>
                     <div>
                         <?php foreach ($problem->getTags() as $tag): ?>
-                            <a class="label label-warning" style="margin:4px;" href="<?php echo $this->url('problems-view/default', array('action' => 'problems', 'type' => 'misc'), array('query' => array('tag' => $tag->getText()))); ?>">
+                            <a class="label label-warning" style="margin:4px;" href="<?php echo $this->url('problems-view/default', array('action' => 'problems', 'type' => $type), array('query' => array('tag' => $tag))); ?>">
                             <span class="">
-                                <?php echo $tag->getRealText(); ?>
+                                <?php echo $tag; ?>
                             </span>
                             </a>
                         <?php endforeach ?>

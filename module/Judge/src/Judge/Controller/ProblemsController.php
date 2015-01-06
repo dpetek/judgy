@@ -9,6 +9,8 @@ class ProblemsController extends BaseJudgeController
 {
     public function problemsAction()
     {
+        $request = $this->getRequest();
+        $query = $request->getQuery();
         $view = new ViewModel();
         /** @var \Judge\Repository\BaseProblem $repo */
         $repo = $this->getDocumentManager()->getRepository(
@@ -16,7 +18,7 @@ class ProblemsController extends BaseJudgeController
         );
 
         $type = $this->getEvent()->getRouteMatch()->getParam('type');
-        $problems = $repo->findNewByType($type);
+        $problems = $repo->findNewByType($type, isset($query['tag']) ? $query['tag'] : null);
 
         if ($this->getCurrentUser()) {
             /** @var \Judge\Repository\UserSubmission $submissionRepo */
@@ -31,13 +33,14 @@ class ProblemsController extends BaseJudgeController
             }
         }
 
-        $title = 'Active problems';
+        $title = 'Active ' . ucfirst($type) . ' Problems';
 
         $view->setVariables(
             array(
                 'problems' => $problems,
-                'title' => $title,
-                'type' => $type
+                'title' => $title . (isset($query['tag']) ? ' (tag: ' . $query['tag'] . ')' : ''),
+                'type' => $type,
+                'tag' => isset($query['tag']) ? $query['tag'] : null
             )
         );
         return $view;
@@ -64,6 +67,7 @@ class ProblemsController extends BaseJudgeController
                 )
             );
         }
+        /** @var \Judge\Document\UserSubmission $submission */
         $submission = null;
         if ($this->getCurrentUser()) {
             /** @var \Judge\Repository\UserSubmission $submissionRepo */
@@ -81,6 +85,19 @@ class ProblemsController extends BaseJudgeController
             'loggedIn' => ($this->getCurrentUser() != null),
             'type' => $type
         );
+
+        $judgyConfig = $this->getServiceLocator()->get('config')['judgy'];
+
+        $cooldownLeft = 0;
+        if (($this->getCurrentUser() && !$this->getCurrentUser()->getIsAdmin()) && $submission && ($submission->getDateLastSubmission() instanceof \DateTime) &&  isset($judgyConfig[$type]['cooldown_time'])) {
+            $now = new \DateTime();
+            $timePassed = $now->getTimestamp() - $submission->getDateLastSubmission()->getTimestamp();
+
+            if ($timePassed <= 60 * intval($judgyConfig[$type]['cooldown_time'])) {
+                $cooldownLeft = 60 * intval($judgyConfig[$type]['cooldown_time']) - $timePassed;
+            }
+        }
+        $variables['cooldownLeft'] = $cooldownLeft;
 
         if ($type == 'algorithm') {
             /** @var \Judge\Repository\AlgorithmUserSubmission $algSubmissionRepo */

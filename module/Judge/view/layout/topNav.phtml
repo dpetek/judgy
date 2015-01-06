@@ -14,7 +14,7 @@
                     <i class="fa fa-envelope-o"></i>
                     <span class="badge bg-theme">5</span>
                 </a>
-                <ul class="dropdown-menu extended inbox">
+                <ul class="dropdown-menu extended inbox dropdown-menu-right">
                     <div class="notify-arrow notify-arrow-green"></div>
                     <li>
                         <p class="green">You have 5 new messages</p>
@@ -75,17 +75,17 @@
             <!-- inbox dropdown end -->
             <!-- settings start -->
             <li class="dropdown" ng-controller="logoutController">
-                <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="<?php echo $this->url('profile/id', array('id' => (string)$user->getId())); ?>">
                     <?php echo $this->user->getUsername(); ?>
                     <!--                    <span class="badge bg-theme">4</span>-->
                 </a>
-                <ul class="dropdown-menu extended tasks-bar">
+                <ul class="dropdown-menu extended tasks-bar dropdown-menu-right">
                     <div class="notify-arrow notify-arrow-green"></div>
                     <li>
                         <p class="green"><?php echo $this->user->getName(); ?></p>
                     </li>
                     <li>
-                        <a href="#" class="top-drop-button">
+                        <a href="<?php echo $this->url('profile/id', array('id' => (string)$user->getId())); ?>" class="top-drop-button">
                             Profile
                         </a>
                     </li>

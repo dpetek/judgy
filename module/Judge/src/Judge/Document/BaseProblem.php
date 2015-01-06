@@ -32,7 +32,7 @@ class BaseProblem extends Base implements IResponse
     protected $type;
 
     /**
-     * @ODM\ReferenceMany(name="tags",targetDocument="Judge\Document\Tag")
+     * @ODM\Collection(name="t")
      */
     protected $tags;
     /**

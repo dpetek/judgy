@@ -2,9 +2,9 @@
     <div class="white-header">
         <h4><?php echo $problem->getTitle(); ?></h4>
         <?php foreach ($problem->getTags() as $tag): ?>
-            <a class="label label-warning" style="margin:4px;" href="<?php echo $this->url('problems-view/default', array('action' => 'problems', 'type' => 'misc'), array('query' => array('tag' => $tag->getText()))); ?>">
+            <a class="label label-warning" style="margin:4px;" href="<?php echo $this->url('problems-view/default', array('action' => 'problems', 'type' => 'misc'), array('query' => array('tag' => $tag))); ?>">
                             <span class="">
-                                <?php echo $tag->getRealText(); ?>
+                                <?php echo $tag; ?>
                             </span>
             </a>
         <?php endforeach ?>
@@ -28,32 +28,45 @@
     </div>
 <?php else: ?>
     <div ng-controller="submitMiscSolutionController">
-        <div class="panel panel-primary text-center no-border bg-color-green" ng-show="correctSolution === true">
+        <div class="panel panel-primary text-center no-border bg-color-green" ng-show="submissionError === false && correctSolution === true">
             <div class="panel-body">
                 Congratulations! This is a correct solution.
             </div>
         </div>
 
-        <div class="panel panel-primary text-center no-boder bg-color-red" ng-show="correctSolution === false">
+        <div class="panel panel-primary text-center no-boder bg-color-orange" ng-show="submissionError === false && correctSolution === false">
             <div class="panel-body">
                 Sorry, but this is not a correct solution.
             </div>
         </div>
 
-        <div class="row" ng-show="correctSolution !== true">
-            <div class="col-md-12">
-                <form role="form">
-                    <input ng-model="id" type="hidden" ng-init="id='<?php echo (string)$problem->getId(); ?>'">
-                    <div class="form-group">
-                        <label>Answer</label>
-                        <input ng-model="answer" class="form-control" placeholder="Answer" required>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-success square-btn-adjust" ng-click="submit()">Submit</button>
-                    </div>
-                </form>
+        <div class="panel panel-primary text-center no-boder bg-color-red" ng-show="submissionError === true">
+            <div class="panel-body">
+                {{ errorMessage }}
             </div>
         </div>
+        <?php if ($cooldownLeft <= 0): ?>
+            <div class="row" ng-show="correctSolution !== true">
+                <div class="col-md-12">
+                    <form role="form">
+                        <input ng-model="id" type="hidden" ng-init="id='<?php echo (string)$problem->getId(); ?>'">
+                        <div class="form-group">
+                            <label>Answer</label>
+                            <input ng-model="answer" class="form-control" placeholder="Answer" required>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-success square-btn-adjust" ng-click="submit()">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="panel panel-primary text-center no-boder bg-color-red">
+                <div class="panel-body">
+                    You can't resubmit answer to this question for another <?php echo $cooldownLeft; ?> seconds.
+                </div>
+            </div>
+        <?php endif ?>
         <?php if ($submission): ?>
             <div class="panel panel-primary text-center no-boder bg-color-orange">
                 <div class="panel-body">

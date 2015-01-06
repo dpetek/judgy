@@ -42,6 +42,11 @@ class UserSubmission extends Base implements IResponse
      */
     protected $user;
 
+    /**
+     * @ODM\Date(name="dls")
+     */
+    protected $dateLastSubmission;
+
     public static function create(ActiveProblem $problem, User $user)
     {
         $instance = new self();
@@ -161,5 +166,21 @@ class UserSubmission extends Base implements IResponse
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * @param mixed $dateLastSubmission
+     */
+    public function setDateLastSubmission($dateLastSubmission)
+    {
+        $this->dateLastSubmission = $dateLastSubmission;
+    }
+
+    /**
+     * @return \DateTIme|null
+     */
+    public function getDateLastSubmission()
+    {
+        return $this->dateLastSubmission;
     }
 }

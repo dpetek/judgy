@@ -12,5 +12,12 @@
  */
 
 return array(
-    // ...
+    'judgy' => array(
+        'algorithm' => array(
+            'cooldown_time' => 5
+        ),
+        'misc' => array(
+            'cooldown_time' => 3
+        )
+    )
 );

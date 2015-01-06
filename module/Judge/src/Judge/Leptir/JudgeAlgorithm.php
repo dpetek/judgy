@@ -118,7 +118,7 @@ class JudgeAlgorithm extends AbstractLeptirTask implements ServiceLocatorAwareIn
             $this->logInfo($stdout);
             // build failed
             $submission->setStatus($submission::STATUS_FAIL);
-            $submission->setProcessedMessage(
+            $submission->setMessage(
                 implode(
                     PHP_EOL,
                     array_slice($lines, 1)
@@ -127,7 +127,7 @@ class JudgeAlgorithm extends AbstractLeptirTask implements ServiceLocatorAwareIn
             $submission->setStatus($submission::STATUS_BUILD_FAIL);
         } else {
             $stdout = shell_exec($dockerCompareCommand);
-            $submission->setProcessedMessage($stdout);
+            $submission->setMessage($stdout);
             $lines = explode(PHP_EOL, $stdout);
 
             foreach ($lines as $line) {

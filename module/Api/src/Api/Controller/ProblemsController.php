@@ -6,6 +6,7 @@ use Judge\Document\ActiveProblem;
 use Judge\Document\BaseProblem;
 use Judge\Document\UserSubmission;
 use Judge\Document\AlgorithmUserSubmission;
+use Judge\Document\MiscUserSubmission;
 use Judge\Document\ReviewProblem;
 use Judge\Document\Tag;
 use Judge\Leptir\JudgeAlgorithm;
@@ -13,12 +14,17 @@ use Zend\View\Model\JsonModel;
 use Api\Exception\Core\NoPermissionException;
 use Api\Exception\Core\MissingResource;
 use Api\Exception\Core\CustomException;
+use Api\Exception\Core\CooldownException;
 
 class ProblemsController extends BaseApiController
 {
 
     public function postSubmitAction()
     {
+        if (!$this->getCurrentUser()) {
+            throw new NoPermissionException();
+        }
+
         $request = $this->getRequest();
         $routeMatch = $this->getEvent()->getRouteMatch();
 
@@ -45,13 +51,18 @@ class ProblemsController extends BaseApiController
         }
 
         $tagObjects = array();
+        $tagsList = array();
         foreach ($tags as $tag) {
             if (!isset($tag['text'])) {
                 continue;
             }
+            $nn = Tag::normalizeText($tag['text']);
+            if (!in_array($nn, $tagsList)) {
+                $tagsList[] = $nn;
+            }
             $existing = $tagRepo->findOneBy(
                 array(
-                    'text' => Tag::normalizeText($tag['text'])
+                    'text' => $nn
                 )
             );
             if ($existing) {
@@ -72,7 +83,7 @@ class ProblemsController extends BaseApiController
                         $answer,
                         $difficulty,
                         $this->getCurrentUser(),
-                        $tagObjects
+                        $tagsList
                     );
                 } else {
                     $problem = ReviewProblem::createMisc(
@@ -81,7 +92,7 @@ class ProblemsController extends BaseApiController
                         $answer,
                         $difficulty,
                         $this->getCurrentUser(),
-                        $tagObjects
+                        $tagsList
                     );
                 }
                 break;
@@ -92,7 +103,7 @@ class ProblemsController extends BaseApiController
                         $description,
                         $difficulty,
                         $this->getCurrentUser(),
-                        $tagObjects
+                        $tagsList
                     );
                 } else {
                     $problem = ReviewProblem::createAlgorithm(
@@ -100,7 +111,7 @@ class ProblemsController extends BaseApiController
                         $description,
                         $difficulty,
                         $this->getCurrentUser(),
-                        $tagObjects
+                        $tagsList
                     );
                 }
                 break;
@@ -120,7 +131,7 @@ class ProblemsController extends BaseApiController
         );
     }
 
-    protected function handleDataFile(ActiveProblem $problem)
+    protected function handleDataFile(BaseProblem $problem)
     {
         if ($problem->getType() != BaseProblem::TYPE_ALGORITHM) {
             return ;
@@ -186,14 +197,34 @@ class ProblemsController extends BaseApiController
             );
         }
         $currentUser = $this->getCurrentUser();
-        /** @var \Judge\Document\MiscUserSubmission $submission */
+        /** @var \Judge\Document\UserSubmission $submission */
         $submission = $problemSubmissionRepo->findForUserAndProblem($problem, $currentUser);
 
         if (!$submission) {
             $submission = UserSubmission::create($problem, $currentUser);
             $problem->setAttempts($problem->getAttempts() + 1);
+        } else {
+            $lastSubmissionDate = $submission->getDateLastSubmission();
+
+            if ($lastSubmissionDate instanceof \DateTime) {
+                $config = $this->getServiceLocator()->get('config');
+                if (isset($config['judgy']['misc']['cooldown_time'])) {
+                    $cooldown = intval($config['judgy']['misc']['cooldown_time']);
+                    $now = new \DateTime();
+                    if (!$this->getCurrentUser()->getIsAdmin() && $now->getTimestamp() - $lastSubmissionDate->getTimestamp() <= $cooldown * 60) {
+                        throw new CooldownException(
+                            $cooldown * 60 - ($now->getTimestamp() - $lastSubmissionDate->getTimestamp())
+                        );
+                    }
+                }
+            }
         }
+        $submission->setDateLastSubmission(new \DateTime());
+
         $correct = ($answer == $problem->getAnswer());
+
+        $miscSubmission = MiscUserSubmission::create($this->getCurrentUser(), $problem, $answer, $correct);
+        $this->getDocumentManager()->persist($miscSubmission);
 
         if ($correct && !$submission->getSolved()) {
             $problem->setSolved($problem->getSolved() + 1);
@@ -236,10 +267,12 @@ class ProblemsController extends BaseApiController
         if (!file_exists($userSubmissionDir)) {
             umask(0777);
             mkdir($userSubmissionDir, 0777, true);
+            chmod($userSubmissionDir, 0777);
         }
         if (!file_exists($userSubmissionProblemDir)) {
             umask(0777);
             mkdir($userSubmissionProblemDir, 0777, true);
+            chmod($userSubmissionProblemDir, 0777);
         }
         $problemId = $this->getEvent()->getRouteMatch()->getParam('id');
 
@@ -247,6 +280,7 @@ class ProblemsController extends BaseApiController
         if (!file_exists($directory)) {
             umask(0777);
             mkdir($directory, 0777, true);
+            chmod($directory, 0777);
         }
 
         $tempName = $directory . 'solution.' . $post['language'];
@@ -262,12 +296,23 @@ class ProblemsController extends BaseApiController
         }
 
         chmod($tempName, 0777);
-
+        
         /** @var \Judge\Repository\ActiveProblem $problemRepo */
         $problemRepo = $this->getDocumentManager()->getRepository(
             'Judge\Document\ActiveProblem'
         );
+        /** @var \Judge\Repository\UserSubmission $problemSubmissionRepo */
+        $problemSubmissionRepo = $this->getDocumentManager()->getRepository(
+            'Judge\Document\UserSubmission'
+        );
+
         $problem = $problemRepo->find(new \MongoId($problemId));
+
+        /** @var \Judge\Document\UserSubmission $userSubmission */
+        $userSubmission = $problemSubmissionRepo->findForUserAndProblem($problem, $this->getCurrentUser());
+        $userSubmission->setDateLastSubmission(new \DateTime());
+        $this->getDocumentManager()->persist($userSubmission);
+
         $submission = AlgorithmUserSubmission::create(
             $this->getCurrentUser(),
             $problem,

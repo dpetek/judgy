@@ -40,6 +40,30 @@ return array(
                     ),
                 ),
             ),
+            'profile' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/profile',
+                    'defaults' => array(
+                        'controller' => 'Judge\Controller\Profile',
+                    )
+                ),
+                'may_terminate' => false,
+                'child_routes' => array(
+                    'id' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/:id',
+                            'constraints' => array(
+                                'id' => '[a-zA-Z0-9]{24}',
+                            ),
+                            'defaults' => array(
+                                'action' => 'profile',
+                            )
+                        )
+                    )
+                )
+            ),
             'arena' => array(
                 'type' => 'Literal',
                 'options' => array(
@@ -107,6 +131,7 @@ return array(
         'invokables' => array(
             'Judge\Controller\Index' => 'Judge\Controller\IndexController',
             'Judge\Controller\Problems' => 'Judge\Controller\ProblemsController',
+            'Judge\Controller\Profile' => 'Judge\Controller\ProfileController',
 
         ),
     ),

@@ -2,9 +2,9 @@
     <div class="white-header">
         <h1><?php echo $problem->getTitle(); ?></h1>
         <?php foreach ($problem->getTags() as $tag): ?>
-            <a class="label label-warning" style="margin:4px;" href="<?php echo $this->url('problems-view/default', array('action' => 'problems', 'type' => 'misc'), array('query' => array('tag' => $tag->getText()))); ?>">
+            <a class="label label-warning" style="margin:4px;" href="<?php echo $this->url('problems-view/default', array('action' => 'problems', 'type' => 'misc'), array('query' => array('tag' => $tag))); ?>">
                             <span class="">
-                                <?php echo $tag->getRealText(); ?>
+                                <?php echo $tag; ?>
                             </span>
             </a>
         <?php endforeach ?>
@@ -23,48 +23,56 @@
 <?php else: ?>
 
     <div ng-controller="submitAlgorithmSolutionController">
-        <div class="panel panel-primary text-center no-border bg-color-green" ng-show="correctSolution === true">
+        <div class="panel panel-primary text-center no-border bg-color-red" ng-show="submitDone === true && submissionError === true">
             <div class="panel-body">
-                Congratulations! This is a correct solution.
+                Error occurred while sending your solution.
             </div>
         </div>
 
-        <div class="panel panel-primary text-center no-boder bg-color-red" ng-show="correctSolution === false">
+        <div class="panel panel-primary text-center no-border bg-color-green" ng-show="submitDone === true && submissionError !== true">
             <div class="panel-body">
-                Sorry, but this is not a correct solution.
+                Thank you. Your submission will be processed very soon.
             </div>
         </div>
 
-        <div class="row" ng-show="correctSolution !== true">
-            <div class="col-md-12">
-                <form role="form">
-                    <input ng-model="id" type="hidden" ng-init="id='<?php echo (string)$problem->getId(); ?>'">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Submission
-                            </div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="form-group col-md-3">
-                                        <select class="form-control" ng-model="solution.language"
-                                                ng-options="language.langId as language.langName for language in languages"
-                                                required>
-                                            <option value="">Select Language</option>
-                                        </select>
-                                        <span ng-show="myForm.service_id.$error.required">Select service</span>
-                                    </div>
-                                    <div class="form-group col-md-9" style="margin-top: 6px">
-                                        <input type="file" ng-file-select="onFileSelect($files)" ng-model="solution.file" required="">
+        <?php if ($cooldownLeft <= 0): ?>
+            <div class="row" ng-show="submitDone !== true">
+                <div class="col-md-12">
+                    <form role="form">
+                        <input ng-model="id" type="hidden" ng-init="id='<?php echo (string)$problem->getId(); ?>'">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Submission
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="form-group col-md-3">
+                                            <select class="form-control" ng-model="solution.language"
+                                                    ng-options="language.langId as language.langName for language in languages"
+                                                    required>
+                                                <option value="">Select Language</option>
+                                            </select>
+                                            <span ng-show="myForm.service_id.$error.required">Select language</span>
+                                        </div>
+                                        <div class="form-group col-md-9" style="margin-top: 6px">
+                                            <input type="file" ng-file-select="onFileSelect($files)" ng-model="solution.file" required="">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        <div class="form-group">
+                            <button class="btn btn-success square-btn-adjust" ng-click="submitSolution()">Submit</button>
                         </div>
-                    <div class="form-group">
-                        <button class="btn btn-success square-btn-adjust" ng-click="submitSolution()">Submit</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
+        <?php else: ?>
+            <div class="panel panel-primary text-center no-boder bg-color-red">
+                <div class="panel-body">
+                    You can't resubmit answer to this question for another <?php echo $cooldownLeft; ?> seconds.
+                </div>
+            </div>
+        <?php endif ?>
         <?php if ($submission && $submission->getSolved()): ?>
             <div class="panel panel-primary text-center no-boder bg-color-green">
                 <div class="panel-body">
@@ -154,7 +162,7 @@
                                     <h4 class="modal-title" id="myModalLabel">Resonse</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <?php echo $algorithmSubmission->getProcessedMessage(); ?>
+                                    <?php echo $algorithmSubmission->getMessage(); ?>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

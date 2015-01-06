@@ -17,18 +17,9 @@ class AlgorithmUserSubmission extends Base implements IResponse
     const STATUS_BUILD_FAIL = 'build_fail';
 
     /**
-     * @ODM\String(name="stderr")
-     */
-    protected $stdout;
-    /**
-     * @ODM\String(name="stderr")
-     */
-    protected $stderr;
-
-    /**
      * @ODM\String(name="processedMessage")
      */
-    protected $processedMessage;
+    protected $message;
 
     /**
      * @ODM\Float(name="score")
@@ -107,38 +98,6 @@ class AlgorithmUserSubmission extends Base implements IResponse
     public function getScore()
     {
         return $this->score;
-    }
-
-    /**
-     * @param mixed $stderr
-     */
-    public function setStderr($stderr)
-    {
-        $this->stderr = $stderr;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getStderr()
-    {
-        return $this->stderr;
-    }
-
-    /**
-     * @param mixed $stdout
-     */
-    public function setStdout($stdout)
-    {
-        $this->stdout = $stdout;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getStdout()
-    {
-        return $this->stdout;
     }
 
     /**
@@ -224,17 +183,17 @@ class AlgorithmUserSubmission extends Base implements IResponse
     /**
      * @param mixed $processedMessage
      */
-    public function setProcessedMessage($processedMessage)
+    public function setMessage($processedMessage)
     {
-        $this->processedMessage = $processedMessage;
+        $this->message = $processedMessage;
     }
 
     /**
      * @return mixed
      */
-    public function getProcessedMessage()
+    public function getMessage()
     {
-        return $this->processedMessage;
+        return $this->message;
     }
 
     /**

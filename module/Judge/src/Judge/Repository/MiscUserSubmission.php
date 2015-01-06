@@ -6,7 +6,7 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 use Judge\Document\ActiveProblem as ActiveProblemDocument;
 use Judge\Document\User as UserDocument;
 
-class AlgorithmUserSubmission extends DocumentRepository
+class MiscUserSubmission extends DocumentRepository
 {
     public function findForProblemAndUser(ActiveProblemDocument $problem, UserDocument $user, $offset = 0, $limit = 20)
     {

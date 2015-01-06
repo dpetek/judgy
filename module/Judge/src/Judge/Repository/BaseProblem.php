@@ -14,10 +14,13 @@ class BaseProblem extends DocumentRepository
         return array_values($qb->getQuery()->toArray());
     }
 
-    public function findNewByType($type, $offset = 0, $limit = 20)
+    public function findNewByType($type, $tag = null, $offset = 0, $limit = 20)
     {
         $qb = $this->createQueryBuilder();
         $qb->field('type')->equals($type);
+        if ($tag) {
+            $qb->field('t')->equals($tag);
+        }
         $qb->sort('ta', -1);
         $qb->limit($limit)->skip($offset);
         return array_values($qb->getQuery()->toArray());
