@@ -294,7 +294,15 @@ class ProblemsController extends BaseApiController
             chmod($directory, 0777);
         }
 
-        $tempName = $directory . 'solution.' . $post['language'];
+        $ext = $post['language'];
+
+        switch($post['language']) {
+            case 'py2':
+                $ext = 'py';
+                break;
+        }
+
+        $tempName = $directory . 'solution.' . $ext;
 
         if (!isset($_FILES['file'])) {
             throw new CustomException(

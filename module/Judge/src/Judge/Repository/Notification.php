@@ -7,7 +7,7 @@ use Judge\Document\User as UserDocument;
 
 class Notification extends DocumentRepository
 {
-    public function findNewForUser(UserDocument $user, $offset = 0, $limit = 20)
+    public function findNewForUser(UserDocument $user, $offset = 0, $limit = 5)
     {
         $qb = $this->createQueryBuilder();
         $qb->field('uid')->equals(new \MongoId($user->getId()));

@@ -175,7 +175,6 @@ angular.module(
                 {langId: 'c', langName: 'C'},
                 {langId: 'cpp', langName: 'C++'},
                 {langId: 'py2', langName: 'Python2.7'},
-                {langId: 'py3', langName: 'Python3'},
                 {langId: 'go', langName: 'Go'},
                 {langId: 'java', langName: 'Java'}
             ];
