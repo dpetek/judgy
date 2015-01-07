@@ -204,4 +204,19 @@ angular.module(
             };
         }
     ])
+    .controller('alertsController', function($scope, $http) {
+        $scope.alertsCount = 3;
+        $scope.alertsView = false;
+
+        $scope.markViewed = function() {
+            $http.post(
+                '/api/notifications/markViewed.json',
+                {}
+            ).success(function(data){
+                    $scope.alertsView = true;
+                    $scope.alertsCount = 0;
+                });
+            $scope.alertsView = true;
+        };
+    })
 ;

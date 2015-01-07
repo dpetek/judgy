@@ -16,7 +16,7 @@ body {
     font-family: "Courier New", Courier, monospace;
     padding: 0px !important;
     margin: 0px !important;
-    font-size:13px;
+    font-size:14px;
 }
 
 ul li {
@@ -596,6 +596,15 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 .dropdown-menu.inbox li a .message {
     display: block !important;
     font-size: 11px;
+    white-space: normal !important;
+}
+
+.notification-success{
+    background-color: #becec2;
+}
+
+.notification-wrong{
+    background-color: #ffccbe;
 }
 
 .top-nav  {
@@ -862,7 +871,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 }
 
 .box0:hover p {
-	color: #ff865c;
+	color: #000000;
 }
 
 .box0:hover {

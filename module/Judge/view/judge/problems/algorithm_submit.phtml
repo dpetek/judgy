@@ -1,7 +1,7 @@
-<div class="panel back-dash">
-    <p class="text-muted">
+<div class="panel panel-primary bg-color-blue">
+    <div class="panel-body">
         Everybody can submit a question for Judgy. Each question will be reviewed by administrators and posted onto the site.
-    </p>
+    </div>
 </div>
 
 <div ng-controller="submitAlgorithmProblemController">
@@ -34,7 +34,7 @@
                         Problem files <a href="#">(.zip archive)</a>
                     </div>
                     <div class="panel-body">
-                        <input type="file" ng-file-select="onFileSelect($files)" ng-model="problem.file">
+                        <input type="file" class="file-input" ng-file-select="onFileSelect($files)" ng-model="problem.file">
                     </div>
                 </div>
             </div>

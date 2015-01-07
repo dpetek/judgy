@@ -18,9 +18,25 @@ class BaseJudgeController extends AbstractActionController
         $userId = $auth->getIdentity();
         $topNav = new ViewModel();
         $topNav->setTemplate('layout/topNav');
+
+        $notificationsCount = 0;
+        $notifications = array();
+        if ($this->getCurrentUser()) {
+            /** @var \Judge\Repository\Notifications $notificationsRepo */
+            $notificationsRepo = $this->getDocumentManager()->getRepository(
+                'Judge\Document\Notification'
+            );
+            $notificationsCount = $notificationsRepo->countUnreadForUser(
+                $this->getCurrentUser()
+            );
+            $notifications = $notificationsRepo->findNewForUser($this->getCurrentUser());
+        }
+
         $topNav->setVariables(
             array(
-                'user' => $this->getCurrentUser()
+                'user' => $this->getCurrentUser(),
+                'notificationsCount' => $notificationsCount,
+                'notifications' => $notifications
             )
         );
 

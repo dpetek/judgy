@@ -1,19 +1,14 @@
-<div class="white-panel pn">
-    <div class="white-header">
-        <h1><?php echo $problem->getTitle(); ?></h1>
-        <?php foreach ($problem->getTags() as $tag): ?>
-            <a class="label label-warning" style="margin:4px;" href="<?php echo $this->url('problems-view/default', array('action' => 'problems', 'type' => 'misc'), array('query' => array('tag' => $tag))); ?>">
-                            <span class="">
-                                <?php echo $tag; ?>
-                            </span>
-            </a>
-        <?php endforeach ?>
-    </div>
-    <div class="row">
+<h2 style="margin-bottom: 0px !important"><?php echo $problem->getTitle(); ?></h2>
+<?php if ($problem->getTags()): ?>
+    <?php foreach ($problem->getTags() as $tag): ?>
+        <span><?php echo $tag; ?></span>
+    <?php endforeach ?>
+<?php endif ?>
+<div class="panel panel-primary bg-color-gray noborder" style="margin-top: 20px">
+    <div class="panel-body">
         <?php echo $problem->getDescription(); ?>
     </div>
 </div>
-<br />
 <?php if (!$loggedIn): ?>
     <div class="panel panel-primary text-center no-boder bg-color-orange">
         <div class="panel-body">
@@ -41,9 +36,6 @@
                     <form role="form">
                         <input ng-model="id" type="hidden" ng-init="id='<?php echo (string)$problem->getId(); ?>'">
                             <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    Submission
-                                </div>
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="form-group col-md-3">
@@ -57,12 +49,14 @@
                                         <div class="form-group col-md-9" style="margin-top: 6px">
                                             <input type="file" ng-file-select="onFileSelect($files)" ng-model="solution.file" required="">
                                         </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-success square-btn-adjust" ng-click="submitSolution()">Submit</button>
                                     </div>
                                 </div>
                             </div>
-                        <div class="form-group">
-                            <button class="btn btn-success square-btn-adjust" ng-click="submitSolution()">Submit</button>
-                        </div>
+
                     </form>
                 </div>
             </div>

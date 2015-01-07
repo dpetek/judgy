@@ -105,6 +105,16 @@ return array(
                         )
                     ),
                 )
+            ),
+            'notifications-view' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/notifications',
+                    'defaults' => array(
+                        'controller' => 'Judge\Controller\Notifications',
+                        'action' => 'index'
+                    )
+                )
             )
         ),
     ),
@@ -132,6 +142,7 @@ return array(
             'Judge\Controller\Index' => 'Judge\Controller\IndexController',
             'Judge\Controller\Problems' => 'Judge\Controller\ProblemsController',
             'Judge\Controller\Profile' => 'Judge\Controller\ProfileController',
+            'Judge\Controller\Notifications' => 'Judge\Controller\NotificationsController',
 
         ),
     ),

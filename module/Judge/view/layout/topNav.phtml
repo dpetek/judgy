@@ -6,70 +6,40 @@
     <div class="nav notify-row pull-right" style="margin-right: 100px"id="top_menu">
         <?php if ($user): ?>
         <!--  notification start -->
-        <ul class="nav top-menu">
+        <ul class="nav top-menu" ng-init="alertsCount=<?php echo $notificationsCount; ?>" ng-controller="alertsController">
 
             <!-- inbox dropdown start-->
             <li id="header_inbox_bar" class="dropdown">
-                <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
-                    <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-theme">5</span>
+                <a data-toggle="dropdown" class="dropdown-toggle" href="javascript: ;" ng-click="markViewed()">
+                    <i class="fa fa-bell-o"></i>
+                    <span class="badge bg-theme" ng-show="alertsCount>0 && alertsView==false">{{alertsCount}}</span>
                 </a>
                 <ul class="dropdown-menu extended inbox dropdown-menu-right">
                     <div class="notify-arrow notify-arrow-green"></div>
-                    <li>
-                        <p class="green">You have 5 new messages</p>
+                    <li style="font-weight: bold">
+                        <p class="green" ng-show="alertsCount>0">You have {{alertsCount}} new messages</p>
+                        <p class="green" ng-show="alertsCount==0">&nbsp;</p>
                     </li>
-                    <li>
-                        <a href="index.html#">
-                            <span class="photo"><img alt="avatar" src="assets/img/ui-zac.jpg"></span>
-                                    <span class="subject">
-                                    <span class="from">Zac Snider</span>
-                                    <span class="time">Just now</span>
-                                    </span>
+
+                    <?php if ($notifications): ?>
+                        <?php foreach ($notifications as $notification): ?>
+                            <li class="<?php echo $notification->getCssClass(); ?>">
+                                <a href="<?php echo $notification->getLink(); ?>">
                                     <span class="message">
-                                        Hi mate, how is everything?
+                                        <?php echo $notification->getMessage(); ?>
                                     </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="index.html#">
-                            <span class="photo"><img alt="avatar" src="assets/img/ui-divya.jpg"></span>
-                                    <span class="subject">
-                                    <span class="from">Divya Manian</span>
-                                    <span class="time">40 mins.</span>
-                                    </span>
-                                    <span class="message">
-                                     Hi, I need your help with this.
-                                    </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="index.html#">
-                            <span class="photo"><img alt="avatar" src="assets/img/ui-danro.jpg"></span>
-                                    <span class="subject">
-                                    <span class="from">Dan Rogers</span>
-                                    <span class="time">2 hrs.</span>
-                                    </span>
-                                    <span class="message">
-                                        Love your new Dashboard.
-                                    </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="index.html#">
-                            <span class="photo"><img alt="avatar" src="assets/img/ui-sherman.jpg"></span>
-                                    <span class="subject">
-                                    <span class="from">Dj Sherman</span>
-                                    <span class="time">4 hrs.</span>
-                                    </span>
-                                    <span class="message">
-                                        Please, answer asap.
-                                    </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="index.html#">See all messages</a>
-                    </li>
+                                </a>
+                            </li>
+                        <?php endforeach ?>
+                        <li>
+                            <a href="<?php echo $this->url('notifications-view'); ?>">See all notifications</a>
+                        </li>
+                    <?php else: ?>
+                        <li>
+                            <p style="min-height: 70px;">No notifications</p>
+                        </li>
+                    <?php endif ?>
+
                 </ul>
             </li>
             <!-- inbox dropdown end -->

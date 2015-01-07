@@ -132,6 +132,37 @@ return array(
                     )
                 )
             ),
+            'api-notifications' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/api/notifications',
+                    'defaults' => array(
+                        'controller' => 'Api\Controller\Notifications',
+                    )
+                ),
+                'may_terminate' => false,
+                'child_routes' => array(
+                    'post' => array(
+                        'type' => 'Method',
+                        'options' => array(
+                            'verb' => 'post'
+                        ),
+                        'may_terminate' => false,
+                        'child_routes' => array(
+                            'action' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/:action:.:format',
+                                    'constraints' => array(
+                                        'action' => '[a-zA-Z][a-zA-Z0-9]*',
+                                        'format' => 'json'
+                                    )
+                                )
+                            ),
+                        )
+                    )
+                )
+            ),
             'problems-api' => array(
                 'type' => 'Segment',
                 'options' => array(
@@ -210,6 +241,7 @@ return array(
             'Api\Controller\Problems' => 'Api\Controller\ProblemsController',
             'Api\Controller\Tag' => 'Api\Controller\TagController',
             'Api\Controller\Rating' => 'Api\Controller\RatingController',
+            'Api\Controller\Notifications' => 'Api\Controller\NotificationsController',
         ),
     ),
     'view_manager' => array(

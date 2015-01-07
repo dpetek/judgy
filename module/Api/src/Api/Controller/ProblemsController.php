@@ -10,6 +10,7 @@ use Judge\Document\MiscUserSubmission;
 use Judge\Document\ReviewProblem;
 use Judge\Document\Tag;
 use Judge\Leptir\JudgeAlgorithm;
+use Judge\Document\Notification;
 use Zend\View\Model\JsonModel;
 use Api\Exception\Core\NoPermissionException;
 use Api\Exception\Core\MissingResource;
@@ -242,6 +243,16 @@ class ProblemsController extends BaseApiController
             }
         }
 
+        $notification = Notification::create(
+            $this->getCurrentUser(),
+            $correct ? "Correct answer for question '" . $problem->getTitle() . "'" :
+                "Wrong answer for question '" . $problem->getTitle() . "'",
+            $correct ? "notification-success" : "notification-wrong",
+            $this->url()->fromRoute('problems-view/default', array('action' => 'problem', 'type' => 'misc', 'id' => (string)$problem->getId())),
+            ''
+        );
+
+        $this->getDocumentManager()->persist($notification);
         $this->getDocumentManager()->persist($currentUser);
         $this->getDocumentManager()->persist($submission);
         $this->getDocumentManager()->persist($problem);

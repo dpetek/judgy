@@ -8,6 +8,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Judge\Document\UserSubmission;
 use Judge\Document\AlgorithmUserSubmission;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Judge\Document\Notification;
 
 class JudgeAlgorithm extends AbstractLeptirTask implements ServiceLocatorAwareInterface
 {
@@ -196,6 +197,35 @@ class JudgeAlgorithm extends AbstractLeptirTask implements ServiceLocatorAwareIn
             }
         }
         $this->logInfo('Saving data to database.');
+
+        $notificationMessage = '';
+        $correct = false;
+        switch($submission->getStatus())
+        {
+            case $submission::STATUS_SUCCESS:
+                $notificationMessage = "Correct solution for problem '" . $problem->getTitle() . "'";
+                $correct = true;
+                break;
+            case $submission::STATUS_BUILD_FAIL:
+                $notificationMessage = "Build failed for problem '" . $problem->getTitle() . "'";
+                $correct = false;
+                break;
+            case $submission::STATUS_FAIL:
+                $notificationMessage = "Wrong solution for problem '" . $problem->getTitle() . "'";
+                $correct = false;
+                break;
+        }
+
+        $notification = Notification::create(
+            $user,
+            $notificationMessage,
+            $correct ? "notification-success" : "notification-wrong",
+            '/problems/misc/problem/' . (string)$problem->getId(),
+            ''
+        );
+
+        $documentManager->persist($notification);
+
         $documentManager->persist($submission);
         $documentManager->persist($problem);
         $documentManager->persist($user);

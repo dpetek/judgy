@@ -91,28 +91,28 @@ font-size: 40px;
 border-radius: 50px;
 
 }
-    .bg-color-green {
-background-color: #00CE6F;
-color: #fff;
+.bg-color-green {
+        border-color: #00CE6F;
 }
  .bg-color-blue {
-background-color: #428bca;
-color: #fff;
+border-color: #08beca;
 }
   .bg-color-red {
-background-color: #DB0630;
-color: #fff;
+border-color: #DB0630;
 }
   .bg-color-brown {
-background-color: #B94A00;
-color: #fff;
+border-color: #B94A00;
 }
 .bg-color-orange {
-    background-color: #f0ad4e;
-    color: #fff;
+    border-color: #f0ad4e;
 }
 
-
+.bg-color-gray{
+    border-color: #9a9a9a;
+}
+.noborder{
+    border: 0;
+}
  .icon-box-right {
 display: block;
 float: right;
@@ -414,4 +414,9 @@ table thead{
 
 .line-unknown{
     color: #FF0000;
+}
+
+.table{
+    font-weight: bold;
+    color: #696969;
 }
