@@ -23,13 +23,13 @@
 <?php else: ?>
 
     <div ng-controller="submitAlgorithmSolutionController">
-        <div class="panel panel-primary text-center no-border bg-color-red" ng-show="submitDone === true && submissionError === true">
+        <div class="panel panel-primary text-center no-border" ng-show="submitDone === true && submissionError === true">
             <div class="panel-body">
                 Error occurred while sending your solution.
             </div>
         </div>
 
-        <div class="panel panel-primary text-center no-border bg-color-green" ng-show="submitDone === true && submissionError !== true">
+        <div class="panel panel-primary text-center no-border" ng-show="submitDone === true && submissionError !== true">
             <div class="panel-body">
                 Thank you. Your submission will be processed very soon.
             </div>
@@ -67,20 +67,20 @@
                 </div>
             </div>
         <?php else: ?>
-            <div class="panel panel-primary text-center no-boder bg-color-red">
+            <div class="panel panel-primary text-center no-boder">
                 <div class="panel-body">
                     You can't resubmit answer to this question for another <?php echo $cooldownLeft; ?> seconds.
                 </div>
             </div>
         <?php endif ?>
         <?php if ($submission && $submission->getSolved()): ?>
-            <div class="panel panel-primary text-center no-boder bg-color-green">
+            <div class="panel panel-primary text-center no-boder">
                 <div class="panel-body">
                     You already solved this problem on <strong>{{<?php echo $submission->getDateSolved()->getTimestamp() * 1000; ?> | date:'medium'}}</strong> using <strong><?php echo $submission->getAttempts(); ?> attempt<?php echo $submission->getAttempts() === 1 ? "" : "s"; ?></strong>.
                 </div>
             </div>
         <?php elseif ($submission): ?>
-            <div class="panel panel-primary text-center no-boder bg-color-orange">
+            <div class="panel panel-primary text-center no-boder">
                 <div class="panel-body">
                     You already tried  to solve this problem <?php echo (string)$submission->getAttempts() . ' ' . (($submission->getAttempts() > 1) ? 'times' : 'time'); ?>.
                 </div>
@@ -93,10 +93,18 @@
 <?php if ($loggedIn): ?>
     <div class="row">
         <div class="col-md-3 col-sm-6 col-xs-6">
-            <span>Rate problem:</span>
-    <span ng-controller="miscProblemRatingController">
-        <rating ng-model="rate" max="max" state-on="'fa fa-star fa-2x'" state-off="'fa fa-star-o fa-2x'" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
-    </span>
+            <?php if ($rating): ?>
+                <h4 class="" style="display: inline-block">Your rating:</h4>
+                <span ng-controller="problemRatingController" style="color: darkgreen">
+                    <rating ng-init="rate=<?php echo $rating->getValue(); ?>;targetType='<?php echo addslashes(get_class($problem)); ?>';targetId='<?php echo (string)$problem->getId(); ?>';" ng-model="rate" max="max" state-on="'fa fa-star fa-2x'" state-off="'fa fa-star-o fa-2x'" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                </span>
+            <?php else: ?>
+                <h4 class="" style="display: inline-block">Rate problem:</h4>
+                <span ng-controller="problemRatingController" style="color: darkorange">
+                    <rating ng-init="targetType='<?php echo addslashes(get_class($problem)); ?>';targetId='<?php echo (string)$problem->getId(); ?>';" ng-model="rate" max="max" state-on="'fa fa-star fa-2x'" state-off="'fa fa-star-o fa-2x'" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                </span>
+            <?php endif ?>
+
         </div>
     </div>
 <?php endif ?>

@@ -4,16 +4,31 @@ angular.module(
 )
 
 // MISC PROBLEM RATING CONTROLLER
-.controller('miscProblemRatingController', function ($scope, $http) {
+.controller('problemRatingController', function ($scope, $http) {
     $scope.rate = 5;
     $scope.max = 5;
+    $scope.didHover = false;
 
     $scope.$watch('rate', function(value) {
-        // todo api request to save rating
+        if ($scope.didHover) {
+            $http({
+                'url': '/api/rating.json',
+                'method': "POST",
+                'headers': {'Content-Type': 'application/x-www-form-urlencoded'},
+                'data': $.param({
+                    'target': $scope.targetId,
+                    'targetType': $scope.targetType,
+                    'value': value
+                })
+            }).success(function(data){
+
+            });
+        }
+
     });
 
     $scope.hoveringOver = function(value) {
-
+        $scope.didHover = true;
     };
 })
 

@@ -4,13 +4,13 @@ namespace Judge\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Api\ApiInterface\IResponse;
-use Core\Document\Base;
+use Core\Document\BaseRatable;
 use Judge\Document\User;
 
 /**
  * @ODM\MappedSuperclass
  */
-class BaseProblem extends Base implements IResponse
+class BaseProblem extends BaseRatable implements IResponse
 {
     const TYPE_MISC = 'misc';
     const TYPE_ALGORITHM = 'algorithm';
@@ -49,11 +49,6 @@ class BaseProblem extends Base implements IResponse
      * @ODM\Increment(name="attempts")
      */
     protected $attempts;
-
-    /**
-     * @ODM\Float(name="rating")
-     */
-    protected $rating;
 
     /**
      * @ODM\Int(name="difficulty")
@@ -230,22 +225,6 @@ class BaseProblem extends Base implements IResponse
     public function getSolved()
     {
         return $this->solved;
-    }
-
-    /**
-     * @param mixed $rating
-     */
-    public function setRating($rating)
-    {
-        $this->rating = $rating;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRating()
-    {
-        return $this->rating;
     }
 
     /**

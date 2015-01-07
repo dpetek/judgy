@@ -102,6 +102,36 @@ return array(
                     )
                 )
             ),
+            'api-rating' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/api/rating',
+                    'defaults' => array(
+                        'controller' => 'Api\Controller\Rating',
+                    )
+                ),
+                'may_terminate' => false,
+                'child_routes' => array(
+                    'post' => array(
+                        'type' => 'Method',
+                        'options' => array(
+                            'verb' => 'post'
+                        ),
+                        'may_terminate' => false,
+                        'child_routes' => array(
+                            'create' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '.:format',
+                                    'constraints' => array(
+                                        'format' => 'json'
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            ),
             'problems-api' => array(
                 'type' => 'Segment',
                 'options' => array(
@@ -178,7 +208,8 @@ return array(
         'invokables' => array(
             'Api\Controller\User' => 'Api\Controller\UserController',
             'Api\Controller\Problems' => 'Api\Controller\ProblemsController',
-            'Api\Controller\Tag' => 'Api\Controller\TagController'
+            'Api\Controller\Tag' => 'Api\Controller\TagController',
+            'Api\Controller\Rating' => 'Api\Controller\RatingController',
         ),
     ),
     'view_manager' => array(

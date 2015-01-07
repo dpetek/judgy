@@ -55,6 +55,10 @@ class ProblemsController extends BaseJudgeController
         $repo = $this->getDocumentManager()->getRepository(
             'Judge\Document\ActiveProblem'
         );
+        /** @var \Judge\Repository\Rating $ratingRepo */
+        $ratingRepo = $this->getDocumentManager()->getRepository(
+            'Judge\Document\Rating'
+        );
 
         $problem = $repo->find(new \MongoId($id));
 
@@ -69,12 +73,15 @@ class ProblemsController extends BaseJudgeController
         }
         /** @var \Judge\Document\UserSubmission $submission */
         $submission = null;
+        /** @var \Judge\Document\Rating $rating */
+        $rating = null;
         if ($this->getCurrentUser()) {
             /** @var \Judge\Repository\UserSubmission $submissionRepo */
             $submissionRepo = $this->getDocumentManager()->getRepository(
                 'Judge\Document\UserSubmission'
             );
             $submission = $submissionRepo->findForUserAndProblem($problem, $this->getCurrentUser());
+            $rating = $ratingRepo->findForUserAndTarget($this->getCurrentUser(), $problem);
         }
         $type = strtolower($this->getEvent()->getRouteMatch()->getParam('type'));
         $view->setTemplate('judge/problems/' . $type . '_problem');
@@ -83,7 +90,8 @@ class ProblemsController extends BaseJudgeController
             'problem' => $problem,
             'submission' => $submission,
             'loggedIn' => ($this->getCurrentUser() != null),
-            'type' => $type
+            'type' => $type,
+            'rating' => $rating
         );
 
         $judgyConfig = $this->getServiceLocator()->get('config')['judgy'];
