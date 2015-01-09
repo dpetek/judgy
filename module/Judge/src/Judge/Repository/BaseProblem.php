@@ -25,4 +25,15 @@ class BaseProblem extends DocumentRepository
         $qb->limit($limit)->skip($offset);
         return array_values($qb->getQuery()->toArray());
     }
+
+    public function countByType($type, $tag = null)
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->field('type')->equals($type);
+        if ($tag) {
+            $qb->field('t')->equals($tag);
+        }
+
+        return $qb->count()->getQuery()->execute();
+    }
 }

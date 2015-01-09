@@ -82,18 +82,24 @@
 <?php if ($loggedIn): ?>
     <div class="row">
         <div class="col-md-3 col-sm-6 col-xs-6">
-            <?php if ($rating): ?>
-                <h4 class="" style="display: inline-block">Your rating:</h4>
-                <span ng-controller="problemRatingController" style="color: darkgreen">
-                    <rating ng-init="rate=<?php echo $rating->getValue(); ?>;targetType='<?php echo addslashes(get_class($problem)); ?>';targetId='<?php echo (string)$problem->getId(); ?>';" ng-model="rate" max="max" state-on="'fa fa-star fa-2x'" state-off="'fa fa-star-o fa-2x'" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
-                </span>
-            <?php else: ?>
-                <h4 class="" style="display: inline-block">Rate problem:</h4>
-                <span ng-controller="problemRatingController" style="color: darkorange">
-                    <rating ng-init="targetType='<?php echo addslashes(get_class($problem)); ?>';targetId='<?php echo (string)$problem->getId(); ?>';" ng-model="rate" max="max" state-on="'fa fa-star fa-2x'" state-off="'fa fa-star-o fa-2x'" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
-                </span>
-            <?php endif ?>
+            <span ng-controller="problemRatingController" ng-init="<?php echo $rating ? 'rate=' . $rating->getValue() : ''; ?>;
+                                 targetType='<?php echo addslashes(get_class($problem)); ?>';
+                                 targetId='<?php echo (string)$problem->getId(); ?>';
+                                 rateMessage='<?php echo $rating ? 'Your rating: ' : 'Rate problem: '; ?>';
+                                 starsColor='<?php echo $rating ? 'darkgreen' : 'darkorange' ?>';"
 
+                  style="color: {{ starsColor }}">
+                <h4 style="display: inline-block">{{ rateMessage }}</h4>
+                <rating
+                    ng-model="rate"
+                    max="max"
+                    state-on="'fa fa-star fa-2x'"
+                    state-off="'fa fa-star-o fa-2x'"
+                    readonly="isReadonly"
+                    on-hover="hoveringOver(value)"
+                    on-leave="overStar = null">
+                </rating>
+            </span>
         </div>
     </div>
 <?php endif ?>

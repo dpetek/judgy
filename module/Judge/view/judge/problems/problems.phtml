@@ -37,4 +37,25 @@
             </tr>
         <?php endforeach ?>
     </table>
+    <?php if ($numPages > 1): ?>
+        <nav>
+            <ul class="pagination">
+                <li class="<?php echo $currentPage <= 1 ? 'disabled' : ''; ?>">
+                    <a href="<?php echo $this->url('problems-view/default', array('type' => $type, 'action' => 'problems'), array('query' => array('page' => $currentPage - 1))); ?>" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <?php for($i=1; $i<=$numPages; $i++): ?>
+                    <li class="<?php echo ($i==$currentPage) ? 'active' : ''; ?>">
+                        <a href="<?php echo $this->url("problems-view/default", array('type' => $type, 'action' => 'problems'), array('query' => array('page' => $i))); ?>"><?php echo $i; ?></a>
+                    </li>
+                <?php endfor ?>
+                <li class="<?php echo $currentPage >= $numPages ? 'disabled' : ''; ?>">
+                    <a href="<?php echo $this->url('problems-view/default', array('type' => $type, 'action' => 'problems'), array('query' => array('page' => $currentPage + 1))); ?>" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    <?php endif ?>
 </div>

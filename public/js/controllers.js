@@ -21,7 +21,8 @@ angular.module(
                     'value': value
                 })
             }).success(function(data){
-
+                $scope.rateMessage = "Your rating: ";
+                $scope.starsColor = 'green';
             });
         }
 

@@ -329,6 +329,9 @@ class ProblemsController extends BaseApiController
 
         /** @var \Judge\Document\UserSubmission $userSubmission */
         $userSubmission = $problemSubmissionRepo->findForUserAndProblem($problem, $this->getCurrentUser());
+        if (!$userSubmission) {
+            $userSubmission = UserSubmission::create($problem, $this->getCurrentUser());
+        }
         $userSubmission->setDateLastSubmission(new \DateTime());
         $this->getDocumentManager()->persist($userSubmission);
 

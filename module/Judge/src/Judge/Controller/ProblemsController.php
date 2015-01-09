@@ -7,6 +7,8 @@ use Zend\View\Model\ViewModel;
 
 class ProblemsController extends BaseJudgeController
 {
+    const PAGE_SIZE = 5;
+
     public function problemsAction()
     {
         $request = $this->getRequest();
@@ -18,7 +20,14 @@ class ProblemsController extends BaseJudgeController
         );
 
         $type = $this->getEvent()->getRouteMatch()->getParam('type');
-        $problems = $repo->findNewByType($type, isset($query['tag']) ? $query['tag'] : null);
+
+        $limit = self::PAGE_SIZE;
+        $offset = 0;
+
+        if (isset($query['page']) && intval($query['page'] > 0)) {
+            $offset = (intval($query['page']) - 1) * self::PAGE_SIZE;
+        }
+        $problems = $repo->findNewByType($type, isset($query['tag']) ? $query['tag'] : null, $offset, $limit);
 
         if ($this->getCurrentUser()) {
             /** @var \Judge\Repository\UserSubmission $submissionRepo */
@@ -35,12 +44,22 @@ class ProblemsController extends BaseJudgeController
 
         $title = 'Active ' . ucfirst($type) . ' Problems';
 
+        $problemsCount = $repo->countByType($type, isset($query['tag']) ? $query['tag'] : null);
+
+        if ($problemsCount % self::PAGE_SIZE == 0) {
+            $numPages = (int)($problemsCount / self::PAGE_SIZE + 0.005);
+        } else {
+            $numPages = ceil($problemsCount / self::PAGE_SIZE);
+        }
+
         $view->setVariables(
             array(
                 'problems' => $problems,
                 'title' => $title . (isset($query['tag']) ? ' (tag: ' . $query['tag'] . ')' : ''),
                 'type' => $type,
-                'tag' => isset($query['tag']) ? $query['tag'] : null
+                'tag' => isset($query['tag']) ? $query['tag'] : null,
+                'numPages' => $numPages,
+                'currentPage' => (isset($query['page']) && intval($query['page']) > 0) ? intval($query['page']) : 1,
             )
         );
         return $view;
