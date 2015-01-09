@@ -7,7 +7,7 @@ use Zend\View\Model\ViewModel;
 
 class ProblemsController extends BaseJudgeController
 {
-    const PAGE_SIZE = 5;
+    const PAGE_SIZE = 30;
 
     public function problemsAction()
     {

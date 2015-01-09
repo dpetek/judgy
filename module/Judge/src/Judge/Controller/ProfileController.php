@@ -23,10 +23,25 @@ class ProfileController extends BaseJudgeController
             'Judge\Document\MiscUserSubmission'
         );
 
+        /** @var \Judge\Repository\BaseProblem $problemsRepo */
+        $problemsRepo = $this->getDocumentManager()->getRepository(
+            'Judge\Document\ActiveProblem'
+        );
+
         $user = $userRepo->find($id);
 
         $algorithmSubmissions = $algorithmSubmissionRepo->findForUser($user);
         $miscSubmissions = $miscSubmissionRepo->findForUser($user);
+
+        $pIds = array();
+        foreach ($algorithmSubmissions as $algSubmission) {
+            $pIds[] = $algSubmission->getProblemId();
+        }
+        foreach ($miscSubmissions as $miscSubmission) {
+            $pIds[] = $miscSubmission->getProblemId();
+        }
+
+        $problems = $problemsRepo->findInIdsAssoc($pIds);
 
         $view = new ViewModel();
 
@@ -34,7 +49,8 @@ class ProfileController extends BaseJudgeController
             array(
                 'user' => $user,
                 'algorithmSubmissions' => $algorithmSubmissions,
-                'miscSubmissions' => $miscSubmissions
+                'miscSubmissions' => $miscSubmissions,
+                'problemsLookup' => $problems
             )
         );
 

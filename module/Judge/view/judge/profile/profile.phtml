@@ -53,7 +53,7 @@
             <?php foreach ($algorithmSubmissions as $submission): ?>
                 <tr class="<?php echo $submission->getClassFromStatus(); ?>">
                     <td>{{<?php echo $submission->getTimeCreated()->format('U') * 1000; ?> | date: 'medium'}}</td>
-                    <td><?php echo $submission->getProblemId(); ?></td>
+                    <td><a href="<?php echo $this->url('problems-view/default', array('action' => 'problem', 'type' => 'algorithm', 'id' => $submission->getProblemId())); ?>"><?php echo $problemsLookup[$submission->getProblemId()]->getTitle(); ?></a></td>
                     <td><?php echo $submission->getLanguage(); ?></td>
                     <td><?php echo $submission->getStringFromStatus(); ?></td>
                 </tr>
@@ -74,7 +74,7 @@
             <?php foreach ($miscSubmissions as $submission): ?>
                 <tr class="<?php echo $submission->getSolved() ? 'success' : 'danger'; ?>">
                     <td>{{ <?php echo $submission->getTimeCreated()->format('U') * 1000; ?> | date : 'medium'}}</td>
-                    <td><?php echo $submission->getProblemId(); ?></td>
+                    <td><a href="<?php echo $this->url('problems-view/default', array('action' => 'problem', 'type' => 'misc', 'id' => $submission->getProblemId())); ?>"><?php echo $problemsLookup[$submission->getProblemId()]->getTitle(); ?></a></td>
                     <td><?php echo $submission->getSolved() ? 'Yes' : 'No'; ?></td>
                 </tr>
             <?php endforeach ?>
