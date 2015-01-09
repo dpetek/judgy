@@ -1,6 +1,41 @@
 <div class="row">
-    <div class="col-md-12">
-        <h2>Judgy</h2>
-        <h5>Welcome Jhon Deo , Love to see you back. </h5>
+    <div class="col-lg-9">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Judgy</h2>
+                <h5>Welcome Jhon Deo , Love to see you back. </h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 ds">
+        <!--COMPLETED ACTIONS DONUTS CHART-->
+        <h3>Algorithms</h3>
+
+        <?php foreach ($algorithmSubmissions as $submission): ?>
+            <div class="desc">
+                <div class="thumb">
+                    <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
+                </div>
+                <div class="details">
+                    <p><muted>{{<?php echo $submission->getTimeCreated()->getTimestamp(); ?> | date:'short'}}</muted><br>
+                        <a href="#"><?php echo $usersLookup[$submission->getUserId()]->getUsername();?></a> submitted a solution for <a href="#"><?php echo $problemsLookup[$submission->getProblemId()]->getTitle();?></a>.<br>
+                    </p>
+                </div>
+            </div>
+        <?php endforeach ?>
+
+        <h3>Other problems</h3>
+        <?php foreach ($miscSubmissions as $submission): ?>
+            <div class="desc">
+                <div class="thumb">
+                    <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
+                </div>
+                <div class="details">
+                    <p><muted>{{<?php echo $submission->getTimeCreated()->getTimestamp(); ?> | date:'short'}}</muted><br>
+                        <a href="#"><?php echo $usersLookup[$submission->getUserId()]->getUsername();?></a> submitted a solution for <a href="#"><?php echo $problemsLookup[$submission->getProblemId()]->getTitle();?></a>.<br>
+                    </p>
+                </div>
+            </div>
+        <?php endforeach ?>
     </div>
 </div>

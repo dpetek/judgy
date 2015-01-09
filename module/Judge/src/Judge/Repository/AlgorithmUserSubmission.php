@@ -25,4 +25,12 @@ class AlgorithmUserSubmission extends DocumentRepository
 
         return array_values($qb->getQuery()->toArray());
     }
+
+    public function findNew($offset = 0, $limit = 20)
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->sort('_id', -1);
+        $qb->skip($offset)->limit($limit);
+        return array_values($qb->getQuery()->toArray());
+    }
 }

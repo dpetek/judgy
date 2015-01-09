@@ -28,4 +28,10 @@ class User extends DocumentRepository
         $qb->sort($type . '_solved', -1)->limit($limit)->skip($offset);
         return array_values($qb->getQuery()->toArray());
     }
+    public function findInIdsAssoc($ids)
+    {
+        $mIds = array_map(function($id) {return new \MongoId($id); }, $ids);
+        $qb = $this->createQueryBuilder()->field('_id')->in($mIds);
+        return $qb->getQuery()->toArray();
+    }
 }
