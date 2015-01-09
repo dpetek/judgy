@@ -233,6 +233,7 @@ class ProblemsController extends BaseApiController
             $submission->setAttempts($submission->getAttempts() + 1);
             $submission->setSolved(true);
             $submission->setDateSolved(new \DateTime());
+            $currentUser->setMiscScore($currentUser->getMiscScore() + $problem->getDifficulty());
         } elseif (!$correct) {
             if (!$submission->getSolved()) {
                 $submission->setAttempts($submission->getAttempts() + 1);

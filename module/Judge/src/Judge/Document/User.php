@@ -37,12 +37,12 @@ class User extends Base implements IResponse
     protected $score;
 
     /**
-     * @ODM\Float(name="misc_score")
+     * @ODM\Increment(name="misc_score")
      */
     protected $miscScore;
 
     /**
-     * @ODM\Float(name="algorithm_score")
+     * @ODM\Increment(name="algorithm_score")
      */
     protected $algorithmScore;
 

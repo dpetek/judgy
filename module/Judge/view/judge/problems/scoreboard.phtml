@@ -8,19 +8,18 @@
 <table class="table table-striped table-bordered table-hover">
     <thead>
     <tr>
-        <th>Username</th>
-        <th>Name</th>
-        <th>Score</th>
-        <th>Problems solved</th>
+        <th style="width: 30%">Username</th>
+        <th style="width: 40%">Name</th>
+        <th style="width: 15%">Solved</th>
+        <th style="width: 15%">Score</th>
     </tr>
     </thead>
     <?php foreach ($users as $user): ?>
         <tr>
             <td><a href='<?php echo $this->url('profile/id', array('id' => (string)$user->getId())); ?>'><?php echo $user->getUsername(); ?></a></td>
             <td><?php echo $user->getName(); ?></td>
-            <td><?php echo (int)$user->$scoreMethod(); ?></td>
             <td><?php echo (int)$user->$solvedMethod(); ?></td>
-
+            <td><?php echo (int)$user->$scoreMethod(); ?></td>
         </tr>
     <?php endforeach ?>
 </table>

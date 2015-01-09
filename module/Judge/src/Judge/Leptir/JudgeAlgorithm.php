@@ -188,6 +188,7 @@ class JudgeAlgorithm extends AbstractLeptirTask implements ServiceLocatorAwareIn
             $userSubmission->setAttempts($userSubmission->getAttempts() + 1);
             $userSubmission->setSolved(true);
             $userSubmission->setDateSolved(new \DateTime());
+            $user->setAlgorithmScore($user->getAlgorithmScore() + $problem->getDifficulty());
         } elseif ($submission->getStatus() != $submission::STATUS_SUCCESS) {
             if (!$userSubmission->getSolved()) {
                 $userSubmission->setAttempts($userSubmission->getAttempts() + 1);
