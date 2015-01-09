@@ -61,6 +61,11 @@ class AlgorithmUserSubmission extends Base implements IResponse
      */
     protected $language;
 
+    /**
+     * @ODM\String(name="source")
+     */
+    protected $source;
+
     public static function create(User $user, ActiveProblem $problem, $language)
     {
         $instance = new self();
@@ -256,5 +261,21 @@ class AlgorithmUserSubmission extends Base implements IResponse
     public function getLanguage()
     {
         return $this->language;
+    }
+
+    /**
+     * @param mixed $source
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSource()
+    {
+        return $this->source;
     }
 }

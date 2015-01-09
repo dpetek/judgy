@@ -342,6 +342,7 @@ class ProblemsController extends BaseApiController
             $post['language']
         );
 
+        $submission->setSource(file_get_contents($tempName));
         $this->getDocumentManager()->persist($submission);
         $this->getDocumentManager()->flush();
 
