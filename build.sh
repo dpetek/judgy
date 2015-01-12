@@ -1,5 +1,6 @@
 docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
 
+docker build -t c-build docker/build/c/
 docker build -t cpp-build docker/build/cpp/
 docker build -t go-build docker/build/go/
 docker build -t py2-build docker/build/py2/

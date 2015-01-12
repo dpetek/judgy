@@ -24,24 +24,24 @@ CMD=$(cat /build/run | tr '\n' ' ')
 
 NUM_TESTS=10
 ############ RUN
-for (( i=1; i<=$NUM_TESTS; i++)); do
-    FILE=/in/input$i.txt
-    #ulimit -v 10000
-    #ulimit -m 10000
-    #ulimit -s 10000
+for FILE in $(ls /in/input*.txt); do
+    if [ -e $FILE ]; then
+        #ulimit -v 10000
+        #ulimit -m 10000
+        #ulimit -s 10000
 
-    timeout 2 $CMD < $FILE > /out/output$i.txt 2> /out/output_error$i.txt
-    RUN_RESP=$?
+        OUTPUT_FILE=$(echo $FILE | sed 's/\/in\/input/\/out\/output/g')
+        ERROR_FILE=$(echo $FILE | sed 's/\/in\/input/\/out\/output_error/g')
+        STATUS_FILE=$(echo $FILE | sed 's/\/in\/input/\/out\/output_status/g')
 
-    if [ $RUN_RESP -eq 0 ]
-    then
-        echo "OK" > /out/output_status$i.txt
-    else
+        timeout 2 $CMD < $FILE > $OUTPUT_FILE 2> $ERROR_FILE
+        RUN_RESP=$?
+
         if [ $RUN_RESP -eq 124 ]
         then
-            echo "TLE" > /out/output_status$i.txt
+            echo "TLE" > $STATUS_FILE
         else
-            echo "RTE" > /out/output_status$i.txt
+            echo "OK" > $STATUS_FILE
         fi
     fi
 done

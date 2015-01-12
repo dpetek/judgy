@@ -87,6 +87,9 @@ class JudgeAlgorithm extends AbstractLeptirTask implements ServiceLocatorAwareIn
             return self::EXIT_ERROR;
         }
 
+        $dockerRemoveAmbassador = "docker rm judgy-ambassador";
+        $dockerStartAmbassador = "docker run -d -v=/build -v /out --name=judgy-ambassador busybox:latest";
+
         $dockerBuildCommand = sprintf(
             "docker run --rm --volumes-from judgy-ambassador -v /var/www/judge_data/submissions/%s/%s:/solution %s-build",
             (string)$userId,
@@ -104,7 +107,8 @@ class JudgeAlgorithm extends AbstractLeptirTask implements ServiceLocatorAwareIn
             "docker run --rm --volumes-from judgy-ambassador -v /var/www/judge_data/%s/out:/correct_out judgy-compare",
             (string)$problemId
         );
-
+        @shell_exec($dockerRemoveAmbassador);
+        shell_exec($dockerStartAmbassador);
         shell_exec($dockerBuildCommand);
 
         $stdout = shell_exec($dockerRunCommand);
@@ -113,7 +117,6 @@ class JudgeAlgorithm extends AbstractLeptirTask implements ServiceLocatorAwareIn
 
         $cntOk = 0;
         $cntTotal = 0;
-        $response = '';
         if (strpos($stdout, 'FAIL') !== false) {
             $this->logInfo("Build failed!");
             $this->logInfo($stdout);
@@ -136,25 +139,22 @@ class JudgeAlgorithm extends AbstractLeptirTask implements ServiceLocatorAwareIn
                     continue;
                 }
                 $this->logInfo($line);
-                if (preg_match('/Test #([0-9]+) ([A-Z]+)/', $line, $match)) {
+                if (preg_match('/<p(.*)>([ a-zA-Z]+)<\/p>/', $line, $match)) {
                     ++$cntTotal;
                     $status = trim($match[2]);
-
                     switch ($status) {
-                        case "OK":
-                            $response .= "<p>Test #" . (string)$match[1] . ": Passed.</p>";
+                        case "Correct answer":
+                            $cntOk ++;
                             break;
-                        case "TLE":
-                            $response .= "<p>Test #" . (string)$match[1] . ": Time limit exceeded.</p>";
+                        case "Time limit exceeded":
                             break;
-                        case "WE":
-                            $response .= "<p>Test #" . (string)$match[1] . ": Wrong answer.</p>";
+                        case "Wrong answer":
                             break;
-                        case "RTE":
-                            $response .= "<p>Test #" . (string)$match[1] . ": Run-time error.</p>";
+                        case "Runtime error":
+                            break;
+                        case "Unknown error":
                             break;
                     }
-                    $cntOk += ($status == 'OK');
                 }
             }
             $problemSolved = ($cntOk == $cntTotal);
@@ -164,6 +164,8 @@ class JudgeAlgorithm extends AbstractLeptirTask implements ServiceLocatorAwareIn
                 $submission->setStatus($submission::STATUS_FAIL);
             }
         }
+
+        shell_exec($dockerRemoveAmbassador);
 
         $submission->setTotalCases($cntTotal);
         $submission->setSolvedCases($cntOk);
