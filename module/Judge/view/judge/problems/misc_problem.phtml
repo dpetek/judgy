@@ -1,21 +1,28 @@
-<div class="white-panel pn">
-    <div class="white-header">
-        <h4><?php echo $problem->getTitle(); ?></h4>
-        <?php if ($problem->getTags()): ?>
-            <?php foreach ($problem->getTags() as $tag): ?>
-                <a class="label label-warning" style="margin:4px;" href="<?php echo $this->url('problems-view/default', array('action' => 'problems', 'type' => 'misc'), array('query' => array('tag' => $tag))); ?>">
+<h2 style="margin-bottom: 0px !important"><?php echo $problem->getTitle(); ?>
+    <?php if ($user && $user->getIsAdmin()): ?>
+        <div class="pull-right">
+            <a class="" href="<?php echo $this->url('problems-view/default', array('action' => 'submit', 'type' => 'misc', 'id' => (string)$problem->getId())); ?>"><i class="fa fa-pencil"></i></a>
+            <a class="" href="#"><i class="fa fa-remove"></i></a>
+        </div>
+    <?php endif ?>
+</h2>
+<?php if ($problem->getTags()): ?>
+    Tags:
+    <?php if ($problem->getTags()): ?>
+        <?php foreach ($problem->getTags() as $tag): ?>
+            <a class="" style="margin:4px;" href="<?php echo $this->url('problems-view/default', array('action' => 'problems', 'type' => 'misc'), array('query' => array('tag' => $tag))); ?>">
                                 <span class="">
                                     <?php echo $tag; ?>
                                 </span>
-                </a>
-            <?php endforeach ?>
-        <?php endif ?>
-    </div>
-    <div class="row">
-        <?php echo $problem->getDescription(); ?>
-    </div>
+            </a>
+        <?php endforeach ?>
+    <?php endif ?>
+<?php endif ?>
+<div class="panel panel-primary bg-color-gray nobordera style="margin-top: 20px">
+<div class="panel-body">
+    <?php echo $problem->getDescription(); ?>
 </div>
-<br />
+</div>
 <?php if (!$loggedIn): ?>
     <div class="panel panel-primary text-center no-boder bg-color-orange">
         <div class="panel-body">

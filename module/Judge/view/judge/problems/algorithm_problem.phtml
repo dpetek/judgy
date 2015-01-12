@@ -7,9 +7,16 @@
     <?php endif ?>
 </h2>
 <?php if ($problem->getTags()): ?>
-    <?php foreach ($problem->getTags() as $tag): ?>
-        <span><?php echo $tag; ?></span>
-    <?php endforeach ?>
+    Tags:
+    <?php if ($problem->getTags()): ?>
+        <?php foreach ($problem->getTags() as $tag): ?>
+            <a class="" style="margin:4px;" href="<?php echo $this->url('problems-view/default', array('action' => 'problems', 'type' => 'algorithm'), array('query' => array('tag' => $tag))); ?>">
+                                <span class="">
+                                    <?php echo $tag; ?>
+                                </span>
+            </a>
+        <?php endforeach ?>
+    <?php endif ?>
 <?php endif ?>
 <div class="panel panel-primary bg-color-gray nobordera style="margin-top: 20px">
     <div class="panel-body">
