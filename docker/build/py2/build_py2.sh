@@ -4,7 +4,9 @@ if [ -n "$(ls -A /build)" ]; then
     rm /build/*
 fi
 
-python2.7 -O -m py_compile /solution/solution.py 2> /build/error.txt
+SOURCE=$1
+
+python2.7 -O -m py_compile /solution/$SOURCE 2> /build/error.txt
 
 RESP=$?
 

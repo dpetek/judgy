@@ -66,7 +66,12 @@ class AlgorithmUserSubmission extends Base implements IResponse
      */
     protected $source;
 
-    public static function create(User $user, ActiveProblem $problem, $language)
+    /**
+     * @ODM\String(name="filename")
+     */
+    protected $filename;
+
+    public static function create(User $user, ActiveProblem $problem, $language, $filename)
     {
         $instance = new self();
         $instance->setUserId(new \MongoId($user->getId()));
@@ -74,6 +79,7 @@ class AlgorithmUserSubmission extends Base implements IResponse
         $instance->setTimeCreated(new \DateTime());
         $instance->setStatus(self::STATUS_PENDING);
         $instance->setLanguage($language);
+        $instance->setFilename($filename);
         return $instance;
     }
 
@@ -277,5 +283,21 @@ class AlgorithmUserSubmission extends Base implements IResponse
     public function getSource()
     {
         return $this->source;
+    }
+
+    /**
+     * @param mixed $filename
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFilename()
+    {
+        return $this->filename;
     }
 }

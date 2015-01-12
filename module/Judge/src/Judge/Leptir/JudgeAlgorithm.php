@@ -91,10 +91,10 @@ class JudgeAlgorithm extends AbstractLeptirTask implements ServiceLocatorAwareIn
         $dockerStartAmbassador = "docker run -d -v=/build -v /out --name=judgy-ambassador busybox:latest";
 
         $dockerBuildCommand = sprintf(
-            "docker run --rm --volumes-from judgy-ambassador -v /var/www/judge_data/submissions/%s/%s:/solution %s-build",
+            "docker run --rm --volumes-from judgy-ambassador -v /var/www/judge_data/submissions/%s:/solution %s-build %s",
             (string)$userId,
-            (string)$problemId,
-            $submission->getLanguage()
+            $submission->getLanguage(),
+            $submission->getFilename()
         );
 
 

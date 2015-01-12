@@ -273,26 +273,13 @@ class ProblemsController extends BaseApiController
             );
         }
 
-        $userSubmissionDir = '/var/www/judge_data/submissions/' . $this->getCurrentUser()->getId();
-        $userSubmissionProblemDir = $userSubmissionDir . '/' . $this->getEvent()->getRouteMatch()->getParam('id');
-
-        if (!file_exists($userSubmissionDir)) {
-            umask(0777);
-            mkdir($userSubmissionDir, 0777, true);
-            chmod($userSubmissionDir, 0777);
-        }
-        if (!file_exists($userSubmissionProblemDir)) {
-            umask(0777);
-            mkdir($userSubmissionProblemDir, 0777, true);
-            chmod($userSubmissionProblemDir, 0777);
-        }
         $problemId = $this->getEvent()->getRouteMatch()->getParam('id');
 
-        $directory = '/var/www/judge_data/submissions/' . $this->getCurrentUser()->getId() . '/' . $problemId . '/';
-        if (!file_exists($directory)) {
-            umask(0777);
-            mkdir($directory, 0777, true);
-            chmod($directory, 0777);
+        $userSubmissionDir = '/var/www/judge_data/submissions/' . $this->getCurrentUser()->getId();
+
+        if (!file_exists($userSubmissionDir)) {
+            mkdir($userSubmissionDir, 0777, true);
+            chmod($userSubmissionDir, 0777);
         }
 
         $ext = $post['language'];
@@ -303,18 +290,24 @@ class ProblemsController extends BaseApiController
                 break;
         }
 
-        $tempName = $directory . 'solution.' . $ext;
-
         if (!isset($_FILES['file'])) {
             throw new CustomException(
                 'Solution file not included.'
             );
         }
 
+        // generate filename
+        do {
+            $dirPart = md5((string)microtime(true) . (string)mt_rand ());
+            $tempDir = $userSubmissionDir . DIRECTORY_SEPARATOR . $dirPart . DIRECTORY_SEPARATOR;
+        } while (file_exists($tempDir));
+        mkdir($tempDir, 0777);
+
+        $tempName = $tempDir . $_FILES['file']['name'];
+
         if (!move_uploaded_file($_FILES['file']['tmp_name'], $tempName)) {
             throw new CustomException('File upload failed.');
         }
-
         chmod($tempName, 0777);
         
         /** @var \Judge\Repository\ActiveProblem $problemRepo */
@@ -336,10 +329,13 @@ class ProblemsController extends BaseApiController
         $userSubmission->setDateLastSubmission(new \DateTime());
         $this->getDocumentManager()->persist($userSubmission);
 
+        $info = pathinfo($tempName);
+
         $submission = AlgorithmUserSubmission::create(
             $this->getCurrentUser(),
             $problem,
-            $post['language']
+            $post['language'],
+            $dirPart . DIRECTORY_SEPARATOR . $_FILES['file']['name']
         );
 
         $submission->setSource(file_get_contents($tempName));

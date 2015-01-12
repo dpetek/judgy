@@ -4,7 +4,9 @@ if [ -n "$(ls -A /build)" ]; then
     rm /build/* 2>&1 >/dev/null
 fi
 
-gcc -Wall -O2 -o /build/solution -lm /solution/solution.c &> /build/error.txt
+SOURCE=$1
+
+gcc -Wall -O2 -o /build/solution -lm /solution/$SOURCE &> /build/error.txt
 RESP=$?
 
 if [ $RESP -eq 0 ]

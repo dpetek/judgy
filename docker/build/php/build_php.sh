@@ -4,7 +4,9 @@ if [ -n "$(ls -A /build)" ]; then
     rm /build/* 2>&1 >/dev/null
 fi
 
-php -l /solution/solution.php &> /build/error.txt
+SOURCE=$1
+
+php -l /solution/$SOURCE &> /build/error.txt
 
 RESP=$?
 if [ $RESP -eq 0 ]
