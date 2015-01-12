@@ -12,7 +12,7 @@ RESP=$?
 if [ $RESP -eq 0 ]
 then
     echo "OK" > /build/status.txt
-    cp /solution/solution.php /build/solution.php
+    cp /solution/$SOURCE /build/solution.php
     echo "php /build/solution.php" > /build/run
 else
     echo "FAIL" > /build/status.txt
