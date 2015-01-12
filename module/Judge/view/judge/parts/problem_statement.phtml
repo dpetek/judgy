@@ -1,0 +1,25 @@
+<h2 style="margin-bottom: 0px !important"><?php echo $problem->getTitle(); ?>
+    <?php if ($user && $user->getIsAdmin()): ?>
+        <div class="pull-right">
+            <a class="" href="<?php echo $this->url('problems-view/default', array('action' => 'submit', 'type' => $problem->getType(), 'id' => (string)$problem->getId())); ?>"><i class="fa fa-pencil"></i></a>
+            <a class="" href="#"><i class="fa fa-remove"></i></a>
+        </div>
+    <?php endif ?>
+</h2>
+<?php if ($problem->getTags()): ?>
+    Tags:
+    <?php if ($problem->getTags()): ?>
+        <?php foreach ($problem->getTags() as $tag): ?>
+            <a class="" style="margin:4px;" href="<?php echo $this->url('problems-view/default', array('action' => 'problems', 'type' => $problem->getType()), array('query' => array('tag' => $tag))); ?>">
+                                <span class="">
+                                    <?php echo $tag; ?>
+                                </span>
+            </a>
+        <?php endforeach ?>
+    <?php endif ?>
+<?php endif ?>
+<div class="panel panel-primary bg-color-gray nobordera style="margin-top: 20px">
+<div class="panel-body">
+    <?php echo $problem->getDescription(); ?>
+</div>
+</div>

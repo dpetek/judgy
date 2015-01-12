@@ -1,0 +1,30 @@
+<div class="row mtbox">
+    <div class="col-md-2 col-sm-2 col-md-offset-2 box0">
+        <div class="box1">
+            <i class="fa fa-edit fa-2x"></i>
+            <h3><?php echo (int)$problem->getAttempts(); ?></h3>
+        </div>
+        <p>Number of users attempted to answer this question.</p>
+    </div>
+    <div class="col-md-2 col-sm-2 box0">
+        <div class="box1">
+            <i class="fa fa-check fa-2x"></i>
+            <h3><?php echo (int)$problem->getSolved(); ?></h3>
+        </div>
+        <p>Number of users successfully solved this question.</p>
+    </div>
+    <div class="col-md-2 col-sm-2 box0">
+        <div class="box1">
+            <i class="fa fa-question-circle fa-2x"></i>
+            <h3><?php echo (int)$problem->getDifficulty(); ?></h3>
+        </div>
+        <p>Question difficulty. More difficult problems you solve more points you get. Fair enough, isn't it?</p>
+    </div>
+    <div class="col-md-2 col-sm-2 box0">
+        <div class="box1">
+            <i class="fa fa-star-half-empty fa-2x"></i>
+            <h3><?php echo (float)$problem->getRating(); ?></h3>
+        </div>
+        <p>Average question rating.</p>
+    </div>
+</div>

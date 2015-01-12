@@ -7,6 +7,8 @@ use Zend\View\Model\ViewModel;
 
 class ProblemsController extends BaseJudgeController
 {
+    use PartRenderTrait;
+
     const PAGE_SIZE = 30;
 
     public function problemsAction()
@@ -110,7 +112,6 @@ class ProblemsController extends BaseJudgeController
             'submission' => $submission,
             'loggedIn' => ($this->getCurrentUser() != null),
             'type' => $type,
-            'rating' => $rating,
             'user' => $this->getCurrentUser()
         );
 
@@ -140,6 +141,10 @@ class ProblemsController extends BaseJudgeController
         }
 
         $view->setVariables($variables);
+
+        $view->addChild($this->renderProblemStatement($problem, $this->getCurrentUser()), 'problemStatement');
+        $view->addChild($this->renderRateProblem($problem, $rating, $this->getCurrentUser()), 'rateProblem');
+        $view->addChild($this->renderProblemMeta($problem), 'problemMeta');
 
         return $view;
     }
