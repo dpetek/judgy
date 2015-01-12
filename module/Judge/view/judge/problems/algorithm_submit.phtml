@@ -1,10 +1,13 @@
+<?php if (!$user || !$user->getIsAdmin()): ?>
 <div class="panel panel-primary bg-color-blue">
     <div class="panel-body">
         Everybody can submit a question for Judgy. Each question will be reviewed by administrators and posted onto the site.
     </div>
 </div>
+<?php endif ?>
 
-<div ng-controller="submitAlgorithmProblemController">
+<div ng-controller="submitAlgorithmProblemController"
+    ng-init="">
 
     <div class="panel panel-primary text-center no-boder bg-color-green" ng-show="successfulSubmission === true">
         <div class="panel-body">

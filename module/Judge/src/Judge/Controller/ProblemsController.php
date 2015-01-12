@@ -110,7 +110,8 @@ class ProblemsController extends BaseJudgeController
             'submission' => $submission,
             'loggedIn' => ($this->getCurrentUser() != null),
             'type' => $type,
-            'rating' => $rating
+            'rating' => $rating,
+            'user' => $this->getCurrentUser()
         );
 
         $judgyConfig = $this->getServiceLocator()->get('config')['judgy'];
@@ -172,7 +173,24 @@ class ProblemsController extends BaseJudgeController
         if (!$this->getCurrentUser()) {
             return $this->createLoginView();
         }
+        $routeMatch = $this->getEvent()->getRouteMatch();
+        $id = $routeMatch->getParam('id', null);
+
+        $problem = null;
+        if ($id) {
+            $problemRepo = $this->getDocumentManager()->getRepository(
+                'Judge\Document\ActiveProblem'
+            );
+            $problem = $problemRepo->find(new \MongoId($id));
+        }
+
         $viewModel = new ViewModel();
+        $viewModel->setVariables(
+            array(
+                'problem' => $problem,
+                'user' => $this->getCurrentUser()
+            )
+        );
         $type = strtolower($this->getEvent()->getRouteMatch()->getParam('type'));
         $viewModel->setTemplate('judge/problems/' . $type . '_submit');
         return $viewModel;

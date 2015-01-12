@@ -48,7 +48,7 @@
             </div>
         </div>
         <?php if ($cooldownLeft <= 0): ?>
-            <div class="row" ng-show="correctSolution !== true">
+            <div class="row" ng-show="submitDone !== true && correctSolution !== true">
                 <div class="col-md-12">
                     <form role="form">
                         <input ng-model="id" type="hidden" ng-init="id='<?php echo (string)$problem->getId(); ?>'">
@@ -70,10 +70,8 @@
             </div>
         <?php endif ?>
         <?php if ($submission): ?>
-            <div class="panel panel-primary text-center no-boder bg-color-orange">
-                <div class="panel-body">
-                    You already tried  to solve this problem <?php echo (string)$submission->getAttempts() . ' ' . (($submission->getAttempts() > 1) ? 'times' : 'time'); ?>.
-                </div>
+            <div class="pull-right">
+                You already tried  to solve this problem <strong><?php echo (string)$submission->getAttempts() . ' ' . (($submission->getAttempts() > 1) ? 'times' : 'time'); ?></strong>.
             </div>
         <?php endif ?>
     </div>

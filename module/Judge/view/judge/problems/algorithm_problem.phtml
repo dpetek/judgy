@@ -1,4 +1,11 @@
-<h2 style="margin-bottom: 0px !important"><?php echo $problem->getTitle(); ?></h2>
+<h2 style="margin-bottom: 0px !important"><?php echo $problem->getTitle(); ?>
+    <?php if ($user && $user->getIsAdmin()): ?>
+        <div class="pull-right">
+            <a class="" href="<?php echo $this->url('problems-view/default', array('action' => 'submit', 'type' => 'algorithm', 'id' => (string)$problem->getId())); ?>"><i class="fa fa-pencil"></i></a>
+            <a class="" href="#"><i class="fa fa-remove"></i></a>
+        </div>
+    <?php endif ?>
+</h2>
 <?php if ($problem->getTags()): ?>
     <?php foreach ($problem->getTags() as $tag): ?>
         <span><?php echo $tag; ?></span>
@@ -74,15 +81,12 @@
                 </div>
             </div>
         <?php elseif ($submission): ?>
-            <div class="panel panel-primary text-center no-boder">
-                <div class="panel-body">
-                    You already tried  to solve this problem <?php echo (string)$submission->getAttempts() . ' ' . (($submission->getAttempts() > 1) ? 'times' : 'time'); ?>.
-                </div>
+            <div class="pull-right">
+                You already tried  to solve this problem <strong><?php echo (string)$submission->getAttempts() . ' ' . (($submission->getAttempts() > 1) ? 'times' : 'time'); ?></strong>.
             </div>
         <?php endif ?>
     </div>
 <?php endif ?>
-<hr />
 
 <?php if ($loggedIn): ?>
     <div class="row">

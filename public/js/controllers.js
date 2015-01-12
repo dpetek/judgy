@@ -123,6 +123,7 @@ angular.module(
                 } else {
                     $scope.correctSolution = false;
                 }
+                $scope.submitDone = true;
             }).error(function(data) {
                 $scope.errorMessage = data.message;
                 $scope.submissionError = true;
