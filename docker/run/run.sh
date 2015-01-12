@@ -12,9 +12,9 @@ if [ $BUILD_STATUS = "FAIL" ]; then
     BUILD_ERROR=/build/error.txt
     if [ -e $BUILD_ERROR ]; then
         if [ -s $BUILD_ERROR ]; then
-            echo "<pre>"
+            echo "<div class='build-error'>"
             cat $BUILD_ERROR
-            echo "</pre>"
+            echo "</div>"
             exit 1
         fi
     fi

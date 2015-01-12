@@ -420,3 +420,28 @@ table thead{
     font-weight: bold;
     color: #696969;
 }
+
+.test-case{
+    padding: 5px;
+    margin-bottom: 5px;
+    border: 1px solid #cdcdcd;
+}
+
+.test-case:hover{
+    background-color: #efefef;
+}
+
+.case-error{
+    color: #B40101;
+    font-weight: normal;
+}
+
+.build-error{
+    font-weight: normal;
+    color: #B40101;
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}

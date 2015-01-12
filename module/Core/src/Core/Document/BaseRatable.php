@@ -10,12 +10,12 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 abstract class BaseRatable extends Base
 {
     /**
-     * @ODM\Float(name="rating")
+     * @ODM\Increment(name="rating")
      */
     protected $rating;
 
     /**
-     * @ODM\Int(name="numVotes")
+     * @ODM\Increment(name="numVotes")
      */
     protected $numVotes;
 

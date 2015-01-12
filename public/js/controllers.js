@@ -177,7 +177,8 @@ angular.module(
                 {langId: 'cpp', langName: 'C++'},
                 {langId: 'py2', langName: 'Python2.7'},
                 {langId: 'go', langName: 'Go'},
-                {langId: 'java', langName: 'Java'}
+                {langId: 'java', langName: 'Java'},
+                {langId: 'php', langName: 'PHP'}
             ];
 
             $scope.submitSolution = function () {
