@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Time</th>
+                <th>Problem</th>
+                <th>Correct</th>
+            </tr>
+            </thead>
+            <?php /** @var \Judge\Document\MiscUserSubmission $submission */ ?>
+            <?php foreach ($submissions as $submission): ?>
+                <tr class="<?php echo $submission->getSolved() ? 'success' : 'danger'; ?>">
+                    <td>{{ <?php echo $submission->getTimeCreated()->format('U') * 1000; ?> | date : 'medium'}}</td>
+                    <td><a href="<?php echo $this->url('problems-view/default', array('action' => 'problem', 'type' => $problemsLookup[$submission->getProblemId()]->getType(), 'id' => $submission->getProblemId())); ?>"><?php echo $problemsLookup[$submission->getProblemId()]->getTitle(); ?></a></td>
+                    <td><?php echo $submission->getSolved() ? 'Yes' : 'No'; ?></td>
+                </tr>
+            <?php endforeach ?>
+        </table>
+    </div>
+</div>

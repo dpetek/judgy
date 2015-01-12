@@ -50,4 +50,56 @@ trait PartRenderTrait
         $viewModel->setTemplate('judge/parts/problem_meta');
         return $viewModel;
     }
+
+    public function renderMiscSubmissionsList($submissions)
+    {
+        $viewModel = new ViewModel();
+
+        /** @var \Judge\Repository\BaseProblem $problemsRepo */
+        $problemsRepo = $this->getDocumentManager()->getRepository(
+            'Judge\Document\ActiveProblem'
+        );
+        $pIds = array();
+        /** @var \Judge\Document\MiscUserSubmission $miscSubmission */
+        foreach ($submissions as $miscSubmission) {
+            $pIds[] = $miscSubmission->getProblemId();
+        }
+        $problems = $problemsRepo->findInIdsAssoc($pIds);
+
+        $viewModel->setVariables(
+            array(
+                'submissions' => $submissions,
+                'problemsLookup' => $problems
+            )
+        );
+
+        $viewModel->setTemplate('judge/parts/misc_submissions_list');
+        return $viewModel;
+    }
+
+    public function renderAlgorithmSubmissionsList($submissions)
+    {
+        $viewModel = new ViewModel();
+
+        /** @var \Judge\Repository\BaseProblem $problemsRepo */
+        $problemsRepo = $this->getDocumentManager()->getRepository(
+            'Judge\Document\ActiveProblem'
+        );
+        $pIds = array();
+        /** @var \Judge\Document\AlgorithmUserSubmission $miscSubmission */
+        foreach ($submissions as $algorithmSubmission) {
+            $pIds[] = $algorithmSubmission->getProblemId();
+        }
+        $problems = $problemsRepo->findInIdsAssoc($pIds);
+
+        $viewModel->setVariables(
+            array(
+                'submissions' => $submissions,
+                'problemsLookup' => $problems
+            )
+        );
+
+        $viewModel->setTemplate('judge/parts/algorithm_submissions_list');
+        return $viewModel;
+    }
 }

@@ -7,8 +7,6 @@ use Zend\View\Model\ViewModel;
 
 class ProblemsController extends BaseJudgeController
 {
-    use PartRenderTrait;
-
     const PAGE_SIZE = 30;
 
     public function problemsAction()
@@ -133,11 +131,21 @@ class ProblemsController extends BaseJudgeController
             $algSubmissionRepo = $this->getDocumentManager()->getRepository(
                 'Judge\Document\AlgorithmUserSubmission'
             );
-            $algorithmSubmissions = null;
+            $algorithmSubmissions = array();
             if ($this->getCurrentUser()) {
                 $algorithmSubmissions = $algSubmissionRepo->findForProblemAndUser($problem, $this->getCurrentUser());
             }
-            $variables['algorithmSubmissions'] = $algorithmSubmissions;
+            $view->addChild($this->renderAlgorithmSubmissionsList($algorithmSubmissions), 'pastSubmissionsList');
+        } else {
+             /** @var \Judge\Repository\MiscUserSubmission $miscUserSubmissionRepo */
+            $miscUserSubmissionRepo = $this->getDocumentManager()->getRepository(
+                'Judge\Document\MiscUserSubmission'
+            );
+            $miscUserSubmissions = array();
+            if ($this->getCurrentUser()) {
+                $miscUserSubmissions = $miscUserSubmissionRepo->findForProblemAndUser($problem, $this->getCurrentUser());
+            }
+            $view->addChild($this->renderMiscSubmissionsList($miscUserSubmissions), 'pastSubmissionsList');
         }
 
         $view->setVariables($variables);

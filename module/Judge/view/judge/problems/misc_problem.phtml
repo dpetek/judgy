@@ -64,3 +64,8 @@
 <?php echo $this->rateProblem; ?>
 <?php echo $this->problemMeta; ?>
 
+<?php if ($loggedIn): ?>
+    <h2>Past submissions:</h2>
+    <?php echo $this->pastSubmissionsList; ?>
+<?php endif ?>
+

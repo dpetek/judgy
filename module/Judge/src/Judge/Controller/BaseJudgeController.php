@@ -11,6 +11,8 @@ use Zend\Authentication\AuthenticationService;
 
 class BaseJudgeController extends AbstractActionController
 {
+    use PartRenderTrait;
+
     public function onDispatch(MvcEvent $e)
     {
         // top navigation
