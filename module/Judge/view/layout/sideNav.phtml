@@ -17,6 +17,12 @@
                     <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'scoreboard') ? 'active' : ''; ?>">
                         <a href="<?php echo $this->url('problems-view/default', array('action' => 'scoreboard', 'type' => 'algorithm')); ?>"><i class="fa fa-bar-chart-o"></i> Scoreboard</a>
                     </li>
+                    <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'competitions') ? 'active' : ''; ?>">
+                        <a href="<?php echo $this->url('problems-view/default', array('action' => 'competitions', 'type' => 'algorithm')); ?>"><i class="fa fa-clock-o"></i> Competitions</a>
+                    </li>
+                    <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'tutorials') ? 'active' : ''; ?>">
+                        <a href="<?php echo $this->url('problems-view/default', array('action' => 'tutorials', 'type' => 'algorithm')); ?>"><i class="fa fa-file-o"></i> Tutorials</a>
+                    </li>
                     <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'submit') ? 'active' : ''; ?>">
                         <a href="<?php echo $this->url('problems-view/default', array('action' => 'submit', 'type' => 'algorithm')); ?>"><i class="fa fa-envelope-o"></i> Submit</a>
                     </li>
@@ -26,13 +32,7 @@
                 <a  class="" href="javascript:;"><i class="fa fa-crosshairs fa-3x"></i> Arena</a>
                 <ul class="sub">
                     <li class="<?php echo ($routeName =='algorithms/default' && $action == 'problems') ? 'active' : ''; ?>">
-                        <a href="#"><i class="fa fa-list"></i> Problems</a>
-                    </li>
-                    <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'scoreboard') ? 'active' : ''; ?>">
-                        <a href="#"><i class="fa fa-bar-chart-o"></i> Scoreboard</a>
-                    </li>
-                    <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'submit') ? 'active' : ''; ?>">
-                        <a href="#"><i class="fa fa-envelope-o"></i> Submit</a>
+                        <a href="#"><i class="fa fa-list"></i> Open arenas</a>
                     </li>
                 </ul>
             </li>

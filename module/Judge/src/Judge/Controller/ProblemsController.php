@@ -177,4 +177,14 @@ class ProblemsController extends BaseJudgeController
         $viewModel->setTemplate('judge/problems/' . $type . '_submit');
         return $viewModel;
     }
+
+    public function tutorialsAction()
+    {
+        return new ViewModel();
+    }
+
+    public function competitionsAction()
+    {
+        return new ViewModel();
+    }
 }
