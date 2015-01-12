@@ -31,8 +31,8 @@
             <li class="sub-menu <?php echo ($type === 'arena') ? 'active' : ''; ?>">
                 <a  class="" href="javascript:;"><i class="fa fa-crosshairs fa-3x"></i> Arena</a>
                 <ul class="sub">
-                    <li class="<?php echo ($routeName =='algorithms/default' && $action == 'problems') ? 'active' : ''; ?>">
-                        <a href="#"><i class="fa fa-list"></i> Open arenas</a>
+                    <li class="<?php echo ($routeName =='arena-view/default' && $action == 'active') ? 'active' : ''; ?>">
+                        <a href="<?php echo $this->url('arena-view/default', array('action' => 'active')); ?>"><i class="fa fa-list"></i> Open arenas</a>
                     </li>
                 </ul>
             </li>

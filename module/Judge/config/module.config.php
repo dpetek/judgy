@@ -64,7 +64,7 @@ return array(
                     )
                 )
             ),
-            'arena' => array(
+            'arena-view' => array(
                 'type' => 'Literal',
                 'options' => array(
                     'route' => '/arena',
@@ -143,6 +143,7 @@ return array(
             'Judge\Controller\Problems' => 'Judge\Controller\ProblemsController',
             'Judge\Controller\Profile' => 'Judge\Controller\ProfileController',
             'Judge\Controller\Notifications' => 'Judge\Controller\NotificationsController',
+            'Judge\Controller\Arena' => 'Judge\Controller\ArenaController',
 
         ),
     ),
