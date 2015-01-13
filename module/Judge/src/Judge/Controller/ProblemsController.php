@@ -295,6 +295,10 @@ class ProblemsController extends BaseJudgeController
 
     public function competitionsAction()
     {
+        if (!$this->getCurrentUser()) {
+            return $this->createLoginView();
+        }
+
         return new ViewModel();
     }
 }

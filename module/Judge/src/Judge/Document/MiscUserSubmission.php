@@ -35,6 +35,11 @@ class MiscUserSubmission extends Base
      */
     protected $userId;
 
+    /**
+     * @ODM\Float(name="score")
+     */
+    protected $score;
+
     public function validate()
     {
         return true;
@@ -129,5 +134,21 @@ class MiscUserSubmission extends Base
     public function getUserId()
     {
         return $this->userId;
+    }
+
+    /**
+     * @param mixed $score
+     */
+    public function setScore($score)
+    {
+        $this->score = $score;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getScore()
+    {
+        return $this->score;
     }
 }

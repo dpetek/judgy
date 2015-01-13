@@ -19,7 +19,7 @@
             <td><a href='<?php echo $this->url('profile/id', array('id' => (string)$user->getId())); ?>'><?php echo $user->getUsername(); ?></a></td>
             <td><?php echo $user->getName(); ?></td>
             <td><?php echo (int)$user->$solvedMethod(); ?></td>
-            <td><?php echo (int)$user->$scoreMethod(); ?></td>
+            <td><?php echo round((float)$user->$scoreMethod(), 3); ?></td>
         </tr>
     <?php endforeach ?>
 </table>

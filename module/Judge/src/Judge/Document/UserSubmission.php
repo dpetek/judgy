@@ -47,6 +47,11 @@ class UserSubmission extends Base implements IResponse
      */
     protected $dateLastSubmission;
 
+    /**
+     * @ODM\Float(name="score")
+     */
+    protected $score;
+
     public static function create(ActiveProblem $problem, User $user)
     {
         $instance = new self();
@@ -182,5 +187,21 @@ class UserSubmission extends Base implements IResponse
     public function getDateLastSubmission()
     {
         return $this->dateLastSubmission;
+    }
+
+    /**
+     * @param mixed $score
+     */
+    public function setScore($score)
+    {
+        $this->score = $score;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getScore()
+    {
+        return $this->score;
     }
 }

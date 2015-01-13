@@ -15,7 +15,7 @@
         <tr>
             <td><?php echo $user->getUsername(); ?></td>
             <td><?php echo $user->getName(); ?></td>
-            <td><?php echo $user->getScore(); ?></td>
+            <td><?php echo (float)$user->getScore(); ?></td>
         </tr>
     <?php endforeach ?>
 </table>

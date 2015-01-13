@@ -83,6 +83,14 @@ class JudgeDocumentUserSubmissionHydrator implements HydratorInterface
             $hydratedData['dateLastSubmission'] = $return;
         }
 
+        /** @Field(type="float") */
+        if (isset($data['score'])) {
+            $value = $data['score'];
+            $return = (float) $value;
+            $this->class->reflFields['score']->setValue($document, $return);
+            $hydratedData['score'] = $return;
+        }
+
         /** @Field(type="id") */
         if (isset($data['_id'])) {
             $value = $data['_id'];

@@ -1,6 +1,7 @@
 <?php
 namespace Api\Controller;
 
+use Core\Helper\ScoreCalculator;
 use FileManager\Storage\LocalFileStorage;
 use Judge\Document\ActiveProblem;
 use Judge\Document\BaseProblem;
@@ -233,7 +234,12 @@ class ProblemsController extends BaseApiController
             $submission->setAttempts($submission->getAttempts() + 1);
             $submission->setSolved(true);
             $submission->setDateSolved(new \DateTime());
-            $currentUser->setMiscScore($currentUser->getMiscScore() + $problem->getDifficulty());
+
+            $prevScore = (float)$submission->getScore();
+            $newScore = ScoreCalculator::updateScore(1.0, $problem->getDifficulty(), $submission->getAttempts());
+            $currentUser->setMiscScore($currentUser->getMiscScore() - $prevScore + $newScore);
+            $submission->setScore($newScore);
+
         } elseif (!$correct) {
             if (!$submission->getSolved()) {
                 $submission->setAttempts($submission->getAttempts() + 1);
