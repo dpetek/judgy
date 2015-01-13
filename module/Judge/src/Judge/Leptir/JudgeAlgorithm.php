@@ -2,6 +2,7 @@
 
 namespace Judge\Leptir;
 
+use Core\Helper\ScoreCalculator;
 use Leptir\Task\AbstractLeptirTask;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -169,6 +170,7 @@ class JudgeAlgorithm extends AbstractLeptirTask implements ServiceLocatorAwareIn
 
         $submission->setTotalCases($cntTotal);
         $submission->setSolvedCases($cntOk);
+
         if ($cntTotal > 0) {
             $submission->setScore($problem->getDifficulty() * (1.0 * $cntOk / $cntTotal));
         } else {
@@ -190,13 +192,31 @@ class JudgeAlgorithm extends AbstractLeptirTask implements ServiceLocatorAwareIn
             $userSubmission->setAttempts($userSubmission->getAttempts() + 1);
             $userSubmission->setSolved(true);
             $userSubmission->setDateSolved(new \DateTime());
-            $user->setAlgorithmScore($user->getAlgorithmScore() + $problem->getDifficulty());
+
+            $prevScore = $userSubmission->getScore();
+            if ($cntTotal > 0) {
+                $newScore = ScoreCalculator::updateScore(1.0, $problem->getDifficulty(), $userSubmission->getAttempts());
+            } else {
+                $newScore = 0.0;
+            }
+            $userSubmission->setScore($newScore);
+            $submission->setScore($newScore);
+            $user->setAlgorithmScore(1.0 * $user->getAlgorithmScore() - $prevScore + $newScore);
+
         } elseif ($submission->getStatus() != $submission::STATUS_SUCCESS) {
             if (!$userSubmission->getSolved()) {
                 $userSubmission->setAttempts($userSubmission->getAttempts() + 1);
-            } else {
-                // problem already solved, but this submission is wrong
-                $userSubmission->setSolved(false);
+
+                $prevScore = $userSubmission->getScore();
+
+                if ($cntTotal > 0 && $cntOk > 0) {
+                    $newScore = ScoreCalculator::updateScore(1.0 * $cntOk / $cntTotal, $problem->getDifficulty(), $userSubmission->getAttempts());
+                } else {
+                    $newScore = 0.0;
+                }
+                $userSubmission->setScore($newScore);
+                $submission->setScore($newScore);
+                $user->setAlgorithmScore(1.0 * $user->getAlgorithmScore() - $prevScore + $newScore);
             }
         }
         $this->logInfo('Saving data to database.');
