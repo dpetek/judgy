@@ -17,7 +17,7 @@
                     <td>{{<?php echo $algorithmSubmission->getTimeCreated()->getTimestamp() * 1000; ?> | date:'short'}}</td>
                     <td><?php echo $algorithmSubmission->getLanguage(); ?></td>
                     <td><?php echo (string)(int)$algorithmSubmission->getSolvedCases() . '/' . (string)(int)$algorithmSubmission->getTotalCases(); ?></td>
-                    <td><?php echo $algorithmSubmission->getScore(); ?></td>
+                    <td><?php echo round((float)$algorithmSubmission->getScore(), 3); ?></td>
                     <td><?php echo $algorithmSubmission->getStringFromStatus(); ?></td>
                     <td>
                         <button class="btn btn-default" href="javascript: ;" data-toggle="modal" data-target="#stdout-<?php echo (string)$algorithmSubmission->getId(); ?>">Response</button>

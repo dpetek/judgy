@@ -239,7 +239,7 @@ class ProblemsController extends BaseApiController
             $newScore = ScoreCalculator::updateScore(1.0, $problem->getDifficulty(), $submission->getAttempts());
             $currentUser->setMiscScore($currentUser->getMiscScore() - $prevScore + $newScore);
             $submission->setScore($newScore);
-
+            $miscSubmission->setScore($newScore);
         } elseif (!$correct) {
             if (!$submission->getSolved()) {
                 $submission->setAttempts($submission->getAttempts() + 1);
