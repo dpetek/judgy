@@ -15,7 +15,7 @@
         <?php foreach ($problems as $problem): ?>
             <tr class="<?php echo $problem->getUserSubmission() ? ($problem->getUserSubmission()->getSolved() ? 'success' : 'warning') : ''; ?>">
                 <td>
-                    <a class="problem-title" style="" href="<?php echo $this->url('problems-view/default', array('action' => 'problem', 'type' => $type, 'id' => (string)$problem->getId())); ?>">
+                    <a class="problem-title" style="" href="<?php echo $this->url('problems-view/default', array('action' => $viewAction, 'type' => $type, 'id' => (string)$problem->getId())); ?>">
                         <p><?php echo $problem->getTitle(); ?></p>
                     </a>
                     <div>

@@ -4,12 +4,13 @@ namespace Judge\Controller;
 
 use Zend\View\Model\ViewModel;
 use Judge\Document\ActiveProblem;
+use Judge\Document\BaseProblem;
 use Judge\Document\User;
 use Judge\Document\Rating;
 
 trait PartRenderTrait
 {
-    public function renderProblemStatement(ActiveProblem $problem, User $user = null)
+    public function renderProblemStatement(BaseProblem $problem, User $user = null)
     {
         $viewModel = new ViewModel();
         $viewModel->setVariables(

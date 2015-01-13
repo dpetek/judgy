@@ -359,4 +359,41 @@ class ProblemsController extends BaseApiController
             )
         );
     }
+
+    public function postApproveAction()
+    {
+        $id = $this->getEvent()->getRouteMatch()->getParam('id');
+
+        /** @var \Judge\Repository\BaseProblem $repo */
+        $repo = $this->getDocumentManager()->getRepository(
+            'Judge\Document\ReviewProblem'
+        );
+        /** @var \Judge\Document\BaseProblem $problem */
+        $problem = $repo->find(new \MongoId($id));
+
+        if (!$problem) {
+            throw new MissingResource();
+        }
+
+        $unitOfWork = $this->getDocumentManager()->getUnitOfWork();
+        $data = $unitOfWork->getDocumentActualData($problem);
+
+        $classMetadata = $this->getDocumentManager()->getClassMetadata(
+            'Judge\Document\ActiveProblem'
+        );
+        $instance = $classMetadata->newInstance();
+        $this->getDocumentManager()->getHydratorFactory()->hydrate(
+            $instance,
+            $data
+        );
+        $this->getDocumentManager()->remove($problem);
+        $this->getDocumentManager()->persist($instance);
+        $this->getDocumentManager()->flush();
+
+        return new JsonModel(
+            array(
+                'success' => true
+            )
+        );
+    }
 }

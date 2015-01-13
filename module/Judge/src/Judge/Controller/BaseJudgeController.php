@@ -54,6 +54,7 @@ class BaseJudgeController extends AbstractActionController
                 'routeName' => $e->getRouteMatch()->getMatchedRouteName(),
                 'action' => $e->getRouteMatch()->getParam('action'),
                 'type' => $e->getRouteMatch()->getParam('type', ''),
+                'user' => $this->getCurrentUser()
             )
         );
 

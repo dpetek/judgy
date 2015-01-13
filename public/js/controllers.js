@@ -221,4 +221,19 @@ angular.module(
             $scope.alertsView = true;
         };
     })
+    .controller('problemReviewController', function($scope, $http){
+        $scope.approveProblem = function() {
+            $http({
+                url: '/api/problems/misc/' + $scope.problemId + '/approve.json',
+                method: "POST",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                data: $.param(
+                    {
+                    }
+                )
+            }).success(function(data) {
+            }).error(function(data) {
+            });
+        }
+    });
 ;

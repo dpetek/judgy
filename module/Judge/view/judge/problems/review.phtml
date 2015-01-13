@@ -1,0 +1,8 @@
+<?php echo $this->problemStatement; ?>
+
+<h3>Difficulty: <?php echo $problem->getDifficulty(); ?></h3>
+<br />
+<div class="btn-group pull-right" ng-controller="problemReviewController" ng-init="problemId='<?php echo (string)$problem->getId(); ?>';">
+    <a href="javascript:;" ng-click="approveProblem()" class="btn btn-success" style="min-width: 200px">Approve</a>
+    <a href="#" class="btn btn-danger" style="min-width: 200px">Remove</a>
+</div>

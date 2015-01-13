@@ -26,6 +26,11 @@
                     <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'submit') ? 'active' : ''; ?>">
                         <a href="<?php echo $this->url('problems-view/default', array('action' => 'submit', 'type' => 'algorithm')); ?>"><i class="fa fa-envelope-o"></i> Submit</a>
                     </li>
+                    <?php if ($user && $user->getIsAdmin()): ?>
+                    <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'submit') ? 'active' : ''; ?>">
+                        <a href="<?php echo $this->url('problems-view/default', array('action' => 'reviewlist', 'type' => 'algorithm')); ?>"><i class="fa fa-envelope-o"></i> Review</a>
+                    </li>
+                    <?php endif ?>
                 </ul>
             </li>
             <li class="sub-menu <?php echo ($type === 'arena') ? 'active' : ''; ?>">
@@ -48,6 +53,11 @@
                     <li>
                         <a href="<?php echo $this->url('problems-view/default', array('action' => 'submit', 'type' => 'misc')); ?>"><i class="fa fa-envelope-o"></i> Submit</a>
                     </li>
+                    <?php if ($user && $user->getIsAdmin()): ?>
+                    <li>
+                        <a href="<?php echo $this->url('problems-view/default', array('action' => 'reviewlist', 'type' => 'misc')); ?>"><i class="fa fa-envelope-o"></i> Review</a>
+                    </li>
+                    <?php endif ?>
                 </ul>
             </li>
 

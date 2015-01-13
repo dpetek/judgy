@@ -60,9 +60,61 @@ class ProblemsController extends BaseJudgeController
                 'tag' => isset($query['tag']) ? $query['tag'] : null,
                 'numPages' => $numPages,
                 'currentPage' => (isset($query['page']) && intval($query['page']) > 0) ? intval($query['page']) : 1,
+                'viewAction' => 'problem'
             )
         );
         return $view;
+    }
+
+    public function reviewlistAction()
+    {
+        if (!$this->getCurrentUser() || !$this->getCurrentUser()->getIsAdmin()) {
+            return $this->redirect()->toRoute('judge/default', array('action' => 'index'));
+        }
+
+        $viewModel = new ViewModel();
+        $viewModel->setTemplate('judge/problems/problems');
+
+        $request = $this->getRequest();
+        $query = $request->getQuery();
+
+        /** @var \Judge\Repository\BaseProblem $repo */
+        $repo = $this->getDocumentManager()->getRepository(
+            'Judge\Document\ReviewProblem'
+        );
+
+        $type = $this->getEvent()->getRouteMatch()->getParam('type');
+
+        $limit = self::PAGE_SIZE;
+        $offset = 0;
+
+        if (isset($query['page']) && intval($query['page'] > 0)) {
+            $offset = (intval($query['page']) - 1) * self::PAGE_SIZE;
+        }
+        $problems = $repo->findNewByType($type, isset($query['tag']) ? $query['tag'] : null, $offset, $limit);
+
+        $title = 'Review ' . ucfirst($type) . ' Problems';
+
+        $problemsCount = $repo->countByType($type, isset($query['tag']) ? $query['tag'] : null);
+
+        if ($problemsCount % self::PAGE_SIZE == 0) {
+            $numPages = (int)($problemsCount / self::PAGE_SIZE + 0.005);
+        } else {
+            $numPages = ceil($problemsCount / self::PAGE_SIZE);
+        }
+
+        $viewModel->setVariables(
+            array(
+                'problems' => $problems,
+                'title' => $title . (isset($query['tag']) ? ' (tag: ' . $query['tag'] . ')' : ''),
+                'type' => $type,
+                'tag' => isset($query['tag']) ? $query['tag'] : null,
+                'numPages' => $numPages,
+                'currentPage' => (isset($query['page']) && intval($query['page']) > 0) ? intval($query['page']) : 1,
+                'viewAction' => 'review'
+            )
+        );
+        return $viewModel;
     }
 
     public function problemAction()
@@ -153,6 +205,33 @@ class ProblemsController extends BaseJudgeController
         $view->addChild($this->renderProblemStatement($problem, $this->getCurrentUser()), 'problemStatement');
         $view->addChild($this->renderRateProblem($problem, $rating, $this->getCurrentUser()), 'rateProblem');
         $view->addChild($this->renderProblemMeta($problem), 'problemMeta');
+
+        return $view;
+    }
+
+    public function reviewAction()
+    {
+        $view = new ViewModel();
+        $id = $this->getEvent()->getRouteMatch()->getParam('id');
+
+        /** @var \Judge\Repository\BaseProblem $repo */
+        $repo = $this->getDocumentManager()->getRepository(
+            'Judge\Document\ReviewProblem'
+        );
+
+        $problem = $repo->find(new \MongoId($id));
+
+        if (!$problem) {
+            return $this->redirect()->toRoute('judge/default', array('action' => 'index'));
+        }
+
+        $view->setVariables(
+            array(
+                'problem' => $problem
+            )
+        );
+
+        $view->addChild($this->renderProblemStatement($problem, $this->getCurrentUser()), 'problemStatement');
 
         return $view;
     }
