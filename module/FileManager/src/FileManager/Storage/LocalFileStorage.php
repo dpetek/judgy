@@ -16,7 +16,6 @@ class LocalFileStorage implements StorageInterface
 
     protected static function createLocation($location, $permission = 0x777)
     {
-        umask($permission);
         mkdir($location, $permission, true);
     }
 
