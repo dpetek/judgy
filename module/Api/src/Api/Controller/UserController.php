@@ -1,6 +1,7 @@
 <?php
 namespace Api\Controller;
 
+use Api\Exception\Core\CustomException;
 use Judge\Document\User;
 use Zend\Config\Writer\Json;
 use Zend\Mvc\Controller\AbstractRestfulController;
@@ -76,6 +77,13 @@ class UserController extends BaseApiController
                 )
             );
         }
+
+        $username = strtolower($username);
+
+        if (preg_match('/[^a-z0-9]/', $username)) {
+            throw new CustomException("Username can contain only english characters and numbers.");
+        }
+
 
         $user = User::create($username, $firstName . ' ' . $lastName, $email, $password);
 

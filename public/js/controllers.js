@@ -73,6 +73,7 @@ angular.module(
 
 // REGISTER CONTROLLER
 .controller('registerController', function($scope, $http) {
+    $scope.registrationError = false;
     $scope.register = function() {
         $http({
             url: '/api/user.json',
@@ -80,8 +81,11 @@ angular.module(
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             data: $.param($scope.user)
         }).success(function(data) {
-                window.location.reload();
-            });
+            window.location.reload();
+            $scope.registrationError = false;
+        }).error(function(data) {
+            $scope.registrationError = data.message;
+        });
     };
 })
 

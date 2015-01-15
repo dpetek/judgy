@@ -1,14 +1,20 @@
-<div class="panel panel-primary bg-color-blue">
-    <div class="panel-body">
-        Everybody can submit a question for Judgy. Each question will be reviewed by administrators and posted onto the site.
+<?php if (!$user->getIsAdmin()): ?>
+    <div class="panel panel-primary bg-color-blue">
+        <div class="panel-body">
+            Everybody can submit a question for Judgy. Each question will be reviewed by administrators and posted onto the site.
+        </div>
     </div>
-</div>
+<?php endif ?>
 
 <div ng-controller="submitMiscController">
 
     <div class="panel panel-primary text-center no-boder bg-color-green" ng-show="successfulSubmission === true">
         <div class="panel-body">
-            Thank you! Your problem has been submitted and it's ready for review.
+            <?php if (!$user->getIsAdmin()): ?>
+                Thank you! Your problem has been submitted and it's ready for review.
+            <?php else: ?>
+                Problem successfully added to the list.
+            <?php endif ?>
         </div>
     </div>
 

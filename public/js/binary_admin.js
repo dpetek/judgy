@@ -36,6 +36,11 @@
     // Initializing ///
     $(document).ready(function () {
         mainApp.main_fun();
+
+        $('.esc').each(function() {
+            $(this).html(_.escape($(this).html()));
+        });
+
     });
 
 }(jQuery));
