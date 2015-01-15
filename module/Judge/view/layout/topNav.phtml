@@ -1,7 +1,7 @@
 <!--header start-->
 <header class="header black-bg">
     <!--logo start-->
-    <a href="index.html" class="logo"><span style="font-size:36px;color:white;font-weight:bold">J</span>udgy <span style="font-size:36px;color:white;font-weight:bold">H</span>acker</a>
+    <a href="<?php echo $this->url('judge/default', array('action' => 'index')); ?>" style='font-weight: bold; ?>' class="logo"><span style="font-size:36px;color:white;font-weight:bold">J</span>udgy <span style="font-size:36px;color:white;font-weight:bold">H</span>acker</a>
     <!--logo end-->
     <div class="nav notify-row pull-right" style="margin-right: 100px"id="top_menu">
         <?php if ($user): ?>
