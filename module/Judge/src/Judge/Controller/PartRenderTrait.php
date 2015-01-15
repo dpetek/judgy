@@ -52,7 +52,7 @@ trait PartRenderTrait
         return $viewModel;
     }
 
-    public function renderMiscSubmissionsList($submissions, User $user)
+    public function renderMiscSubmissionsList($submissions, User $user = null)
     {
         $viewModel = new ViewModel();
 
@@ -79,7 +79,7 @@ trait PartRenderTrait
         return $viewModel;
     }
 
-    public function renderAlgorithmSubmissionsList($submissions, User $user)
+    public function renderAlgorithmSubmissionsList($submissions, User $user = null)
     {
         $viewModel = new ViewModel();
 
