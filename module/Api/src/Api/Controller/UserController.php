@@ -82,9 +82,7 @@ class UserController extends BaseApiController
         $this->getDocumentManager()->persist($user);
         $this->getDocumentManager()->flush();
 
-        return new JsonModel(
-            $user->toArray()
-        );
+        return $this->postLoginAction();
     }
 
     /**

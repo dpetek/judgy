@@ -78,7 +78,7 @@ angular.module(
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             data: $.param($scope.user)
         }).success(function(data) {
-                console.log(data)
+                window.location.reload();
             });
     };
 })
