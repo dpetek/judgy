@@ -187,7 +187,7 @@ class ProblemsController extends BaseJudgeController
             if ($this->getCurrentUser()) {
                 $algorithmSubmissions = $algSubmissionRepo->findForProblemAndUser($problem, $this->getCurrentUser());
             }
-            $view->addChild($this->renderAlgorithmSubmissionsList($algorithmSubmissions), 'pastSubmissionsList');
+            $view->addChild($this->renderAlgorithmSubmissionsList($algorithmSubmissions, $this->getCurrentUser()), 'pastSubmissionsList');
         } else {
              /** @var \Judge\Repository\MiscUserSubmission $miscUserSubmissionRepo */
             $miscUserSubmissionRepo = $this->getDocumentManager()->getRepository(
@@ -197,7 +197,7 @@ class ProblemsController extends BaseJudgeController
             if ($this->getCurrentUser()) {
                 $miscUserSubmissions = $miscUserSubmissionRepo->findForProblemAndUser($problem, $this->getCurrentUser());
             }
-            $view->addChild($this->renderMiscSubmissionsList($miscUserSubmissions), 'pastSubmissionsList');
+            $view->addChild($this->renderMiscSubmissionsList($miscUserSubmissions, $this->getCurrentUser()), 'pastSubmissionsList');
         }
 
         $view->setVariables($variables);

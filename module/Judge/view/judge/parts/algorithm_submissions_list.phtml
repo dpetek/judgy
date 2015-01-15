@@ -20,6 +20,7 @@
                     <td><?php echo round((float)$algorithmSubmission->getScore(), 3); ?></td>
                     <td><?php echo $algorithmSubmission->getStringFromStatus(); ?></td>
                     <td>
+                        <?php if ($user && $user->getId() == $algorithmSubmission->getUserId()): ?>
                         <button class="btn btn-default" href="javascript: ;" data-toggle="modal" data-target="#stdout-<?php echo (string)$algorithmSubmission->getId(); ?>">Response</button>
 
                         <div class="modal fade" id="stdout-<?php echo (string)$algorithmSubmission->getId(); ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -57,6 +58,7 @@
                                 </div>
                             </div>
                         </div>
+                        <?php endif ?>
                     </td>
                 </tr>
             <?php endforeach ?>

@@ -52,7 +52,7 @@ trait PartRenderTrait
         return $viewModel;
     }
 
-    public function renderMiscSubmissionsList($submissions)
+    public function renderMiscSubmissionsList($submissions, User $user)
     {
         $viewModel = new ViewModel();
 
@@ -70,7 +70,8 @@ trait PartRenderTrait
         $viewModel->setVariables(
             array(
                 'submissions' => $submissions,
-                'problemsLookup' => $problems
+                'problemsLookup' => $problems,
+                'user' => $user
             )
         );
 
@@ -78,7 +79,7 @@ trait PartRenderTrait
         return $viewModel;
     }
 
-    public function renderAlgorithmSubmissionsList($submissions)
+    public function renderAlgorithmSubmissionsList($submissions, User $user)
     {
         $viewModel = new ViewModel();
 
@@ -96,7 +97,8 @@ trait PartRenderTrait
         $viewModel->setVariables(
             array(
                 'submissions' => $submissions,
-                'problemsLookup' => $problems
+                'problemsLookup' => $problems,
+                'user' => $user
             )
         );
 

@@ -35,8 +35,8 @@ class ProfileController extends BaseJudgeController
             )
         );
 
-        $view->addChild($this->renderMiscSubmissionsList($miscSubmissions), 'miscSubmissionsList');
-        $view->addChild($this->renderAlgorithmSubmissionsList($algorithmSubmissions), 'algorithmSubmissionsList');
+        $view->addChild($this->renderMiscSubmissionsList($miscSubmissions, $this->getCurrentUser()), 'miscSubmissionsList');
+        $view->addChild($this->renderAlgorithmSubmissionsList($algorithmSubmissions, $this->getCurrentUser()), 'algorithmSubmissionsList');
 
         return $view;
     }
