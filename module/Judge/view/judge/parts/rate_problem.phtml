@@ -1,6 +1,6 @@
 <?php if ($user): ?>
     <div class="row">
-        <div class="col-md-3 col-sm-6 col-xs-6">
+        <div class="col-md-12">
             <span ng-controller="problemRatingController" ng-init="<?php echo $rating ? 'rate=' . $rating->getValue() : ''; ?>;
                                  targetType='<?php echo addslashes(get_class($problem)); ?>';
                                  targetId='<?php echo (string)$problem->getId(); ?>';
@@ -10,6 +10,7 @@
                     style="color: {{ starsColor }}">
                 <h4 style="display: inline-block">{{ rateMessage }}</h4>
                 <rating
+                        style="display: inline-block"
                         ng-model="rate"
                         max="max"
                         state-on="'fa fa-star fa-2x'"
@@ -18,6 +19,7 @@
                         on-hover="hoveringOver(value)"
                         on-leave="overStar = null">
                 </rating>
+            | <span style="color: black;font-size: 18px; display: inline-block">Problem rating: {{ rate }}</span>
             </span>
         </div>
     </div>

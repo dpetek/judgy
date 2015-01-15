@@ -1,3 +1,4 @@
+<?php echo $this->problemMeta; ?>
 <?php echo $this->problemStatement; ?>
 
 <?php if (!$loggedIn): ?>
@@ -73,9 +74,10 @@
 <?php endif ?>
 
 <?php echo $this->rateProblem; ?>
-<?php echo $this->problemMeta; ?>
+
 
 <?php if ($loggedIn): ?>
-    <h2>Past submissions:</h2>
+    <br/>
+    <h3>Past submissions:</h3>
     <?php echo $this->pastSubmissionsList; ?>
 <?php endif ?>

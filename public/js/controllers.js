@@ -8,6 +8,7 @@ angular.module(
     $scope.rate = 5;
     $scope.max = 5;
     $scope.didHover = false;
+    $scope.myRating = 7.9;
 
     $scope.$watch('rate', function(value) {
         if ($scope.didHover) {
@@ -23,6 +24,7 @@ angular.module(
             }).success(function(data){
                 $scope.rateMessage = "Your rating: ";
                 $scope.starsColor = 'green';
+                $scope.rate = data.rating;
             });
         }
 

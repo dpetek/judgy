@@ -39,6 +39,14 @@ class Rating extends Base
         return true;
     }
 
+    public function toArray()
+    {
+        return array(
+            'id' => (string)$this->getId(),
+            'rating' => $this->getValue()
+        );
+    }
+
     /**
      * @param mixed $targetId
      */

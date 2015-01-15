@@ -52,9 +52,7 @@ class RatingController extends BaseApiController
         $this->getDocumentManager()->flush();
 
         return new JsonModel(
-            array(
-                'success' => true
-            )
+            $rating->toArray()
         );
     }
 }
