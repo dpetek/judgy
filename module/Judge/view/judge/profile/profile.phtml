@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <h2><?php echo $user->getName(); ?> (@<?php echo $user->getUsername(); ?>)</h2>
+        <h2><?php echo htmlspecialchars($user->getName()); ?> (@<?php echo $user->getUsername(); ?>)</h2>
         <hr/>
     </div>
 </div>
@@ -19,7 +19,7 @@
                     </tr>
                     <tr>
                         <td>Name:</td>
-                        <td><?php echo $user->getName(); ?></td>
+                        <td><?php echo htmlspecialchars($user->getName()); ?></td>
                     </tr>
                     <tr>
                         <td>Algorithm problems solved:</td>
