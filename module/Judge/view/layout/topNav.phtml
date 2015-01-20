@@ -21,7 +21,7 @@
                             <li class="<?php echo $notification->getCssClass(); ?>">
                                 <a href="<?php echo $notification->getLink(); ?>">
                                     <span class="message">
-                                        <?php echo $notification->getMessage(); ?>
+                                        <?php echo htmlspecialchars($notification->getMessage()); ?>
                                     </span>
                                 </a>
                             </li>

@@ -74,7 +74,7 @@
                     <div class="details">
                         <p><muted>{{<?php echo $submission->getTimeCreated()->getTimestamp(); ?> | date:'short'}}</muted><br>
                             <a href="<?php echo $this->url('profile/id', array('id' => (string)$submission->getUserId())); ?>"><?php echo $usersLookup[$submission->getUserId()]->getUsername();?></a> submitted a solution for
-                            <a href="<?php echo $this->url('problems-view/default', array('action' => 'problem','id' => (string)$submission->getProblemId(), 'type' => 'algorithm')); ?>"><?php echo $problemsLookup[$submission->getProblemId()]->getTitle();?></a>.<br>
+                            <a href="<?php echo $this->url('problems-view/default', array('action' => 'problem','id' => (string)$submission->getProblemId(), 'type' => 'algorithm')); ?>"><?php echo htmlspecialchars($problemsLookup[$submission->getProblemId()]->getTitle());?></a>.<br>
                         </p>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                     <div class="details">
                         <p><muted>{{<?php echo $submission->getTimeCreated()->getTimestamp(); ?> | date:'short'}}</muted><br>
                             <a href="<?php echo $this->url('profile/id', array('id' => (string)$submission->getUserId())); ?>"><?php echo $usersLookup[$submission->getUserId()]->getUsername();?></a> submitted a solution for
-                            <a href="<?php echo $this->url('problems-view/default', array('action' => 'problem','id' => (string)$submission->getProblemId(), 'type' => 'misc')); ?>"><?php echo $problemsLookup[$submission->getProblemId()]->getTitle();?></a>.<br>
+                            <a href="<?php echo $this->url('problems-view/default', array('action' => 'problem','id' => (string)$submission->getProblemId(), 'type' => 'misc')); ?>"><?php echo htmlspecialchars($problemsLookup[$submission->getProblemId()]->getTitle());?></a>.<br>
                         </p>
                     </div>
                 </div>
