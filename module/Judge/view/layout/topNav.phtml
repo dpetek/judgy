@@ -41,7 +41,7 @@
             <!-- settings start -->
             <li class="dropdown" ng-controller="logoutController">
                 <a data-toggle="dropdown" class="dropdown-toggle" href="<?php echo $this->url('profile/id', array('id' => (string)$user->getId())); ?>">
-                    <img src="<?php echo $this->basePath(); ?>/img/anonymous.jpg" class="img-circle" width="24px">
+                    <img src="http://www.gravatar.com/avatar/<?php echo md5(strtolower($user->getEmail())); ?>?s=200&d=//judgyhacker.net/img/anonymous.jpg" class="img-circle" width="24px">
                     <?php echo $this->user->getUsername(); ?>
                     <!--                    <span class="badge bg-theme">4</span>-->
                 </a>
