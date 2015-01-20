@@ -32,6 +32,7 @@ class ProfileController extends BaseJudgeController
         $view->setVariables(
             array(
                 'user' => $user,
+                'currentUser' => $this->getCurrentUser()
             )
         );
 
