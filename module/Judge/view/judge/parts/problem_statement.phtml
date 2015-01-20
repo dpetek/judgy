@@ -1,6 +1,6 @@
 <h2 style="margin-bottom: 0px !important"><?php echo htmlspecialchars($problem->getTitle()); ?></h2>
 <?php if ($user && $user->getIsAdmin()): ?>
-    <div class="pull-right"><a href="<?php echo $this->url('problems-view/default', array('action' => 'submit', 'type' => $problem->getType()), array('query' => array('id' => $problem->getId()))); ?>">Edit</a></div>
+    <div class="pull-right"><a href="<?php echo $this->url('problems-view/default', array('action' => 'submit', 'type' => $problem->getType(), 'id' => $problem->getId())); ?>">Edit</a></div>
 <?php endif ?>
 <?php if ($problem->getTags()): ?>
     Tags:

@@ -30,6 +30,15 @@ class ProblemsController extends BaseApiController
         $request = $this->getRequest();
         $routeMatch = $this->getEvent()->getRouteMatch();
 
+        $id = $routeMatch->getParam('id', null);
+        if ($id) {
+            $problemRepo = $this->getDocumentManager()->getRepository(
+                'Judge\Document\ActiveProblem'
+            );
+            /** @var \Judge\Document\ActiveProblem $problem */
+            $problem = $problemRepo->find(new \MongoId($id));
+        }
+
         $post = $request->getPost();
         $title = $post['title'];
         $description = $post['description'];

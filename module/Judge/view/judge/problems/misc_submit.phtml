@@ -6,7 +6,11 @@
     </div>
 <?php endif ?>
 
-<div ng-controller="submitMiscController">
+<div ng-controller="submitMiscController" ng-init="
+            problem.title='<?php echo $problem ? $problem->getTitle() : ''; ?>';
+            problem.difficulty='<?php echo $problem ? (int)$problem->getDifficulty() : ''; ?>';
+            problem.answer='<?php echo $problem ? $problem->getAnswer() : ''; ?>';
+        ">
 
     <div class="panel panel-primary text-center no-boder bg-color-green" ng-show="successfulSubmission === true">
         <div class="panel-body">
@@ -33,7 +37,7 @@
                 </div>
                 <div class="form-group">
                     <label>Question</label>
-                    <text-angular ng-model="problem.description"></text-angular>
+                    <text-angular ng-model="problem.description"><?php echo $problem ? $problem->getDescription() : ''; ?></text-angular>
                 </div>
                 <div class="form-group">
                     <label>Answer</label>
