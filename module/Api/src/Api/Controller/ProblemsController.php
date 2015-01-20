@@ -55,15 +55,8 @@ class ProblemsController extends BaseApiController
 
         $description = $post->get('description', '');
 
-        $answer = $post->get('answer');
-        if (!$answer && !$problem) {
-            throw new MissingResource(
-                array(
-                    'resource' => 'answer'
-                )
-            );
-        }
-        if (!$answer) {
+        $answer = $post->get('answer', '');
+        if (!$answer && $problem) {
             $answer     = $problem->getAnswer();
         }
 
