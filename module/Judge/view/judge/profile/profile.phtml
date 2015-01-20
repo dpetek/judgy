@@ -23,11 +23,11 @@
                     </tr>
                     <tr>
                         <td>Algorithm problems solved:</td>
-                        <td><?php echo $user->getAlgorithmSolved(); ?></td>
+                        <td><?php echo (int)$user->getAlgorithmSolved(); ?></td>
                     </tr>
                     <tr>
                         <td>Misc solved:</td>
-                        <td><?php echo $user->getMiscSolved(); ?></td>
+                        <td><?php echo (int)$user->getMiscSolved(); ?></td>
                     </tr>
                 </table>
             </div>
