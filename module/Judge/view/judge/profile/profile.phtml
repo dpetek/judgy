@@ -9,7 +9,7 @@
     <div class="col-md-8">
         <div class="row">
             <div class="col-md-6" style="text-align: center">
-                <img src="<?php echo $this->basePath(); ?>/img/anonymous.jpg" class="img-circle" width="200">
+                <img src="http://www.gravatar.com/avatar/<?php echo md5(strtolower($user->getEmail())); ?>?s=200&d=<?php echo $this->basePath(); ?>/img/anonymous.jpg" class="img-circle" width="200">
             </div>
             <div class="col-md-6">
                 <table class="table">
