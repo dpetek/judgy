@@ -26,11 +26,12 @@ class ProblemsController extends BaseApiController
         if (!$this->getCurrentUser()) {
             throw new NoPermissionException();
         }
-
+        /** @var \Zend\Http\PhpEnvironment\Request $request */
         $request = $this->getRequest();
         $routeMatch = $this->getEvent()->getRouteMatch();
 
         $id = $routeMatch->getParam('id', null);
+        $problem = null;
         if ($id) {
             $problemRepo = $this->getDocumentManager()->getRepository(
                 'Judge\Document\ActiveProblem'
@@ -40,11 +41,34 @@ class ProblemsController extends BaseApiController
         }
 
         $post = $request->getPost();
-        $title = $post['title'];
-        $description = $post['description'];
-        $answer = isset($post['answer']) ? $post['answer'] : '';
-        $difficulty = intval($post['difficulty']);
-        $tags = isset($post['tags']) ? $post['tags'] : array();
+        $title          = $post->get('title', null);
+        if (!$title && !$problem) {
+            throw new MissingResource(
+                array(
+                    'resource' => 'title'
+                )
+            );
+        }
+        if (!$title) {
+            $title = $problem->getTitle();
+        }
+
+        $description = $post->get('description', '');
+
+        $answer = $post->get('answer');
+        if (!$answer && !$problem) {
+            throw new MissingResource(
+                array(
+                    'resource' => 'answer'
+                )
+            );
+        }
+        if (!$answer) {
+            $answer     = $problem->getAnswer();
+        }
+
+        $difficulty = $post->get('difficulty', 0);
+        $tags       = $post->get('tags', array());
 
         if ($difficulty < 0) {
             throw new CustomException(
@@ -84,50 +108,56 @@ class ProblemsController extends BaseApiController
                 $tagObjects[] = $newTagObject;
             }
         }
-
-        switch ($routeMatch->getParam('type')) {
-            case 'misc':
-                if ($this->getCurrentUser()->getIsAdmin()) {
-                    $problem = ActiveProblem::createMisc(
-                        $title,
-                        $description,
-                        $answer,
-                        $difficulty,
-                        $this->getCurrentUser(),
-                        $tagsList
-                    );
-                } else {
-                    $problem = ReviewProblem::createMisc(
-                        $title,
-                        $description,
-                        $answer,
-                        $difficulty,
-                        $this->getCurrentUser(),
-                        $tagsList
-                    );
-                }
-                break;
-            case 'algorithm':
-                if ($this->getCurrentUser()->getIsAdmin()) {
-                    $problem = ActiveProblem::createAlgorithm(
-                        $title,
-                        $description,
-                        $difficulty,
-                        $this->getCurrentUser(),
-                        $tagsList
-                    );
-                } else {
-                    $problem = ReviewProblem::createAlgorithm(
-                        $title,
-                        $description,
-                        $difficulty,
-                        $this->getCurrentUser(),
-                        $tagsList
-                    );
-                }
-                break;
+        if (!$problem) {
+            switch ($routeMatch->getParam('type')) {
+                case 'misc':
+                    if ($this->getCurrentUser()->getIsAdmin()) {
+                        $problem = ActiveProblem::createMisc(
+                            $title,
+                            $description,
+                            $answer,
+                            $difficulty,
+                            $this->getCurrentUser(),
+                            $tagsList
+                        );
+                    } else {
+                        $problem = ReviewProblem::createMisc(
+                            $title,
+                            $description,
+                            $answer,
+                            $difficulty,
+                            $this->getCurrentUser(),
+                            $tagsList
+                        );
+                    }
+                    break;
+                case 'algorithm':
+                    if ($this->getCurrentUser()->getIsAdmin()) {
+                        $problem = ActiveProblem::createAlgorithm(
+                            $title,
+                            $description,
+                            $difficulty,
+                            $this->getCurrentUser(),
+                            $tagsList
+                        );
+                    } else {
+                        $problem = ReviewProblem::createAlgorithm(
+                            $title,
+                            $description,
+                            $difficulty,
+                            $this->getCurrentUser(),
+                            $tagsList
+                        );
+                    }
+                    break;
+            }
+        } else {
+            $problem->setTitle($title);
+            $problem->setDescription($description);
+            $problem->setDifficulty($difficulty);
+            $problem->setAnswer($answer);
+            $problem->setTags($tagsList);
         }
-
         if ($problem) {
             // to generate id
             $this->getDocumentManager()->persist($problem);

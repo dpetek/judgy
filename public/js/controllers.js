@@ -96,8 +96,13 @@ angular.module(
     };
 
     $scope.submit = function() {
+        var url = '/api/problems/misc/submit.json';
+        if ($scope.problem && $scope.problem.id && $scope.problem.id.length === 24) {
+            url = '/api/problems/misc/' + $scope.problem.id + '/submit.json';
+        }
+
         $http({
-            url: '/api/problems/misc/submit.json',
+            url: url,
             method: "POST",
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             data: $.param($scope.problem)

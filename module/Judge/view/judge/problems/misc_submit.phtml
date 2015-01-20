@@ -7,11 +7,13 @@
 <?php endif ?>
 
 <div ng-controller="submitMiscController" ng-init="
-            problem.title='<?php echo $problem ? $problem->getTitle() : ''; ?>';
+            problem.title='<?php echo $problem ? addslashes($problem->getTitle()) : ''; ?>';
             problem.difficulty='<?php echo $problem ? (int)$problem->getDifficulty() : ''; ?>';
-            problem.answer='<?php echo $problem ? $problem->getAnswer() : ''; ?>';
-        ">
-
+            problem.answer='<?php echo $problem ? addslashes($problem->getAnswer()) : ''; ?>';
+            problem.tags=<?php echo $problem ? str_replace('"', "'", json_encode($problem->getTags())) : '[]'; ?>;
+            problem.id='<?php echo $problem ? (string)$problem->getId() : ''; ?>';
+        "
+    >
     <div class="panel panel-primary text-center no-boder bg-color-green" ng-show="successfulSubmission === true">
         <div class="panel-body">
             <?php if (!$user->getIsAdmin()): ?>
