@@ -4,6 +4,7 @@
             <thead>
             <tr>
                 <th style="width: 155px;">Date</th>
+                <th>Problem</th>
                 <th>Lang</th>
                 <th>Passed</th>
                 <th>Score</th>
@@ -15,13 +16,14 @@
             <?php foreach ($submissions as $algorithmSubmission): ?>
                 <tr class="<?php echo $algorithmSubmission->getClassFromStatus(); ?>">
                     <td>{{<?php echo $algorithmSubmission->getTimeCreated()->getTimestamp() * 1000; ?> | date:'short'}}</td>
+                    <td><a href="<?php echo $this->url('problems-view/default', array('id' => (string)$algorithmSubmission->getProblemId(), 'type' => 'algorithm', 'action' => 'problem')); ?>">Link</a></td>
                     <td><?php echo $algorithmSubmission->getLanguage(); ?></td>
                     <td><?php echo (string)(int)$algorithmSubmission->getSolvedCases() . '/' . (string)(int)$algorithmSubmission->getTotalCases(); ?></td>
                     <td><?php echo round((float)$algorithmSubmission->getScore(), 3); ?></td>
                     <td><?php echo $algorithmSubmission->getStringFromStatus(); ?></td>
                     <td>
-                        <?php if ($user && $user->getId() == $algorithmSubmission->getUserId()): ?>
-                        <button class="btn btn-default" href="javascript: ;" data-toggle="modal" data-target="#stdout-<?php echo (string)$algorithmSubmission->getId(); ?>">Response</button>
+                        <?php if ($user && $user->getId() == $algorithmSubmission->getUserId() || $user->getIsAdmin()): ?>
+                        <button class="btn btn-default" href="javascript: ;" data-toggle="modal" data-target="#stdout-<?php echo (string)$algorithmSubmission->getId(); ?>"><i class="fa fa-list-ul"></i></button>
 
                         <div class="modal fade" id="stdout-<?php echo (string)$algorithmSubmission->getId(); ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -40,7 +42,7 @@
                             </div>
                         </div>
 
-                        <button class="btn btn-default" href="javascript: ;" data-toggle="modal" data-target="#source-<?php echo (string)$algorithmSubmission->getId(); ?>">Source</button>
+                        <button class="btn btn-default" href="javascript: ;" data-toggle="modal" data-target="#source-<?php echo (string)$algorithmSubmission->getId(); ?>"><i class="fa fa-file-text"></i></button>
 
                         <div class="modal fade" id="source-<?php echo (string)$algorithmSubmission->getId(); ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog">

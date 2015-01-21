@@ -1,4 +1,5 @@
 <h2 style="margin-bottom: 0px !important"><?php echo htmlspecialchars($tutorial->getTitle()); ?></h2>
+<h4>Posted by <a href="<?php echo $this->url('profile/id', array('id' => (string)$tutorial->getUser()->getId())); ?>"><?php echo $tutorial->getUser()->getUsername(); ?></a></h4>
 <?php if ($user && $user->getIsAdmin()): ?>
 <!--    <div class="pull-right"><a href="--><?php //echo $this->url('problems-view/default', array('action' => 'submit', 'type' => $problem->getType(), 'id' => $problem->getId())); ?><!--">Edit</a></div>-->
 <?php endif ?>
