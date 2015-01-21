@@ -20,13 +20,16 @@
                     <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'competitions') ? 'active' : ''; ?>">
                         <a href="<?php echo $this->url('problems-view/default', array('action' => 'competitions', 'type' => 'algorithm')); ?>"><i class="fa fa-clock-o"></i> Competitions</a>
                     </li>
-                    <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'tutorials') ? 'active' : ''; ?>">
-                        <a href="<?php echo $this->url('problems-view/default', array('action' => 'tutorials', 'type' => 'algorithm')); ?>"><i class="fa fa-file-o"></i> Tutorials</a>
+                    <li class="<?php echo ($routeName == 'tutorial-view/default' && $action == 'list') ? 'active' : ''; ?>">
+                        <a href="<?php echo $this->url('tutorial-view/default', array('action' => 'list', 'type' => 'algorithm')); ?>"><i class="fa fa-file-o"></i> Tutorials</a>
                     </li>
                     <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'submit') ? 'active' : ''; ?>">
-                        <a href="<?php echo $this->url('problems-view/default', array('action' => 'submit', 'type' => 'algorithm')); ?>"><i class="fa fa-envelope-o"></i> Submit</a>
+                        <a href="<?php echo $this->url('problems-view/default', array('action' => 'submit', 'type' => 'algorithm')); ?>"><i class="fa fa-envelope-o"></i> Problem Submit</a>
                     </li>
                     <?php if ($user && $user->getIsAdmin()): ?>
+                    <li class="<?php echo ($routeName == 'tutorial-view/default' && $action == 'submit') ? 'active' : ''; ?>">
+                        <a href="<?php echo $this->url('tutorial-view/default', array('action' => 'submit')); ?>"><i class="fa fa-envelope-o"></i> Tutorial Submit</a>
+                    </li>
                     <li class="<?php echo ($routeName == 'algorithms/default' && $action == 'submit') ? 'active' : ''; ?>">
                         <a href="<?php echo $this->url('problems-view/default', array('action' => 'reviewlist', 'type' => 'algorithm')); ?>"><i class="fa fa-envelope-o"></i> Review</a>
                     </li>

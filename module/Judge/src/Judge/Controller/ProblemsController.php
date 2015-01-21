@@ -293,6 +293,11 @@ class ProblemsController extends BaseJudgeController
         return new ViewModel();
     }
 
+    public function tutorialSubmitAction()
+    {
+        return new ViewModel();
+    }
+
     public function competitionsAction()
     {
         if (!$this->getCurrentUser()) {

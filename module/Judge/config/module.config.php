@@ -115,6 +115,25 @@ return array(
                         'action' => 'index'
                     )
                 )
+            ),
+            'tutorial-view' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/tutorial',
+                    'defaults' => array(
+                        'controller' => 'Judge\Controller\Tutorial'
+                    )
+                ),
+                'may_terminate' => false,
+                'child_routes' => array(
+                    'default' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/:action[/:id]',
+                        )
+                    )
+                )
+
             )
         ),
     ),
@@ -144,6 +163,7 @@ return array(
             'Judge\Controller\Profile' => 'Judge\Controller\ProfileController',
             'Judge\Controller\Notifications' => 'Judge\Controller\NotificationsController',
             'Judge\Controller\Arena' => 'Judge\Controller\ArenaController',
+            'Judge\Controller\Tutorial' => 'Judge\Controller\TutorialController',
 
         ),
     ),

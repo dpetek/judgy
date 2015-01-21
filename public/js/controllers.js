@@ -246,5 +246,19 @@ angular.module(
             }).error(function(data) {
             });
         }
-    });
+    })
+    .controller('tutorialSubmitController', function($scope, $http) {
+        $scope.submitTutorial = function () {
+            $http({
+                url: '/api/tutorial/submit.json',
+                method: "POST",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                data: $.param($scope.tutorial)
+            }).success(function(data) {
+                    $scope.successfulSubmission = true;
+                }).error(function(data, status, headers, config) {
+                    $scope.submissionError =  data.message;
+                });
+        };
+    })
 ;

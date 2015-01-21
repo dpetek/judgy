@@ -1,0 +1,24 @@
+<div class="" ng-controller="tutorialSubmitController">
+
+    <div class="panel panel-primary text-center no-boder bg-color-green" ng-show="successfulSubmission === true">
+        <div class="panel-body">
+            Thank you, this tutorial will be added to the list.
+        </div>
+    </div>
+
+    <form ng-submit="submitTutorial()" role="form" ng-show="successfulSubmission !== true">
+        <div class="form-group">
+            <label>Tutorial title</label>
+            <input ng-model="tutorial.title" class="form-control" placeholder="Title" required>
+        </div>
+
+        <div class="form-group">
+            <label>Tutorial</label>
+            <text-angular ng-model="tutorial.content"></text-angular>
+        </div>
+
+        <div class="form-group">
+            <button button type="submit" class="btn btn-success square-btn-adjust">Submit Tutorial</button> </div>
+        </div>
+    </form>
+</div>

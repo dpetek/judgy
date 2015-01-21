@@ -1,0 +1,9 @@
+<h2 style="margin-bottom: 0px !important"><?php echo htmlspecialchars($tutorial->getTitle()); ?></h2>
+<?php if ($user && $user->getIsAdmin()): ?>
+<!--    <div class="pull-right"><a href="--><?php //echo $this->url('problems-view/default', array('action' => 'submit', 'type' => $problem->getType(), 'id' => $problem->getId())); ?><!--">Edit</a></div>-->
+<?php endif ?>
+<div class="panel panel-primary bg-color-gray nobordera style="margin-top: 20px">
+<div class="panel-body">
+    <?php echo $tutorial->getContent(); ?>
+</div>
+</div>
