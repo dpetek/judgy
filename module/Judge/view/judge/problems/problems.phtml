@@ -1,4 +1,4 @@
-<div class="content-panel">
+<div class="content-panel" ng-controller="problemsListController">
     <table class="table table-striped table-advance table-hover">
         <h4 class=""><i class="fa fa-angle-right"></i> <?php echo $title; ?></h4>
         <hr>
@@ -9,11 +9,12 @@
             <th><i class="fa fa-check"></i> Solved</th>
             <th><i class=" fa fa-edit"></i> Attempts</th>
             <th><i class=" fa fa-star-half-empty"></i> Rating</th>
+            <th>&nbsp;</th>
         </tr>
         </thead>
         <?php /** @var \Judge\Document\ActiveProblem $problem */ ?>
         <?php foreach ($problems as $problem): ?>
-            <tr class="<?php echo $problem->getUserSubmission() ? ($problem->getUserSubmission()->getSolved() ? 'success' : 'warning') : ''; ?>">
+            <tr class="<?php echo $problem->getUserSubmission() ? ($problem->getUserSubmission()->getSolved() ? 'success' : 'warning') : ''; ?>" ng-show="problemVisible['<?php echo $problem->getId(); ?>'] !== false">
                 <td>
                     <a class="problem-title" style="" href="<?php echo $this->url('problems-view/default', array('action' => $viewAction, 'type' => $type, 'id' => (string)$problem->getId())); ?>">
                         <p class="esc"><?php echo htmlspecialchars($problem->getTitle()); ?></p>
@@ -34,6 +35,34 @@
                 <td><?php echo (int)$problem->getSolved(); ?></td>
                 <td><?php echo (int)$problem->getAttempts(); ?></td>
                 <td><?php echo (float)$problem->getRating(); ?></td>
+                <td>
+                    <?php if ($user && $user->getIsAdmin()): ?>
+                        <div class="btn-group" style="width: 60px">
+                            <a class="btn btn-success" href="<?php echo $this->url('problems-view/default', array('action' => 'submit', 'type' => $problem->getType(), 'id' => (string)$problem->getId())); ?>" style="padding: 5px"><i class="fa fa-edit"></i></a>
+                            <button class="btn btn-danger" href="javascript: ;" data-toggle="modal" data-target="#delete-<?php echo (string)$problem->getId(); ?>" style="padding: 5px"><i class="fa fa-close"></i></button>
+
+                            <div class="modal fade" id="delete-<?php echo (string)$problem->getId(); ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title" id="myModalLabel">Are you sure?</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you wan't to delete problem <strong><?php echo htmlspecialchars($problem->getTitle()); ?></strong>?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" ng-click="deleteProblem('<?php echo $problem->getId(); ?>');" data-dismiss="modal">Yes</button>
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    <?php endif ?>
+                </td>
             </tr>
         <?php endforeach ?>
     </table>

@@ -261,4 +261,19 @@ angular.module(
                 });
         };
     })
+    .controller('problemsListController', function($scope, $http) {
+        $scope.problemVisible = {};
+        $scope.deleteProblem = function(id, type) {
+            $http(
+                {
+                    url: '/api/problems/' + type + '/' + id + '/delete.json',
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    data: $.param({})
+                }
+            ).success(function (data) {
+                $scope.problemVisible[id] = false;
+            });
+        }
+    })
 ;

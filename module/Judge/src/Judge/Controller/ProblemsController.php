@@ -60,7 +60,8 @@ class ProblemsController extends BaseJudgeController
                 'tag' => isset($query['tag']) ? $query['tag'] : null,
                 'numPages' => $numPages,
                 'currentPage' => (isset($query['page']) && intval($query['page']) > 0) ? intval($query['page']) : 1,
-                'viewAction' => 'problem'
+                'viewAction' => 'problem',
+                'user' => $this->getCurrentUser()
             )
         );
         return $view;

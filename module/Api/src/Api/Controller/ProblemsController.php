@@ -434,4 +434,25 @@ class ProblemsController extends BaseApiController
             )
         );
     }
+
+    public function postDeleteAction()
+    {
+        $routeMatch = $this->getEvent()->getRouteMatch();
+        $id = $routeMatch->getParam('id');
+
+        $repo = $this->getDocumentManager()->getRepository(
+            'Judge\Document\ActiveProblem'
+        );
+        /** @var \Judge\Document\ActiveProblem $problem */
+        $problem = $repo->find(new \MongoId($id));
+
+        $this->getDocumentManager()->remove($problem);
+        $this->getDocumentManager()->flush();
+
+        return new JsonModel(
+            array(
+                'success' => true
+            )
+        );
+    }
 }
